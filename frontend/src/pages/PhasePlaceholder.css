@@ -1,0 +1,111 @@
+.phase-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--topbar-height) - 96px);
+  padding: 16px 0;
+}
+
+.phase-placeholder__card {
+  max-width: 680px;
+  width: 100%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-color: color-mix(in srgb, var(--phase-accent, #06b6d4) 28%, var(--border));
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35),
+    0 0 32px color-mix(in srgb, var(--phase-accent, #06b6d4) 10%, transparent);
+}
+
+.phase-placeholder__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.phase-placeholder__icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: color-mix(in srgb, var(--phase-accent, #06b6d4) 14%, var(--bg));
+  border: 1px solid color-mix(in srgb, var(--phase-accent, #06b6d4) 30%, transparent);
+}
+
+.phase-placeholder__title {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.phase-placeholder__desc {
+  font-size: 0.96rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+
+.phase-placeholder__planned {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phase-placeholder__planned-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+}
+
+.phase-placeholder__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phase-placeholder__list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.phase-placeholder__list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--phase-accent, #06b6d4);
+}
+
+.phase-placeholder__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+  .phase-placeholder__card {
+    padding: 24px 18px;
+  }
+}

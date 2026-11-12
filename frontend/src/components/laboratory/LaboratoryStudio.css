@@ -1,0 +1,406 @@
+/* Laboratory Studio Styles */
+
+.lab-studio {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.lab-studio__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.lab-studio__title-area {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
+.lab-studio__icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lab-studio__badge-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+
+.lab-studio__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 0.25rem 0;
+  letter-spacing: -0.02em;
+}
+
+.lab-studio__desc {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  margin: 0;
+  max-width: 680px;
+  line-height: 1.5;
+}
+
+/* Tabs */
+.lab-studio__tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid var(--border, #1a2a4a);
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+}
+
+.lab-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.lab-tab:hover {
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.lab-tab--active {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.lab-tab__icon {
+  font-size: 1.1rem;
+}
+
+/* Module Grid */
+.lab-module-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.lab-module__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.lab-panel-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.lab-panel-card--stage {
+  padding: 1.5rem;
+  min-height: 580px;
+}
+
+.lab-panel-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lab-panel-card__header h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.lab-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.lab-control-label {
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.lab-select {
+  padding: 0.5rem 0.75rem;
+  background: rgba(11, 22, 51, 0.8);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 6px;
+  color: #f1f5f9;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.lab-select:focus {
+  border-color: #38bdf8;
+}
+
+.lab-slider-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.825rem;
+  color: #cbd5e1;
+}
+
+.lab-slider-val {
+  font-family: monospace;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+.lab-slider {
+  width: 100%;
+  accent-color: #38bdf8;
+  cursor: pointer;
+}
+
+.lab-algorithm-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #94a3b8;
+  font-size: 0.825rem;
+  line-height: 1.45;
+}
+
+.lab-algorithm-steps li {
+  padding-left: 0.25rem;
+}
+
+/* Stage Area */
+.lab-stage__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.lab-stage__header h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #f8fafc;
+  margin: 0 0 0.25rem 0;
+}
+
+.lab-stage__desc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.lab-stage__desc code {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+}
+
+.lab-computing-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  animation: pulse 1.5s infinite;
+}
+
+.lab-stage__chart {
+  margin: 1rem 0;
+  border-radius: 8px;
+  background: rgba(7, 11, 21, 0.6);
+  border: 1px solid var(--border, #1a2a4a);
+  padding: 0.5rem;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lab-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.lab-metric-card {
+  padding: 0.85rem 1rem;
+  background: rgba(11, 22, 51, 0.5);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lab-metric-card__label {
+  font-size: 0.775rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lab-metric-card__val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.lab-metric-card__sub {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.lab-error-banner {
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  color: #f87171;
+  font-size: 0.85rem;
+}
+
+/* KNN specifics */
+.lab-knn-summary {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 1.25rem;
+  padding: 1rem;
+  background: rgba(11, 22, 51, 0.5);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 8px;
+  margin-top: 0.75rem;
+}
+
+.lab-knn-summary__pred {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.lab-prob-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.lab-prob-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.lab-prob-bar-label {
+  width: 55px;
+  color: #94a3b8;
+}
+
+.lab-prob-bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.lab-prob-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.lab-prob-bar-val {
+  width: 45px;
+  font-family: monospace;
+  color: #cbd5e1;
+  text-align: right;
+}
+
+/* Decision Tree charts */
+.lab-dt-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.lab-dt-chart-box {
+  background: rgba(7, 11, 21, 0.6);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.lab-dt-chart-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0 0 0.5rem 0;
+}
+
+/* PCA grid */
+.lab-pca-grid {
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.lab-pca-variance-side {
+  background: rgba(7, 11, 21, 0.6);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (max-width: 980px) {
+  .lab-module-grid {
+    grid-template-columns: 1fr;
+  }
+  .lab-dt-charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .lab-pca-grid {
+    flex-direction: column;
+  }
+  .lab-knn-summary {
+    grid-template-columns: 1fr;
+  }
+}

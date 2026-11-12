@@ -1,0 +1,1193 @@
+/* ============================================================
+   AI Mission Mode — Customer Churn Prediction (Phase 9)
+   ============================================================ */
+
+.mission-dashboard {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  gap: 1.5rem;
+  min-height: calc(100vh - 64px);
+  padding: 1.5rem 1.75rem 2rem;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .mission-dashboard {
+    grid-template-columns: 1fr;
+    padding: 1rem 1rem 2rem;
+  }
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.mission-sidebar {
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  border-radius: 14px;
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: sticky;
+  top: 84px;
+}
+
+@media (max-width: 980px) {
+  .mission-sidebar {
+    position: static;
+  }
+}
+
+.mission-sidebar__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mission-sidebar__icon-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.mission-sidebar__icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(6, 182, 212, 0.12);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mission-sidebar__badge-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.mission-sidebar__title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.mission-xp-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.mission-xp-label {
+  color: #94a3b8;
+}
+
+.mission-xp-val {
+  color: #38bdf8;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mission-progress-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mission-progress-bar-track {
+  flex: 1;
+  height: 7px;
+  background: rgba(51, 65, 85, 0.55);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.mission-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #06b6d4, #10b981);
+  border-radius: 4px;
+  transition: width 0.35s ease;
+}
+
+.mission-progress-pct {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #10b981;
+  font-family: 'JetBrains Mono', monospace;
+  min-width: 2.3rem;
+  text-align: right;
+}
+
+.mission-step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mission-step-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.65rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.mission-step-nav-item:hover:not(:disabled) {
+  background: rgba(51, 65, 85, 0.45);
+  color: #e2e8f0;
+}
+
+.mission-step-nav-item--active {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: rgba(6, 182, 212, 0.35);
+  color: #f1f5f9;
+  font-weight: 600;
+}
+
+.mission-step-nav-item--done {
+  color: #cbd5e1;
+}
+
+.mission-step-nav-item--locked {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.mission-step-nav-item__icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.mission-step-nav-item__label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mission-sidebar__footer {
+  border-top: 1px solid rgba(51, 65, 85, 0.45);
+  padding-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Main Panel & Step Card ──────────────────────────────── */
+.mission-main {
+  min-width: 0;
+}
+
+.mission-loading-wrap {
+  padding: 3rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.mission-step-card {
+  background: rgba(15, 23, 42, 0.78);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  border-radius: 14px;
+  padding: 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.mission-step-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mission-step-card__header-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.mission-step-card__icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mission-step-card__meta {
+  display: flex;
+  gap: 0.45rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.mission-step-card__title {
+  margin: 0 0 0.25rem;
+  font-size: 1.3rem;
+  color: #f8fafc;
+}
+
+.mission-step-card__objective {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #38bdf8;
+}
+
+.mission-step-card__text {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  line-height: 1.62;
+  white-space: pre-line;
+}
+
+.mission-stacked-widgets {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mission-info-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 0.95rem 1.15rem;
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.28);
+  border-radius: 10px;
+  font-size: 0.88rem;
+  color: #e2e8f0;
+}
+
+.mission-code-block {
+  background: #070b15;
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: #e2e8f0;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+/* ── Data Explorer & Cleaning ────────────────────────────── */
+.mission-data-explorer {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mission-data-explorer__tabs {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.mission-data-tab {
+  padding: 0.4rem 0.8rem;
+  border-radius: 7px;
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  background: rgba(30, 41, 59, 0.6);
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mission-data-tab--active {
+  background: rgba(6, 182, 212, 0.16);
+  border-color: rgba(6, 182, 212, 0.45);
+  color: #38bdf8;
+}
+
+.mission-data-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 0.65rem;
+}
+
+.mission-data-stat {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mission-data-stat span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+
+.mission-data-stat strong {
+  font-size: 1rem;
+  color: #f1f5f9;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mission-churn-dist {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mission-churn-dist__label {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.mission-churn-dist__bar-wrap {
+  display: flex;
+  height: 28px;
+  border-radius: 7px;
+  overflow: hidden;
+  border: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.mission-churn-dist__bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.mission-churn-dist__bar--no {
+  background: rgba(16, 185, 129, 0.7);
+}
+
+.mission-churn-dist__bar--yes {
+  background: rgba(244, 63, 94, 0.78);
+}
+
+.mission-churn-dist__pcts {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: #94a3b8;
+}
+
+.mission-features-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.mission-features-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.mission-features-table th,
+.mission-features-table td {
+  text-align: left;
+  padding: 0.48rem 0.65rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+  white-space: nowrap;
+}
+
+.mission-features-table th {
+  color: #94a3b8;
+  font-weight: 600;
+  background: rgba(15, 23, 42, 0.65);
+}
+
+.mission-features-table td {
+  color: #cbd5e1;
+}
+
+.mission-churn-badge {
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.mission-churn-badge--no {
+  background: rgba(16, 185, 129, 0.16);
+  color: #34d399;
+}
+
+.mission-churn-badge--yes {
+  background: rgba(244, 63, 94, 0.16);
+  color: #fb7185;
+}
+
+/* ── Cleaning Box ────────────────────────────────────────── */
+.mission-clean-box {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.mission-clean-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0.85rem;
+}
+
+.mission-clean-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.mission-clean-field label {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.mission-clean-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+.mission-clean-cols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.mission-col-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  padding: 2px 7px;
+  border-radius: 5px;
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  color: #94a3b8;
+}
+
+/* ── Quiz ────────────────────────────────────────────────── */
+.mission-quiz {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.mission-quiz__question {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.mission-quiz__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mission-quiz-option {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.mission-quiz-option:hover:not(:disabled) {
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #f8fafc;
+}
+
+.mission-quiz-option--selected {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: rgba(56, 189, 248, 0.55);
+  color: #f8fafc;
+}
+
+.mission-quiz-option--correct {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.6);
+  color: #34d399;
+}
+
+.mission-quiz-option--wrong {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.55);
+  color: #fca5a5;
+}
+
+.mission-quiz-option__letter {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.mission-quiz-option__text {
+  flex: 1;
+}
+
+.mission-quiz__feedback {
+  margin-top: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.mission-quiz__feedback p {
+  margin: 0.3rem 0 0;
+}
+
+.mission-quiz__feedback--correct {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #a7f3d0;
+}
+
+.mission-quiz__feedback--wrong {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fde68a;
+}
+
+/* ── Feature & Algorithm Selectors ───────────────────────── */
+.mission-feature-selector__info {
+  margin: 0 0 0.7rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.mission-feature-selector__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.6rem;
+}
+
+.mission-feature-chip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.65rem 0.75rem;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mission-feature-chip--active {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: rgba(6, 182, 212, 0.45);
+}
+
+.mission-feature-chip__check {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: rgba(30, 41, 59, 0.9);
+  color: #38bdf8;
+  font-weight: 700;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.mission-feature-chip__name {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.mission-feature-chip__desc {
+  display: block;
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.mission-algo-selector__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.mission-algo-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.95rem;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  border-radius: 10px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: inherit;
+}
+
+.mission-algo-card:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+.mission-algo-card--active {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: #06b6d4;
+}
+
+.mission-algo-card__icon {
+  font-size: 1.4rem;
+}
+
+.mission-algo-card__name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.mission-algo-card__desc {
+  font-size: 0.79rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.mission-algo-card__pros,
+.mission-algo-card__cons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.74rem;
+}
+
+.mission-algo-pro {
+  color: #34d399;
+}
+
+.mission-algo-con {
+  color: #fbbf24;
+}
+
+/* ── Training, Metrics, Confusion Matrix ─────────────────── */
+.mission-train-config {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mission-train-config__controls {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mission-train-config__alg-badge {
+  font-size: 0.86rem;
+  color: #cbd5e1;
+}
+
+.mission-train-param {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  color: #cbd5e1;
+}
+
+.mission-pipeline-trace {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  color: #38bdf8;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 7px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.mission-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.65rem;
+}
+
+.mission-metric-box {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 8px;
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mission-metric-box__label {
+  font-size: 0.71rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.mission-metric-box__val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mission-metric-delta {
+  font-size: 0.72rem;
+  color: #38bdf8;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mission-importance-wrap {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  border-radius: 10px;
+  padding: 0.75rem;
+}
+
+.mission-cm-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mission-cm-title {
+  margin: 0;
+  font-size: 0.86rem;
+  color: #cbd5e1;
+}
+
+.mission-cm-labels-row {
+  display: grid;
+  grid-template-columns: 95px 1fr 1fr;
+  gap: 0.6rem;
+  font-size: 0.76rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.mission-cm-grid {
+  display: grid;
+  grid-template-columns: 95px 1fr 1fr;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.mission-cm-row-label {
+  font-size: 0.76rem;
+  color: #94a3b8;
+}
+
+.mission-cm-cell {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 8px;
+  padding: 0.7rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mission-cm-cell__label {
+  font-size: 0.73rem;
+  font-weight: 600;
+}
+
+.mission-cm-cell__val {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #f8fafc;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mission-cm-cell__desc {
+  font-size: 0.7rem;
+  color: #fca5a5;
+}
+
+/* ── Debug Lab ───────────────────────────────────────────── */
+.mission-debug-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.mission-debug-card {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 10px;
+  padding: 0.95rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.mission-debug-card--solved {
+  border-color: rgba(16, 185, 129, 0.45);
+}
+
+.mission-debug-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.mission-debug-card__head h4 {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #f1f5f9;
+}
+
+.mission-debug-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.mission-debug-pill {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  color: #cbd5e1;
+}
+
+.mission-debug-card__q {
+  margin: 0.25rem 0 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.mission-debug-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mission-debug-opt {
+  padding: 0.5rem 0.75rem;
+  background: rgba(30, 41, 59, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 7px;
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mission-debug-opt:hover:not(:disabled) {
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+.mission-debug-opt--correct {
+  background: rgba(16, 185, 129, 0.14);
+  border-color: rgba(16, 185, 129, 0.6);
+  color: #34d399;
+}
+
+.mission-debug-opt--wrong {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.55);
+  color: #fca5a5;
+}
+
+/* ── Live Predict ────────────────────────────────────────── */
+.mission-predict-box {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.mission-predict-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.85rem;
+}
+
+.mission-predict-output {
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.85rem;
+}
+
+/* ── Hints, Related Chips, Footer ────────────────────────── */
+.mission-hints-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.mission-hint__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  border-radius: 7px;
+  padding: 0.35rem 0.7rem;
+  color: #fcd34d;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mission-hint__content {
+  margin-top: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  background: rgba(245, 158, 11, 0.07);
+  border-left: 3px solid #f59e0b;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #fde68a;
+}
+
+.mission-related-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.mission-related-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 14px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(56, 189, 248, 0.08);
+  color: #38bdf8;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.mission-related-chip--lab {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.08);
+  color: #34d399;
+}
+
+.mission-step-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  border-top: 1px solid rgba(51, 65, 85, 0.45);
+  padding-top: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.mission-step-error {
+  color: #fca5a5;
+  font-size: 0.82rem;
+}
+
+/* ── Final Report Screen ─────────────────────────────────── */
+.mission-final-report {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.55);
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.1rem;
+}
+
+.mission-final-report__title {
+  margin: 0;
+  font-size: 1.65rem;
+  color: #f8fafc;
+}
+
+.mission-final-report__subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.mission-final-report__score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.mission-final-report__score {
+  font-size: 2.8rem;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mission-final-report__grade {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mission-score-breakdown {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem 1.1rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(51, 65, 85, 0.4);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+}
+
+.mission-score-breakdown strong {
+  color: #e2e8f0;
+}
+
+.mission-final-report__checklist {
+  width: 100%;
+  max-width: 540px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.45rem;
+  text-align: left;
+}
+
+.mission-final-report__check-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  padding: 0.35rem 0.6rem;
+  background: rgba(30, 41, 59, 0.45);
+  border-radius: 6px;
+}
+
+.mission-final-report__check-icon {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.mission-final-report__metrics {
+  width: 100%;
+  max-width: 560px;
+}
+
+.mission-final-report__metrics-title {
+  margin: 0 0 0.6rem;
+  font-size: 0.9rem;
+  color: #38bdf8;
+}
+
+.mission-final-report__metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+  gap: 0.65rem;
+}
+
+.mission-final-metric {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(51, 65, 85, 0.45);
+  border-radius: 8px;
+  padding: 0.65rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.mission-final-metric__label {
+  font-size: 0.72rem;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.mission-final-metric__val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.mission-final-report__actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+

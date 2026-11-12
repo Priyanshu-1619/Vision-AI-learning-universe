@@ -1,0 +1,1619 @@
+[
+  {
+    "id": "data",
+    "title": "Data",
+    "category": "Foundations",
+    "difficulty": "Beginner",
+    "icon": "📊",
+    "color": "#06b6d4",
+    "prerequisites": [],
+    "definition": "Data is a collection of facts, observations, or measurements that can be qualitative (categorical) or quantitative (numerical). In machine learning, data is the raw material from which models learn patterns. Data can be structured (tables, databases), semi-structured (JSON, XML), or unstructured (text, images, audio). The quality and quantity of data fundamentally determines what any ML model can learn.",
+    "mathematics": {
+      "formulas": [
+        "D = {(x₁, y₁), (x₂, y₂), ..., (xₙ, yₙ)}"
+      ],
+      "explanation": "A dataset D is typically represented as a collection of n samples, where each xᵢ is a feature vector and yᵢ is the corresponding label or target value. In unsupervised settings, only the feature vectors {x₁, x₂, ..., xₙ} are used."
+    },
+    "visualization": {
+      "type": "data-table",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "statistics",
+      "data-preprocessing"
+    ],
+    "nextConcepts": [
+      "statistics",
+      "probability",
+      "data-preprocessing"
+    ],
+    "domain": "data-science",
+    "level": "basic",
+    "beginnerExplanation": "Think of data as raw puzzle pieces or ingredients. Before you can bake a cake or train an AI, you need accurate, high-quality ingredients like numbers, text, or photos.",
+    "example": "A spreadsheet containing house square footage, number of bedrooms, and sale prices."
+  },
+  {
+    "id": "statistics",
+    "title": "Statistics",
+    "category": "Foundations",
+    "difficulty": "Beginner",
+    "icon": "📈",
+    "color": "#06b6d4",
+    "prerequisites": [
+      "data"
+    ],
+    "definition": "Statistics is the science of collecting, organizing, analyzing, interpreting, and presenting data. Descriptive statistics summarize data using measures like mean, median, mode, variance, and standard deviation. Inferential statistics draw conclusions about populations from samples using hypothesis testing, confidence intervals, and regression analysis. Statistics provides the mathematical foundation for understanding data distributions and making data-driven decisions in machine learning.",
+    "mathematics": {
+      "formulas": [
+        "μ = (1/n) Σ xᵢ",
+        "σ² = (1/n) Σ (xᵢ - μ)²",
+        "σ = √σ²"
+      ],
+      "explanation": "The mean μ is the average of all values. The variance σ² measures how spread out the values are from the mean. The standard deviation σ is the square root of the variance and gives a measure of dispersion in the same units as the data."
+    },
+    "visualization": {
+      "type": "histogram",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "data",
+      "probability",
+      "evaluation-metrics"
+    ],
+    "nextConcepts": [
+      "probability",
+      "data-preprocessing"
+    ],
+    "domain": "data-science",
+    "level": "basic",
+    "beginnerExplanation": "Statistics is like a detective toolkit for data. It helps you summarize thousands of numbers into simple clues like averages, spreads, and trends.",
+    "example": "Calculating the average test score of a class and checking whether most students scored close to the average or far apart."
+  },
+  {
+    "id": "probability",
+    "title": "Probability",
+    "category": "Foundations",
+    "difficulty": "Beginner",
+    "icon": "🎲",
+    "color": "#06b6d4",
+    "prerequisites": [
+      "data",
+      "statistics"
+    ],
+    "definition": "Probability is the mathematical framework for quantifying uncertainty. It measures the likelihood of events on a scale from 0 (impossible) to 1 (certain). Key concepts include conditional probability P(A|B), Bayes' theorem, probability distributions (normal, Bernoulli, Poisson), and the law of large numbers. In machine learning, probability underpins classification (posterior probabilities), generative models, Bayesian inference, and stochastic optimization.",
+    "mathematics": {
+      "formulas": [
+        "P(A|B) = P(B|A)·P(A) / P(B)",
+        "P(A ∪ B) = P(A) + P(B) - P(A ∩ B)",
+        "E[X] = Σ xᵢ·P(xᵢ)"
+      ],
+      "explanation": "Bayes' theorem relates conditional probabilities and is the foundation of Bayesian learning. The addition rule handles the probability of unions. The expected value E[X] gives the long-run average of a random variable, used extensively in loss functions and risk minimization."
+    },
+    "visualization": {
+      "type": "probability-distribution",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "statistics",
+      "logistic-regression",
+      "classification"
+    ],
+    "nextConcepts": [
+      "linear-algebra",
+      "machine-learning"
+    ],
+    "domain": "data-science",
+    "level": "basic",
+    "beginnerExplanation": "Probability measures the likelihood of events happening, ranging from 0% (impossible) to 100% (guaranteed certainty).",
+    "example": "Estimating a 70% chance of rain tomorrow based on atmospheric humidity readings."
+  },
+  {
+    "id": "linear-algebra",
+    "title": "Linear Algebra",
+    "category": "Foundations",
+    "difficulty": "Beginner",
+    "icon": "🔢",
+    "color": "#06b6d4",
+    "prerequisites": [],
+    "definition": "Linear algebra is the branch of mathematics concerning vector spaces and linear mappings between them. It provides the language for representing data (as vectors and matrices), transformations (matrix multiplication), and decompositions (eigendecomposition, SVD). Nearly every machine learning algorithm relies on linear algebra — from simple linear regression (solving systems of equations) to deep learning (tensor operations on GPUs).",
+    "mathematics": {
+      "formulas": [
+        "Ax = b",
+        "A⁻¹A = I",
+        "det(A - λI) = 0"
+      ],
+      "explanation": "The equation Ax = b represents a system of linear equations. A⁻¹ is the matrix inverse used to solve such systems. Eigenvalues λ satisfy det(A - λI) = 0 and reveal fundamental properties of transformations, used in PCA and spectral methods."
+    },
+    "visualization": {
+      "type": "matrix-operations",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "vectors",
+      "matrices",
+      "pca"
+    ],
+    "nextConcepts": [
+      "vectors",
+      "matrices"
+    ],
+    "domain": "data-science",
+    "level": "basic",
+    "beginnerExplanation": "Linear algebra is the native language of machine learning. It lets computers manipulate massive grids of numbers simultaneously at lightning speed.",
+    "example": "Representing a black-and-white image as a 2D matrix of pixel brightness values."
+  },
+  {
+    "id": "vectors",
+    "title": "Vectors",
+    "category": "Mathematics",
+    "difficulty": "Beginner",
+    "icon": "➡️",
+    "color": "#8b5cf6",
+    "prerequisites": [
+      "linear-algebra"
+    ],
+    "definition": "A vector is an ordered list of numbers that represents a point or direction in space. In ML, feature vectors encode the properties of data samples — each dimension corresponds to a feature. Key operations include addition, scalar multiplication, dot product, cross product, and computing norms (magnitudes). The dot product measures similarity between vectors and is fundamental to neural networks, SVMs, and recommendation systems.",
+    "mathematics": {
+      "formulas": [
+        "v⃗ = [v₁, v₂, ..., vₙ]",
+        "a⃗ · b⃗ = Σ aᵢbᵢ = ||a⃗|| ||b⃗|| cos θ",
+        "||v⃗|| = √(Σ vᵢ²)"
+      ],
+      "explanation": "A vector v⃗ in ℝⁿ has n components. The dot product measures alignment between two vectors — it equals zero when they are orthogonal. The L2 norm ||v⃗|| gives the vector's magnitude or length, used in regularization and distance calculations."
+    },
+    "visualization": {
+      "type": "vector-space",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "linear-algebra",
+      "matrices",
+      "gradient"
+    ],
+    "nextConcepts": [
+      "matrices",
+      "derivative"
+    ],
+    "domain": "data-science",
+    "level": "basic",
+    "beginnerExplanation": "A vector is an ordered list of numbers that points to a specific coordinate in space. In ML, every data sample is represented as a feature vector.",
+    "example": "A customer profile vector: [age=28, annual_income=65000, credit_score=720]."
+  },
+  {
+    "id": "matrices",
+    "title": "Matrices",
+    "category": "Mathematics",
+    "difficulty": "Beginner",
+    "icon": "🔲",
+    "color": "#8b5cf6",
+    "prerequisites": [
+      "linear-algebra",
+      "vectors"
+    ],
+    "definition": "A matrix is a 2D array of numbers that represents a linear transformation or a dataset. In ML, the data matrix X has rows as samples and columns as features. Matrix multiplication is the core operation in neural networks (layer transformations), and special matrices (identity, diagonal, symmetric, orthogonal) have important properties. Matrix decompositions like SVD and eigendecomposition enable dimensionality reduction (PCA) and collaborative filtering.",
+    "mathematics": {
+      "formulas": [
+        "C = AB where Cᵢⱼ = Σₖ AᵢₖBₖⱼ",
+        "(AB)ᵀ = BᵀAᵀ",
+        "A = UΣVᵀ (SVD)"
+      ],
+      "explanation": "Matrix multiplication combines linear transformations. The transpose reverses rows and columns. Singular Value Decomposition (SVD) factorizes any matrix into three matrices, revealing its rank, range, and null space — the mathematical backbone of PCA."
+    },
+    "visualization": {
+      "type": "matrix-multiplication",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "vectors",
+      "linear-algebra",
+      "pca",
+      "neural-networks"
+    ],
+    "nextConcepts": [
+      "derivative",
+      "pca"
+    ],
+    "domain": "data-science",
+    "level": "basic",
+    "beginnerExplanation": "A matrix is a two-dimensional grid of numbers arranged in rows and columns, like a spreadsheet that mathematical operations can transform in one step.",
+    "example": "A dataset of 100 customer records with 5 features stored as a 100x5 numerical matrix."
+  },
+  {
+    "id": "derivative",
+    "title": "Derivatives",
+    "category": "Mathematics",
+    "difficulty": "Intermediate",
+    "icon": "📐",
+    "color": "#8b5cf6",
+    "prerequisites": [],
+    "definition": "A derivative measures the rate of change of a function with respect to its input — the slope of the tangent line at any point. In machine learning, derivatives tell us how a small change in a parameter affects the loss function, which is exactly what we need to know to improve the model. The chain rule allows computing derivatives of composed functions, which is the mathematical basis of backpropagation in neural networks.",
+    "mathematics": {
+      "formulas": [
+        "f'(x) = lim(h→0) [f(x+h) - f(x)] / h",
+        "d/dx[xⁿ] = nxⁿ⁻¹",
+        "(f∘g)'(x) = f'(g(x)) · g'(x)"
+      ],
+      "explanation": "The derivative f'(x) gives the instantaneous rate of change. The power rule is the most common differentiation rule. The chain rule composes derivatives of nested functions — it is the mathematical heart of backpropagation."
+    },
+    "visualization": {
+      "type": "derivative-tangent",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "gradient",
+      "backpropagation",
+      "optimization"
+    ],
+    "nextConcepts": [
+      "gradient",
+      "optimization"
+    ],
+    "domain": "data-science",
+    "level": "intermediate",
+    "beginnerExplanation": "A derivative tells you how quickly a function output changes when you nudge its input—it gives you the exact slope of the curve at any point.",
+    "example": "The speedometer in your car measures the instantaneous rate of change (derivative) of your position with respect to time."
+  },
+  {
+    "id": "gradient",
+    "title": "Gradient",
+    "category": "Mathematics",
+    "difficulty": "Intermediate",
+    "icon": "🧭",
+    "color": "#8b5cf6",
+    "prerequisites": [
+      "derivative",
+      "vectors"
+    ],
+    "definition": "The gradient is the multi-dimensional generalization of the derivative. For a function of multiple variables, the gradient is a vector of partial derivatives that points in the direction of steepest ascent. Its magnitude indicates how steep the slope is. In ML, we compute the gradient of the loss function with respect to model parameters, then move in the opposite direction (steepest descent) to minimize the loss.",
+    "mathematics": {
+      "formulas": [
+        "∇f = [∂f/∂x₁, ∂f/∂x₂, ..., ∂f/∂xₙ]",
+        "∂f/∂xᵢ = lim(h→0) [f(x + heᵢ) - f(x)] / h"
+      ],
+      "explanation": "The gradient ∇f is a vector where each component is the partial derivative with respect to one variable. It always points toward the direction of greatest increase of f. Moving opposite to the gradient decreases f most rapidly, which is the core idea behind gradient descent."
+    },
+    "visualization": {
+      "type": "gradient-field",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "derivative",
+      "gradient-descent",
+      "backpropagation"
+    ],
+    "nextConcepts": [
+      "gradient-descent",
+      "optimization"
+    ],
+    "domain": "data-science",
+    "level": "intermediate",
+    "beginnerExplanation": "A gradient is a multidimensional derivative—a vector pointing in the direction where a function increases the fastest.",
+    "example": "If you stand on a foggy hillside, the gradient points straight up the steepest part of the slope."
+  },
+  {
+    "id": "data-preprocessing",
+    "title": "Data Preprocessing",
+    "category": "Data Science",
+    "difficulty": "Beginner",
+    "icon": "🧹",
+    "color": "#10b981",
+    "prerequisites": [
+      "data",
+      "statistics"
+    ],
+    "definition": "Data preprocessing transforms raw data into a clean, suitable format for machine learning. Key steps include handling missing values (imputation or removal), removing duplicates, encoding categorical variables (one-hot, label encoding), normalizing or standardizing numerical features, and splitting data into training, validation, and test sets. Proper preprocessing prevents data leakage, reduces bias, and significantly impacts model performance.",
+    "mathematics": {
+      "formulas": [
+        "x_normalized = (x - x_min) / (x_max - x_min)",
+        "x_standardized = (x - μ) / σ"
+      ],
+      "explanation": "Min-max normalization scales features to [0, 1]. Standardization (z-score normalization) transforms features to have zero mean and unit variance, making them comparable regardless of original scale. This is critical for distance-based algorithms like KNN and gradient-based optimization."
+    },
+    "visualization": {
+      "type": "data-transform",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "data",
+      "feature-engineering",
+      "machine-learning"
+    ],
+    "nextConcepts": [
+      "feature-engineering",
+      "machine-learning"
+    ],
+    "domain": "data-science",
+    "level": "basic",
+    "beginnerExplanation": "Raw data is often messy, missing values, or on wildly different scales. Preprocessing cleans and normalizes data so algorithms can learn properly.",
+    "example": "Imputing missing customer ages with the median age and scaling salaries to a standard range between 0 and 1."
+  },
+  {
+    "id": "feature-engineering",
+    "title": "Feature Engineering",
+    "category": "Data Science",
+    "difficulty": "Intermediate",
+    "icon": "🛠️",
+    "color": "#10b981",
+    "prerequisites": [
+      "data-preprocessing",
+      "statistics"
+    ],
+    "definition": "Feature engineering is the art and science of creating new input features from existing data to improve model performance. Techniques include polynomial features, interaction terms, binning, log transforms, domain-specific features, text vectorization (TF-IDF, word embeddings), and automated feature selection. Good features capture the underlying patterns in data and can make even simple models perform well, while poor features limit even the most complex models.",
+    "mathematics": {
+      "formulas": [
+        "x_poly = [x, x², x³, ..., xⁿ]",
+        "x_interaction = x₁ · x₂",
+        "TF-IDF(t,d) = TF(t,d) · log(N / DF(t))"
+      ],
+      "explanation": "Polynomial features capture nonlinear relationships. Interaction terms model joint effects of features. TF-IDF weights words by their frequency in a document relative to the corpus, creating numerical features from text."
+    },
+    "visualization": {
+      "type": "feature-transform",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "data-preprocessing",
+      "pca",
+      "machine-learning"
+    ],
+    "nextConcepts": [
+      "machine-learning",
+      "pca"
+    ],
+    "domain": "data-science",
+    "level": "intermediate",
+    "beginnerExplanation": "Creating new, informative inputs from raw data to help the learning algorithm spot meaningful patterns more easily.",
+    "example": "Calculating 'debt-to-income ratio' by dividing total monthly debt by gross monthly income in loan default prediction."
+  },
+  {
+    "id": "machine-learning",
+    "title": "Machine Learning",
+    "category": "Core ML",
+    "difficulty": "Beginner",
+    "icon": "🤖",
+    "color": "#3b82f6",
+    "prerequisites": [
+      "data",
+      "statistics",
+      "linear-algebra"
+    ],
+    "definition": "Machine learning is a subset of artificial intelligence where systems learn patterns from data without being explicitly programmed. Instead of writing rules, you provide data and let algorithms discover the rules. The three main paradigms are supervised learning (learning from labeled examples), unsupervised learning (finding hidden structure), and reinforcement learning (learning through trial and error). ML powers recommendations, speech recognition, computer vision, and much more.",
+    "mathematics": {
+      "formulas": [
+        "ŷ = f(x; θ)",
+        "θ* = argmin_θ L(y, f(x; θ))"
+      ],
+      "explanation": "A model f with parameters θ maps input x to prediction ŷ. Training finds optimal parameters θ* that minimize a loss function L measuring the difference between predictions and true values y. This optimization framework unifies nearly all ML algorithms."
+    },
+    "visualization": {
+      "type": "ml-pipeline",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "supervised-learning",
+      "unsupervised-learning",
+      "data"
+    ],
+    "nextConcepts": [
+      "supervised-learning",
+      "unsupervised-learning"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "Instead of writing rigid rules by hand, machine learning feeds examples to algorithms that automatically discover rules and make predictions.",
+    "example": "An email filter learning to identify spam by observing thousands of emails marked as spam by users."
+  },
+  {
+    "id": "supervised-learning",
+    "title": "Supervised Learning",
+    "category": "Core ML",
+    "difficulty": "Beginner",
+    "icon": "🎯",
+    "color": "#3b82f6",
+    "prerequisites": [
+      "machine-learning"
+    ],
+    "definition": "Supervised learning trains models on labeled data — each training example consists of an input paired with the correct output. The model learns a mapping from inputs to outputs and generalizes to unseen data. The two main tasks are regression (predicting continuous values like house prices) and classification (predicting discrete categories like spam/not-spam). Common algorithms include linear regression, logistic regression, decision trees, random forests, SVMs, and neural networks.",
+    "mathematics": {
+      "formulas": [
+        "D_train = {(x₁,y₁), ..., (xₙ,yₙ)}",
+        "L = (1/n) Σ ℓ(yᵢ, f(xᵢ; θ))"
+      ],
+      "explanation": "The training set consists of input-output pairs. The model minimizes the average loss ℓ over all training examples. For regression, ℓ is typically squared error; for classification, it is cross-entropy loss."
+    },
+    "visualization": {
+      "type": "supervised-overview",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "machine-learning",
+      "regression",
+      "classification"
+    ],
+    "nextConcepts": [
+      "regression",
+      "classification",
+      "linear-regression"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "Learning with a teacher: the algorithm is provided with both inputs and the correct answer (labels), adjusting itself to predict labels for new inputs.",
+    "example": "Predicting house prices given features (square feet, zip code) where training data includes historical selling prices."
+  },
+  {
+    "id": "unsupervised-learning",
+    "title": "Unsupervised Learning",
+    "category": "Core ML",
+    "difficulty": "Beginner",
+    "icon": "🔍",
+    "color": "#3b82f6",
+    "prerequisites": [
+      "machine-learning"
+    ],
+    "definition": "Unsupervised learning discovers hidden patterns and structure in unlabeled data. Without predefined categories, these algorithms must find natural groupings, reduce dimensionality, or learn data representations on their own. Major tasks include clustering (grouping similar items), dimensionality reduction (PCA, t-SNE), anomaly detection, and density estimation. Unsupervised learning is crucial for exploratory data analysis, feature learning, and handling the vast amounts of unlabeled data in the real world.",
+    "mathematics": {
+      "formulas": [
+        "D = {x₁, x₂, ..., xₙ}  (no labels)",
+        "min Σᵢ ||xᵢ - μ_c(i)||²  (clustering objective)"
+      ],
+      "explanation": "Unsupervised data has no labels. Clustering minimizes the distance from each point to its cluster centroid μ. Other objectives include maximizing data likelihood (generative models) or preserving variance (PCA)."
+    },
+    "visualization": {
+      "type": "unsupervised-overview",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "machine-learning",
+      "clustering",
+      "pca"
+    ],
+    "nextConcepts": [
+      "clustering",
+      "k-means",
+      "pca"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "Learning without labels or a teacher: the algorithm discovers hidden structures, groupings, or patterns in data entirely on its own.",
+    "example": "Grouping online shoppers into market segments based on their browsing behavior without pre-existing category labels."
+  },
+  {
+    "id": "regression",
+    "title": "Regression",
+    "category": "Algorithms",
+    "difficulty": "Beginner",
+    "icon": "📉",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "supervised-learning",
+      "statistics"
+    ],
+    "definition": "Regression is a supervised learning task that predicts continuous numerical values. Given input features, regression models learn a function that maps inputs to a real-valued output. Examples include predicting house prices, stock returns, temperature, or a patient's blood pressure. Regression is evaluated using metrics like Mean Squared Error (MSE), Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and R² score.",
+    "mathematics": {
+      "formulas": [
+        "ŷ = f(x)",
+        "MSE = (1/n) Σ (yᵢ - ŷᵢ)²",
+        "R² = 1 - SS_res / SS_tot"
+      ],
+      "explanation": "The model predicts continuous values ŷ. MSE penalizes larger errors quadratically. R² measures the proportion of variance explained by the model: 1.0 is perfect, 0.0 means the model is no better than predicting the mean."
+    },
+    "visualization": {
+      "type": "regression-line",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "supervised-learning",
+      "linear-regression",
+      "loss-function"
+    ],
+    "nextConcepts": [
+      "linear-regression",
+      "logistic-regression"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "Predicting a continuous numerical quantity rather than a discrete category.",
+    "example": "Forecasting the temperature for tomorrow in degrees Celsius or the price of a stock."
+  },
+  {
+    "id": "linear-regression",
+    "title": "Linear Regression",
+    "category": "Algorithms",
+    "difficulty": "Beginner",
+    "icon": "📏",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "regression",
+      "linear-algebra"
+    ],
+    "definition": "Linear regression models the relationship between inputs and a continuous output as a linear function. It fits a line (or hyperplane in higher dimensions) that minimizes the sum of squared residuals between predicted and actual values. The ordinary least squares (OLS) solution has a closed-form, or parameters can be found via gradient descent. Linear regression is interpretable, fast, and often the first model tried for regression tasks.",
+    "mathematics": {
+      "formulas": [
+        "ŷ = w₀ + w₁x₁ + w₂x₂ + ... + wₙxₙ = Xw",
+        "w_OLS = (XᵀX)⁻¹Xᵀy",
+        "L = (1/2n) ||Xw - y||²"
+      ],
+      "explanation": "The prediction is a weighted sum of features plus a bias term w₀. The OLS solution minimizes the squared error loss L analytically. In matrix form, w = (XᵀX)⁻¹Xᵀy gives the exact optimal weights when XᵀX is invertible."
+    },
+    "visualization": {
+      "type": "linear-regression",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "regression",
+      "gradient-descent",
+      "loss-function"
+    ],
+    "nextConcepts": [
+      "logistic-regression",
+      "gradient-descent"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "Drawing the best-fitting straight line through scattered data points to predict continuous numbers.",
+    "example": "Fitting a line predicting salary based on years of work experience."
+  },
+  {
+    "id": "logistic-regression",
+    "title": "Logistic Regression",
+    "category": "Algorithms",
+    "difficulty": "Intermediate",
+    "icon": "🔀",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "linear-regression",
+      "probability"
+    ],
+    "definition": "Logistic regression is a classification algorithm that models the probability of a binary outcome using the logistic (sigmoid) function. Despite its name, it performs classification, not regression. It applies a linear model to the features, then passes the result through the sigmoid to produce a probability between 0 and 1. The decision boundary is linear. Logistic regression is trained by maximizing likelihood (equivalently, minimizing binary cross-entropy loss).",
+    "mathematics": {
+      "formulas": [
+        "σ(z) = 1 / (1 + e⁻ᶻ)",
+        "P(y=1|x) = σ(wᵀx + b)",
+        "L = -(1/n) Σ [yᵢ log(ŷᵢ) + (1-yᵢ) log(1-ŷᵢ)]"
+      ],
+      "explanation": "The sigmoid function σ maps any real number to (0, 1), turning a linear score into a probability. The binary cross-entropy loss L penalizes confident wrong predictions heavily, driving the model to output calibrated probabilities."
+    },
+    "visualization": {
+      "type": "logistic-regression",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "linear-regression",
+      "classification",
+      "activation-functions"
+    ],
+    "nextConcepts": [
+      "classification",
+      "neural-networks"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "Despite the name 'regression', this algorithm is used for classification by squeezing outputs into a probability between 0 and 1 using an S-shaped sigmoid curve.",
+    "example": "Predicting whether a patient has diabetes (Yes=1, No=0) based on blood glucose and BMI."
+  },
+  {
+    "id": "classification",
+    "title": "Classification",
+    "category": "Algorithms",
+    "difficulty": "Beginner",
+    "icon": "🏷️",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "supervised-learning"
+    ],
+    "definition": "Classification is a supervised learning task that assigns input data to discrete categories or classes. Binary classification distinguishes two classes (spam vs. not spam), while multi-class handles three or more (digit recognition 0–9). Models learn decision boundaries in feature space. Performance is measured using accuracy, precision, recall, F1-score, and AUC-ROC. Common classifiers include logistic regression, KNN, decision trees, random forests, SVMs, and neural networks.",
+    "mathematics": {
+      "formulas": [
+        "ŷ = argmax_c P(y=c | x)",
+        "Accuracy = (TP + TN) / (TP + TN + FP + FN)",
+        "F1 = 2 · (Precision · Recall) / (Precision + Recall)"
+      ],
+      "explanation": "Classification picks the class with highest predicted probability. Accuracy measures overall correctness. F1 is the harmonic mean of precision and recall, useful when classes are imbalanced."
+    },
+    "visualization": {
+      "type": "decision-boundary",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "supervised-learning",
+      "logistic-regression",
+      "knn",
+      "decision-tree"
+    ],
+    "nextConcepts": [
+      "knn",
+      "decision-tree",
+      "evaluation-metrics"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "Predicting discrete category labels for data points.",
+    "example": "Determining whether an uploaded photo contains a cat, a dog, or a bird."
+  },
+  {
+    "id": "knn",
+    "title": "K-Nearest Neighbors",
+    "category": "Algorithms",
+    "difficulty": "Beginner",
+    "icon": "👥",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "classification",
+      "vectors"
+    ],
+    "definition": "K-Nearest Neighbors (KNN) is a simple, instance-based learning algorithm. For classification, it finds the K training examples closest to a query point (using a distance metric like Euclidean) and assigns the majority class. For regression, it averages the K neighbors' values. KNN is non-parametric (no assumptions about data distribution), requires no training phase, but is computationally expensive at prediction time for large datasets. The choice of K and distance metric greatly affects performance.",
+    "mathematics": {
+      "formulas": [
+        "d(x, xᵢ) = √(Σⱼ (xⱼ - xᵢⱼ)²)",
+        "ŷ = mode({yᵢ : xᵢ ∈ N_K(x)})"
+      ],
+      "explanation": "The Euclidean distance d measures similarity between two points. N_K(x) is the set of K nearest neighbors. For classification, the prediction is the most common label among neighbors. For regression, it is the average of neighbor values."
+    },
+    "visualization": {
+      "type": "knn-classification",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "classification",
+      "vectors",
+      "data-preprocessing"
+    ],
+    "nextConcepts": [
+      "decision-tree",
+      "cross-validation"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "K-Nearest Neighbors classifies a new data point by looking at the 'k' closest points in the training set and taking a majority vote.",
+    "example": "Recommending movies to a user by finding 5 viewers with the most similar rating histories."
+  },
+  {
+    "id": "decision-tree",
+    "title": "Decision Tree",
+    "category": "Algorithms",
+    "difficulty": "Intermediate",
+    "icon": "🌳",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "classification",
+      "regression"
+    ],
+    "definition": "A decision tree is a flowchart-like model that makes predictions by recursively splitting the feature space based on feature values. At each internal node, a feature and threshold are chosen to best separate the data (maximizing information gain or minimizing Gini impurity). Leaf nodes contain the final prediction. Decision trees are highly interpretable, handle both numerical and categorical data, and require minimal preprocessing. However, they are prone to overfitting if not pruned or regularized.",
+    "mathematics": {
+      "formulas": [
+        "Gini(t) = 1 - Σ pᵢ²",
+        "Entropy(t) = -Σ pᵢ log₂(pᵢ)",
+        "InfoGain = H(parent) - Σ (nⱼ/n) H(childⱼ)"
+      ],
+      "explanation": "Gini impurity measures the probability of misclassifying a randomly chosen element. Entropy measures the disorder or uncertainty. Information gain is the reduction in entropy after splitting — the tree greedily picks the split with highest information gain at each step."
+    },
+    "visualization": {
+      "type": "decision-tree",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "classification",
+      "random-forest",
+      "overfitting"
+    ],
+    "nextConcepts": [
+      "random-forest",
+      "overfitting"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "A flowchart-like structure that makes predictions by asking a series of yes/no questions based on feature thresholds.",
+    "example": "A medical triage tree: 'Is fever > 101°F?' -> If Yes, 'Is cough present?' -> If Yes, recommend COVID test."
+  },
+  {
+    "id": "random-forest",
+    "title": "Random Forest",
+    "category": "Algorithms",
+    "difficulty": "Intermediate",
+    "icon": "🌲",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "decision-tree"
+    ],
+    "definition": "Random Forest is an ensemble method that builds many decision trees on random subsets of the data and features, then combines their predictions (majority vote for classification, average for regression). Each tree is trained on a bootstrap sample (bagging), and at each split, only a random subset of features is considered. This double randomness reduces overfitting and variance compared to a single tree, while maintaining good accuracy. Random forests also provide feature importance scores.",
+    "mathematics": {
+      "formulas": [
+        "ŷ = mode({h_t(x) : t = 1, ..., T})",
+        "Importance(j) = Σ_t Δ_impurity(j, t) / T"
+      ],
+      "explanation": "The ensemble prediction is the majority vote (or average) of T individual trees hₜ. Feature importance is the average reduction in impurity (Gini or entropy) contributed by each feature across all trees and splits."
+    },
+    "visualization": {
+      "type": "random-forest",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "decision-tree",
+      "overfitting",
+      "bias-variance"
+    ],
+    "nextConcepts": [
+      "bias-variance",
+      "cross-validation"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "An ensemble of many decision trees trained on random subsets of data and features. The trees vote together, making predictions much more reliable.",
+    "example": "Diagnosing heart disease by aggregating votes from 100 diverse decision trees."
+  },
+  {
+    "id": "clustering",
+    "title": "Clustering",
+    "category": "Algorithms",
+    "difficulty": "Beginner",
+    "icon": "🫧",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "unsupervised-learning"
+    ],
+    "definition": "Clustering is an unsupervised learning task that groups similar data points together without predefined labels. Points within a cluster should be more similar to each other than to points in other clusters. Applications include customer segmentation, image compression, anomaly detection, and document grouping. Major algorithms include K-Means, DBSCAN, hierarchical clustering, and Gaussian Mixture Models. Evaluation uses metrics like silhouette score and inertia.",
+    "mathematics": {
+      "formulas": [
+        "J = Σᵢ Σ_{x∈Cᵢ} ||x - μᵢ||²",
+        "Silhouette(x) = (b(x) - a(x)) / max(a(x), b(x))"
+      ],
+      "explanation": "The inertia J measures total within-cluster variance — lower is better. The silhouette score ranges from -1 to 1: values near 1 mean the point is well-clustered, near 0 means it is on the boundary, and negative means it may be in the wrong cluster."
+    },
+    "visualization": {
+      "type": "clustering",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "unsupervised-learning",
+      "k-means",
+      "pca"
+    ],
+    "nextConcepts": [
+      "k-means"
+    ],
+    "domain": "machine-learning",
+    "level": "basic",
+    "beginnerExplanation": "Grouping similar data points together into clusters so that items in the same cluster are more similar to each other than to items in other clusters.",
+    "example": "Clustering celestial objects in telescope images into stars, galaxies, and nebulae."
+  },
+  {
+    "id": "k-means",
+    "title": "K-Means Clustering",
+    "category": "Algorithms",
+    "difficulty": "Intermediate",
+    "icon": "🎯",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "clustering",
+      "vectors"
+    ],
+    "definition": "K-Means is an iterative clustering algorithm that partitions data into K clusters by minimizing within-cluster sum of squared distances. The algorithm alternates between two steps: (1) assign each point to the nearest centroid, and (2) recompute centroids as the mean of assigned points. It converges when assignments stop changing. K-Means is fast and scalable but requires specifying K in advance, assumes spherical clusters, and is sensitive to initialization (use K-means++ for better starts).",
+    "mathematics": {
+      "formulas": [
+        "cᵢ = argmin_j ||xᵢ - μⱼ||²",
+        "μⱼ = (1/|Cⱼ|) Σ_{x∈Cⱼ} x",
+        "J = Σⱼ Σ_{x∈Cⱼ} ||x - μⱼ||²"
+      ],
+      "explanation": "Step 1: assign each point xᵢ to the cluster j with the nearest centroid μⱼ. Step 2: update each centroid to the mean of its assigned points. The objective J (inertia) decreases monotonically and converges. The elbow method plots J vs K to find the optimal number of clusters."
+    },
+    "visualization": {
+      "type": "kmeans",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "clustering",
+      "vectors",
+      "unsupervised-learning"
+    ],
+    "nextConcepts": [
+      "pca",
+      "evaluation-metrics"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "An algorithm that splits data into K clusters by placing K center points (centroids), assigning points to the nearest centroid, and moving centroids to the cluster averages.",
+    "example": "Placing 4 delivery distribution warehouses near geographical clusters of store locations."
+  },
+  {
+    "id": "pca",
+    "title": "Principal Component Analysis",
+    "category": "Algorithms",
+    "difficulty": "Intermediate",
+    "icon": "🔬",
+    "color": "#f59e0b",
+    "prerequisites": [
+      "linear-algebra",
+      "matrices",
+      "statistics"
+    ],
+    "definition": "PCA is a dimensionality reduction technique that projects high-dimensional data onto a lower-dimensional subspace while preserving maximum variance. It finds orthogonal directions (principal components) along which the data varies most. The first PC captures the most variance, the second captures the most remaining variance orthogonal to the first, and so on. PCA uses eigendecomposition of the covariance matrix (or SVD). It is used for visualization, noise reduction, feature compression, and speeding up training.",
+    "mathematics": {
+      "formulas": [
+        "C = (1/n) XᵀX  (covariance matrix)",
+        "Cv = λv  (eigendecomposition)",
+        "X_reduced = X · V_k  (projection onto top k PCs)"
+      ],
+      "explanation": "The covariance matrix C captures how features co-vary. Its eigenvectors v are the principal components, and eigenvalues λ indicate the variance explained by each. Projecting X onto the top k eigenvectors V_k reduces dimensionality while retaining the most information."
+    },
+    "visualization": {
+      "type": "pca",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "linear-algebra",
+      "matrices",
+      "unsupervised-learning",
+      "feature-engineering"
+    ],
+    "nextConcepts": [
+      "neural-networks",
+      "clustering"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "Principal Component Analysis compresses high-dimensional data into fewer dimensions while preserving as much variance (information) as possible.",
+    "example": "Compressing a table of 50 financial health indicators down to 2 summary indices for visual plotting on a 2D scatter plot."
+  },
+  {
+    "id": "optimization",
+    "title": "Optimization",
+    "category": "Optimization",
+    "difficulty": "Intermediate",
+    "icon": "⚡",
+    "color": "#ef4444",
+    "prerequisites": [
+      "derivative",
+      "linear-algebra"
+    ],
+    "definition": "Optimization is the process of finding the best parameters that minimize (or maximize) an objective function. In machine learning, we minimize a loss function that measures prediction error. Key concepts include convexity (guarantees a single global minimum), local vs. global minima, learning rate scheduling, and convergence. Methods range from analytical solutions (normal equation) to iterative algorithms (gradient descent, Adam, SGD). Understanding optimization is essential for training any ML model.",
+    "mathematics": {
+      "formulas": [
+        "θ* = argmin_θ J(θ)",
+        "∇J(θ*) = 0  (necessary condition)",
+        "∇²J(θ*) ≻ 0  (sufficient condition for minimum)"
+      ],
+      "explanation": "The optimal parameters θ* minimize the objective J. At the minimum, the gradient is zero (first-order condition). The Hessian ∇²J being positive definite confirms it is a local minimum (second-order condition). For convex J, any local minimum is the global minimum."
+    },
+    "visualization": {
+      "type": "optimization-landscape",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "gradient-descent",
+      "loss-function",
+      "derivative"
+    ],
+    "nextConcepts": [
+      "gradient-descent",
+      "loss-function"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "The mathematical process of finding the parameter values that minimize cost (loss) or maximize performance.",
+    "example": "Finding the route for a delivery truck that minimizes total travel time and fuel consumption."
+  },
+  {
+    "id": "gradient-descent",
+    "title": "Gradient Descent",
+    "category": "Optimization",
+    "difficulty": "Intermediate",
+    "icon": "🔻",
+    "color": "#ef4444",
+    "prerequisites": [
+      "gradient",
+      "loss-function",
+      "optimization"
+    ],
+    "definition": "Gradient descent is an iterative optimization algorithm that minimizes a function by repeatedly moving in the direction of the negative gradient. Starting from initial parameters, it computes the gradient of the loss function, then updates parameters by subtracting the gradient scaled by a learning rate α. Variants include batch GD (uses all data), stochastic GD (one sample), and mini-batch GD (subset). Advanced optimizers like Adam, RMSProp, and AdaGrad adapt the learning rate per parameter.",
+    "mathematics": {
+      "formulas": [
+        "θ_{t+1} = θ_t - α · ∇J(θ_t)",
+        "v_t = βv_{t-1} + (1-β)∇J(θ_t)  (momentum)",
+        "θ_{t+1} = θ_t - α · v_t"
+      ],
+      "explanation": "The basic update subtracts the gradient scaled by learning rate α. Momentum accumulates past gradients in velocity v with decay β, helping escape local minima and accelerate convergence in ravines. Too large α causes divergence; too small causes slow convergence."
+    },
+    "visualization": {
+      "type": "gradient-descent",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "gradient",
+      "loss-function",
+      "optimization",
+      "backpropagation"
+    ],
+    "nextConcepts": [
+      "backpropagation",
+      "neural-networks"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "An iterative optimization algorithm that takes small steps downhill along the steepest slope of the error surface until it reaches the lowest error.",
+    "example": "A blindfolded hiker finding the bottom of a foggy valley by feeling which direction slopes down and taking a step in that direction."
+  },
+  {
+    "id": "loss-function",
+    "title": "Loss Function",
+    "category": "Optimization",
+    "difficulty": "Intermediate",
+    "icon": "📊",
+    "color": "#ef4444",
+    "prerequisites": [
+      "machine-learning",
+      "statistics"
+    ],
+    "definition": "A loss function (also called cost function or objective function) quantifies how wrong a model's predictions are compared to the true values. It provides the signal that drives learning — by minimizing the loss, the model improves. Different tasks use different losses: Mean Squared Error for regression, Cross-Entropy for classification, Hinge Loss for SVMs. Regularization terms (L1, L2) can be added to the loss to prevent overfitting by penalizing large parameter values.",
+    "mathematics": {
+      "formulas": [
+        "MSE = (1/n) Σ (yᵢ - ŷᵢ)²",
+        "CrossEntropy = -(1/n) Σ [yᵢ log(ŷᵢ) + (1-yᵢ) log(1-ŷᵢ)]",
+        "L_reg = L + λ||w||²  (L2 regularization)"
+      ],
+      "explanation": "MSE penalizes squared differences — large errors are penalized disproportionately. Cross-entropy measures the difference between predicted and true probability distributions, approaching 0 for perfect predictions. L2 regularization adds a penalty proportional to parameter magnitude, controlled by hyperparameter λ."
+    },
+    "visualization": {
+      "type": "loss-landscape",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "optimization",
+      "gradient-descent",
+      "overfitting"
+    ],
+    "nextConcepts": [
+      "gradient-descent",
+      "overfitting"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "A mathematical scorecard that calculates how far off a model's predictions are from the true answers. Lower loss means better predictions.",
+    "example": "Mean Squared Error calculating the average squared penalty between predicted house prices and actual sale prices."
+  },
+  {
+    "id": "neural-networks",
+    "title": "Neural Networks",
+    "category": "Deep Learning",
+    "difficulty": "Intermediate",
+    "icon": "🧠",
+    "color": "#ec4899",
+    "prerequisites": [
+      "linear-regression",
+      "gradient-descent",
+      "matrices"
+    ],
+    "definition": "Neural networks are computational models inspired by the brain, consisting of layers of interconnected nodes (neurons). Each neuron computes a weighted sum of its inputs, adds a bias, and applies a nonlinear activation function. A feedforward network has an input layer, one or more hidden layers, and an output layer. The universal approximation theorem states that a network with one hidden layer can approximate any continuous function. Deep networks (many layers) learn hierarchical features automatically.",
+    "mathematics": {
+      "formulas": [
+        "z = Wx + b",
+        "a = σ(z)",
+        "ŷ = softmax(W_L · a_{L-1} + b_L)"
+      ],
+      "explanation": "Each layer computes a linear transformation z = Wx + b followed by a nonlinear activation a = σ(z). The final layer typically uses softmax for classification (producing probability distribution over classes) or a linear output for regression. Stacking these layers creates a deep network capable of learning complex representations."
+    },
+    "visualization": {
+      "type": "neural-network",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "activation-functions",
+      "backpropagation",
+      "gradient-descent"
+    ],
+    "nextConcepts": [
+      "activation-functions",
+      "backpropagation"
+    ],
+    "domain": "deep-learning",
+    "level": "basic",
+    "beginnerExplanation": "Computational systems loosely inspired by biological brains, made of interconnected artificial neurons arranged in layers that learn complex non-linear patterns.",
+    "example": "Recognizing handwritten digits on postal envelopes from pixel brightness values."
+  },
+  {
+    "id": "activation-functions",
+    "title": "Activation Functions",
+    "category": "Deep Learning",
+    "difficulty": "Intermediate",
+    "icon": "⚡",
+    "color": "#ec4899",
+    "prerequisites": [
+      "neural-networks"
+    ],
+    "definition": "Activation functions introduce nonlinearity into neural networks, enabling them to learn complex patterns beyond linear relationships. Without activation functions, stacking layers would still produce a linear model. Common activations: Sigmoid (maps to 0–1, used in output for binary classification), Tanh (maps to -1–1), ReLU (max(0,x) — fast, default for hidden layers), Leaky ReLU (prevents dying neurons), and GELU/Swish (used in transformers).",
+    "mathematics": {
+      "formulas": [
+        "ReLU(x) = max(0, x)",
+        "σ(x) = 1 / (1 + e⁻ˣ)",
+        "tanh(x) = (eˣ - e⁻ˣ) / (eˣ + e⁻ˣ)"
+      ],
+      "explanation": "ReLU is the most widely used: it is computationally cheap, avoids the vanishing gradient problem for positive values, but 'dies' (outputs 0) for negative inputs. Sigmoid squashes to (0,1) but suffers from vanishing gradients. Tanh is zero-centered but also saturates. Modern networks often use ReLU variants or GELU."
+    },
+    "visualization": {
+      "type": "activation-functions",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "neural-networks",
+      "backpropagation",
+      "logistic-regression"
+    ],
+    "nextConcepts": [
+      "backpropagation",
+      "cnn"
+    ],
+    "domain": "deep-learning",
+    "level": "basic",
+    "beginnerExplanation": "Mathematical switches applied at each neuron output that introduce non-linearity, allowing neural networks to learn intricate, curved patterns instead of just flat lines.",
+    "example": "ReLU (Rectified Linear Unit), which passes positive signals unchanged and silences negative signals to zero."
+  },
+  {
+    "id": "backpropagation",
+    "title": "Backpropagation",
+    "category": "Deep Learning",
+    "difficulty": "Advanced",
+    "icon": "🔄",
+    "color": "#ec4899",
+    "prerequisites": [
+      "neural-networks",
+      "gradient-descent",
+      "derivative"
+    ],
+    "definition": "Backpropagation (backward propagation of errors) is the algorithm used to efficiently compute gradients in neural networks. It applies the chain rule of calculus in reverse through the network: starting from the loss, it computes how much each weight contributed to the error by propagating gradients backward layer by layer. Combined with gradient descent, backpropagation enables training of deep networks. The forward pass computes predictions; the backward pass computes gradients; the optimizer updates weights.",
+    "mathematics": {
+      "formulas": [
+        "∂L/∂w = ∂L/∂ŷ · ∂ŷ/∂z · ∂z/∂w  (chain rule)",
+        "δₗ = δₗ₊₁ · Wₗ₊₁ᵀ ⊙ σ'(zₗ)",
+        "∂L/∂Wₗ = aₗ₋₁ᵀ · δₗ"
+      ],
+      "explanation": "The chain rule decomposes the gradient into a product of local derivatives. The error signal δ at layer l depends on the error from the next layer, the connecting weights, and the local activation derivative. This recursion makes gradient computation O(n) instead of the O(n²) of naive computation."
+    },
+    "visualization": {
+      "type": "backpropagation",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "neural-networks",
+      "gradient-descent",
+      "derivative",
+      "activation-functions"
+    ],
+    "nextConcepts": [
+      "cnn",
+      "rnn",
+      "transformer"
+    ],
+    "domain": "deep-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "The fundamental learning algorithm for neural networks that calculates how much each weight contributed to the final prediction error using the calculus chain rule, propagating corrections backward.",
+    "example": "Tracing a wrong answer on an exam back through each calculation step to adjust the student's formula weights."
+  },
+  {
+    "id": "cnn",
+    "title": "Convolutional Neural Networks",
+    "category": "Deep Learning",
+    "difficulty": "Advanced",
+    "icon": "🖼️",
+    "color": "#ec4899",
+    "prerequisites": [
+      "neural-networks",
+      "backpropagation"
+    ],
+    "definition": "Convolutional Neural Networks (CNNs) are specialized neural networks for processing grid-structured data like images. They use convolutional layers that slide learnable filters across the input to detect local patterns (edges, textures, shapes). Key components: convolutional layers (feature detection), pooling layers (downsampling), and fully connected layers (classification). CNNs exploit translation invariance and parameter sharing, dramatically reducing parameters compared to fully connected networks. They revolutionized computer vision.",
+    "mathematics": {
+      "formulas": [
+        "(f * g)(i,j) = ΣₘΣₙ f(m,n) · g(i-m, j-n)",
+        "output_size = (input - kernel + 2·padding) / stride + 1"
+      ],
+      "explanation": "Convolution (*) slides a kernel f over input g, computing element-wise products and summing. The output size depends on input size, kernel size, padding, and stride. A 3×3 kernel with stride 1 and padding 1 preserves spatial dimensions. Pooling (max or average) reduces spatial dimensions while retaining important features."
+    },
+    "visualization": {
+      "type": "cnn",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "neural-networks",
+      "backpropagation",
+      "activation-functions"
+    ],
+    "nextConcepts": [
+      "rnn",
+      "attention"
+    ],
+    "domain": "deep-learning",
+    "level": "advanced",
+    "beginnerExplanation": "Convolutional Neural Networks use sliding spatial filters to detect local features like edges, textures, and shapes, making them the gold standard for computer vision.",
+    "example": "Autonomous vehicle vision systems identifying pedestrians, lane boundaries, and stop signs in video feeds."
+  },
+  {
+    "id": "rnn",
+    "title": "Recurrent Neural Networks",
+    "category": "Deep Learning",
+    "difficulty": "Advanced",
+    "icon": "🔁",
+    "color": "#ec4899",
+    "prerequisites": [
+      "neural-networks",
+      "backpropagation"
+    ],
+    "definition": "Recurrent Neural Networks (RNNs) process sequential data by maintaining a hidden state that serves as memory. At each time step, the network takes the current input and the previous hidden state to produce an output and a new hidden state. This allows RNNs to capture temporal dependencies in time series, text, speech, and other sequences. However, vanilla RNNs suffer from the vanishing gradient problem during backpropagation through time (BPTT), making them struggle with long-range dependencies.",
+    "mathematics": {
+      "formulas": [
+        "hₜ = tanh(W_hh · hₜ₋₁ + W_xh · xₜ + b_h)",
+        "yₜ = W_hy · hₜ + b_y"
+      ],
+      "explanation": "At each time step t, the hidden state hₜ is computed from the previous hidden state hₜ₋₁ and current input xₜ using shared weight matrices. The output yₜ is derived from the hidden state. Weight sharing across time steps is what gives RNNs the ability to handle variable-length sequences."
+    },
+    "visualization": {
+      "type": "rnn",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "neural-networks",
+      "lstm",
+      "backpropagation"
+    ],
+    "nextConcepts": [
+      "lstm",
+      "attention"
+    ],
+    "domain": "deep-learning",
+    "level": "advanced",
+    "beginnerExplanation": "Recurrent Neural Networks have feedback loops that act as internal memory, allowing them to process sequential data where previous inputs influence current outputs.",
+    "example": "Predicting the next word as you type a text message on your smartphone."
+  },
+  {
+    "id": "lstm",
+    "title": "Long Short-Term Memory",
+    "category": "Deep Learning",
+    "difficulty": "Advanced",
+    "icon": "🧬",
+    "color": "#ec4899",
+    "prerequisites": [
+      "rnn"
+    ],
+    "definition": "LSTM (Long Short-Term Memory) is an advanced RNN architecture designed to learn long-range dependencies by solving the vanishing gradient problem. It introduces a cell state (long-term memory) and three gates: the forget gate (decides what to discard), the input gate (decides what new information to store), and the output gate (decides what to output). The cell state acts as a highway for gradients, allowing information to flow across many time steps. LSTMs excel at machine translation, speech recognition, and time series forecasting.",
+    "mathematics": {
+      "formulas": [
+        "fₜ = σ(W_f · [hₜ₋₁, xₜ] + b_f)  (forget gate)",
+        "iₜ = σ(W_i · [hₜ₋₁, xₜ] + b_i)  (input gate)",
+        "Cₜ = fₜ ⊙ Cₜ₋₁ + iₜ ⊙ tanh(W_C · [hₜ₋₁, xₜ] + b_C)",
+        "oₜ = σ(W_o · [hₜ₋₁, xₜ] + b_o)  (output gate)",
+        "hₜ = oₜ ⊙ tanh(Cₜ)"
+      ],
+      "explanation": "The forget gate fₜ controls what to erase from the cell state. The input gate iₜ controls what new information to write. The cell state Cₜ is updated by forgetting old content and adding new. The output gate oₜ filters the cell state to produce the hidden state. The element-wise multiplication ⊙ by gate values (0 to 1) provides fine-grained control."
+    },
+    "visualization": {
+      "type": "lstm",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "rnn",
+      "attention",
+      "neural-networks"
+    ],
+    "nextConcepts": [
+      "attention",
+      "transformer"
+    ],
+    "domain": "deep-learning",
+    "level": "advanced",
+    "beginnerExplanation": "Long Short-Term Memory networks solve the vanishing gradient problem of simple RNNs using memory cells and gating mechanisms (forget, input, output gates) to retain information over long sequences.",
+    "example": "Translating a paragraph from English to French while keeping track of the subject's gender introduced 5 sentences earlier."
+  },
+  {
+    "id": "attention",
+    "title": "Attention Mechanism",
+    "category": "Deep Learning",
+    "difficulty": "Advanced",
+    "icon": "👁️",
+    "color": "#ec4899",
+    "prerequisites": [
+      "neural-networks",
+      "matrices"
+    ],
+    "definition": "Attention is a mechanism that allows models to focus on the most relevant parts of the input when producing each element of the output. Instead of compressing an entire sequence into a fixed-size vector, attention computes a weighted sum of all input representations, where the weights (attention scores) indicate relevance. Scaled dot-product attention uses queries, keys, and values. Multi-head attention runs multiple attention functions in parallel to capture different types of relationships. Attention is the core innovation behind Transformers.",
+    "mathematics": {
+      "formulas": [
+        "Attention(Q, K, V) = softmax(QKᵀ / √d_k) V",
+        "score(q, k) = qᵀk / √d_k",
+        "MultiHead(Q,K,V) = Concat(head₁,...,head_h) W_O"
+      ],
+      "explanation": "Queries Q, Keys K, and Values V are linear projections of the input. The dot product QKᵀ measures similarity between queries and keys. Dividing by √d_k prevents the softmax from becoming too peaked. The softmax produces attention weights that are used to take a weighted average of the values. Multi-head attention learns multiple attention patterns simultaneously."
+    },
+    "visualization": {
+      "type": "attention",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "transformer",
+      "lstm",
+      "neural-networks"
+    ],
+    "nextConcepts": [
+      "transformer"
+    ],
+    "domain": "deep-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "A mechanism that dynamically calculates relevance scores, enabling models to focus intensely on the most critical words or pixels regardless of where they appear in the sequence.",
+    "example": "When translating 'The animal didn't cross the street because it was too tired', attention links 'it' directly to 'animal' rather than 'street'."
+  },
+  {
+    "id": "transformer",
+    "title": "Transformer",
+    "category": "Deep Learning",
+    "difficulty": "Advanced",
+    "icon": "🤖",
+    "color": "#ec4899",
+    "prerequisites": [
+      "attention",
+      "neural-networks",
+      "backpropagation"
+    ],
+    "definition": "The Transformer is an architecture that relies entirely on self-attention mechanisms, dispensing with recurrence and convolutions. Introduced in 'Attention Is All You Need' (2017), it processes all positions in parallel, making it highly efficient on modern hardware. Key components: multi-head self-attention, positional encoding (since there is no inherent sequence order), layer normalization, and feedforward networks. Transformers power GPT, BERT, T5, Vision Transformers (ViT), and virtually all state-of-the-art models in NLP and increasingly in computer vision.",
+    "mathematics": {
+      "formulas": [
+        "PE(pos, 2i) = sin(pos / 10000^(2i/d))",
+        "PE(pos, 2i+1) = cos(pos / 10000^(2i/d))",
+        "FFN(x) = max(0, xW₁ + b₁)W₂ + b₂"
+      ],
+      "explanation": "Positional encodings inject position information using sinusoidal functions at different frequencies, allowing the model to distinguish word order. The feedforward network (FFN) applies two linear transformations with a ReLU activation, processing each position independently. Combined with attention and residual connections, these components form the Transformer block."
+    },
+    "visualization": {
+      "type": "transformer",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "attention",
+      "neural-networks",
+      "backpropagation"
+    ],
+    "nextConcepts": [],
+    "domain": "deep-learning",
+    "level": "advanced",
+    "beginnerExplanation": "A revolutionary deep learning architecture based entirely on self-attention mechanisms, processing entire text sequences in parallel rather than step-by-step.",
+    "example": "Large language models like GPT, Claude, and Gemini generating coherent essays and code."
+  },
+  {
+    "id": "overfitting",
+    "title": "Overfitting",
+    "category": "Evaluation",
+    "difficulty": "Intermediate",
+    "icon": "📈",
+    "color": "#f97316",
+    "prerequisites": [
+      "machine-learning"
+    ],
+    "definition": "Overfitting occurs when a model learns the training data too well — including its noise and random fluctuations — and fails to generalize to new, unseen data. An overfit model has high accuracy on training data but poor performance on test data. Signs include a large gap between training and validation loss. Remedies include: more training data, regularization (L1, L2, dropout), early stopping, data augmentation, simpler models, cross-validation, and ensemble methods. Overfitting is one of the central challenges in machine learning.",
+    "mathematics": {
+      "formulas": [
+        "E_train << E_test  (overfitting signal)",
+        "L_reg = L + λ Σ wᵢ²  (L2 regularization)",
+        "L_reg = L + λ Σ |wᵢ|  (L1 regularization)"
+      ],
+      "explanation": "When training error E_train is much lower than test error E_test, the model is overfitting. L2 regularization penalizes large weights, encouraging smoother functions. L1 regularization promotes sparsity by driving some weights to exactly zero. The hyperparameter λ controls the regularization strength."
+    },
+    "visualization": {
+      "type": "overfitting",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "underfitting",
+      "bias-variance",
+      "cross-validation"
+    ],
+    "nextConcepts": [
+      "underfitting",
+      "bias-variance",
+      "cross-validation"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "When a model memorizes the training data—including random noise and quirks—too closely, performing great on training data but failing on new, unseen data.",
+    "example": "A student memorizing exact practice exam answers instead of learning the concepts, then failing when given slightly different questions on the real exam."
+  },
+  {
+    "id": "underfitting",
+    "title": "Underfitting",
+    "category": "Evaluation",
+    "difficulty": "Intermediate",
+    "icon": "📉",
+    "color": "#f97316",
+    "prerequisites": [
+      "machine-learning"
+    ],
+    "definition": "Underfitting occurs when a model is too simple to capture the underlying patterns in the data. Both training and test performance are poor. The model has high bias — it makes strong assumptions that don't match reality. Causes include: using a model with too few parameters, excessive regularization, insufficient training time, or poor feature selection. Remedies include increasing model complexity, adding more features, reducing regularization, training longer, or using more expressive architectures.",
+    "mathematics": {
+      "formulas": [
+        "E_train ≈ E_test ≈ high  (underfitting signal)",
+        "Bias = E[ŷ] - y_true"
+      ],
+      "explanation": "When both training and test errors are high, the model underfits. High bias means the model consistently misses the true relationship. The bias-variance decomposition helps diagnose whether errors come from underfitting (high bias) or overfitting (high variance)."
+    },
+    "visualization": {
+      "type": "underfitting",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "overfitting",
+      "bias-variance",
+      "machine-learning"
+    ],
+    "nextConcepts": [
+      "bias-variance",
+      "overfitting"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "When a model is too simple to capture the underlying pattern in the data, performing poorly on both training and test data.",
+    "example": "Attempting to fit a rigid straight line to data that follows a steep U-shaped curve."
+  },
+  {
+    "id": "bias-variance",
+    "title": "Bias-Variance Tradeoff",
+    "category": "Evaluation",
+    "difficulty": "Intermediate",
+    "icon": "⚖️",
+    "color": "#f97316",
+    "prerequisites": [
+      "overfitting",
+      "underfitting"
+    ],
+    "definition": "The bias-variance tradeoff is a fundamental concept describing the tension between two sources of prediction error. Bias is error from overly simplistic assumptions (underfitting). Variance is error from sensitivity to fluctuations in training data (overfitting). Total error = Bias² + Variance + Irreducible Noise. Simple models have high bias, low variance. Complex models have low bias, high variance. The sweet spot minimizes total error. This tradeoff guides model selection, regularization, and ensemble methods.",
+    "mathematics": {
+      "formulas": [
+        "E[(y - ŷ)²] = Bias(ŷ)² + Var(ŷ) + σ²",
+        "Bias(ŷ) = E[ŷ] - y",
+        "Var(ŷ) = E[(ŷ - E[ŷ])²]"
+      ],
+      "explanation": "The expected prediction error decomposes into three terms. Bias² measures how far the average prediction is from truth. Variance measures how much predictions vary across different training sets. σ² is irreducible noise inherent in the data. We cannot minimize bias and variance simultaneously — reducing one typically increases the other."
+    },
+    "visualization": {
+      "type": "bias-variance",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "overfitting",
+      "underfitting",
+      "cross-validation",
+      "random-forest"
+    ],
+    "nextConcepts": [
+      "cross-validation",
+      "evaluation-metrics"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "The fundamental tradeoff in ML: high bias causes underfitting (too rigid), while high variance causes overfitting (too sensitive to noise). The goal is to find the sweet spot.",
+    "example": "Choosing a polynomial degree that balances simplicity with capturing the real trend."
+  },
+  {
+    "id": "cross-validation",
+    "title": "Cross-Validation",
+    "category": "Evaluation",
+    "difficulty": "Intermediate",
+    "icon": "🔄",
+    "color": "#f97316",
+    "prerequisites": [
+      "machine-learning",
+      "overfitting"
+    ],
+    "definition": "Cross-validation is a robust technique for estimating how well a model generalizes to unseen data. K-Fold CV splits the data into K equal parts, trains on K-1 folds and validates on the remaining fold, rotating K times. The average performance across folds gives a reliable estimate. Variants include stratified K-fold (preserves class proportions), leave-one-out (K = n), and time-series CV (respects temporal order). Cross-validation is essential for model selection, hyperparameter tuning, and preventing overfitting.",
+    "mathematics": {
+      "formulas": [
+        "CV_score = (1/K) Σₖ Score(model_k, fold_k)",
+        "SE = σ_scores / √K"
+      ],
+      "explanation": "The cross-validation score is the average performance across K folds. The standard error SE estimates the uncertainty of this estimate. Larger K gives less bias but more variance in the estimate and higher computational cost. K=5 or K=10 are common choices that balance bias and variance."
+    },
+    "visualization": {
+      "type": "cross-validation",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "overfitting",
+      "bias-variance",
+      "evaluation-metrics"
+    ],
+    "nextConcepts": [
+      "evaluation-metrics"
+    ],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "A technique that splits data into multiple folds, repeatedly training on some folds and testing on the remaining fold to get a reliable estimate of real-world model accuracy.",
+    "example": "5-fold cross-validation training on 80% and testing on 20% five times, rotating the test fold each round."
+  },
+  {
+    "id": "evaluation-metrics",
+    "title": "Evaluation Metrics",
+    "category": "Evaluation",
+    "difficulty": "Intermediate",
+    "icon": "📊",
+    "color": "#f97316",
+    "prerequisites": [
+      "machine-learning",
+      "classification",
+      "regression"
+    ],
+    "definition": "Evaluation metrics quantify model performance and guide model selection. For classification: accuracy (overall correctness), precision (of predicted positives, how many are correct), recall/sensitivity (of actual positives, how many are found), F1-score (harmonic mean of precision and recall), and AUC-ROC (area under the receiver operating characteristic curve). For regression: MSE, RMSE, MAE, and R². Choosing the right metric depends on the problem: class imbalance favors F1 over accuracy; outlier sensitivity favors MAE over MSE.",
+    "mathematics": {
+      "formulas": [
+        "Precision = TP / (TP + FP)",
+        "Recall = TP / (TP + FN)",
+        "F1 = 2 · (Precision · Recall) / (Precision + Recall)",
+        "RMSE = √[(1/n) Σ (yᵢ - ŷᵢ)²]"
+      ],
+      "explanation": "Precision answers 'Of all items predicted positive, how many truly are?' Recall answers 'Of all truly positive items, how many were found?' F1 balances both — critical when classes are imbalanced. RMSE is in the same units as the target, making it interpretable. AUC-ROC measures discriminative ability across all classification thresholds."
+    },
+    "visualization": {
+      "type": "confusion-matrix",
+      "parameters": {}
+    },
+    "experiments": [],
+    "breakIt": [],
+    "challenges": [],
+    "debugging": [],
+    "relatedConcepts": [
+      "classification",
+      "regression",
+      "cross-validation",
+      "overfitting"
+    ],
+    "nextConcepts": [],
+    "domain": "machine-learning",
+    "level": "intermediate",
+    "beginnerExplanation": "Quantitative scores used to evaluate model performance beyond just accuracy, such as precision, recall, F1-score, and ROC-AUC.",
+    "example": "In cancer detection, prioritizing high Recall so that virtually zero malignant cases are missed, even if some benign cases require re-testing."
+  }
+]

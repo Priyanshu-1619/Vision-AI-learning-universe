@@ -1,0 +1,24 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all var(--transition);
+}
+
+.card--hoverable:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  transform: translateY(-2px);
+}
+
+.card--glow-cyan.card--hoverable:hover {
+  box-shadow: var(--glow-cyan);
+}
+
+.card--glow-purple.card--hoverable:hover {
+  box-shadow: var(--glow-purple);
+}
+
+.card--glow-blue.card--hoverable:hover {
+  box-shadow: var(--glow-blue);
+}

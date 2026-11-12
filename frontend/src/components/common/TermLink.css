@@ -1,0 +1,60 @@
+.term-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.term-link--inline {
+  color: var(--accent-icy, #65CFFF);
+  text-decoration: underline;
+  text-decoration-color: rgba(101, 207, 255, 0.4);
+  text-underline-offset: 3px;
+  font-weight: 500;
+}
+
+.term-link--inline:hover {
+  color: var(--accent-yellow, #FFD928);
+  text-decoration-color: var(--accent-yellow, #FFD928);
+  text-shadow: 0 0 10px rgba(255, 217, 40, 0.3);
+}
+
+.term-link--chip {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(22, 75, 255, 0.12);
+  border: 1px solid rgba(22, 75, 255, 0.28);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.term-link--chip:hover {
+  background: rgba(22, 75, 255, 0.25);
+  border-color: var(--accent-icy, #65CFFF);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(101, 207, 255, 0.25);
+}
+
+.term-link--badge {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 217, 40, 0.1);
+  border: 1px solid rgba(255, 217, 40, 0.3);
+  color: var(--accent-yellow, #FFD928);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.term-link--badge:hover {
+  background: rgba(255, 217, 40, 0.2);
+  box-shadow: 0 0 10px rgba(255, 217, 40, 0.3);
+}
+
+.term-link__icon {
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+

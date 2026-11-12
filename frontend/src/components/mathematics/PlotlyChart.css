@@ -1,0 +1,8 @@
+.plotly-chart {
+  width: 100%;
+  min-width: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #070b15;
+}
