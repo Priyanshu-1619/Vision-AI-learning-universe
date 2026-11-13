@@ -30,6 +30,9 @@ export default function App() {
           <Route path="/machine-learning" element={<MachineLearningPage />} />
           <Route path="/deep-learning" element={<DeepLearningPage />} />
           <Route path="/roadmap/:domain" element={<RoadmapPage />} />
+          <Route path="/roadmaps/:domain" element={<RoadmapPage />} />
+          <Route path="/roadmaps" element={<Navigate to="/roadmaps/data-science" replace />} />
+          <Route path="/roadmap" element={<Navigate to="/roadmap/data-science" replace />} />
           <Route path="/knowledge-graph" element={<KnowledgeGraphPage />} />
           <Route path="/concept-universe" element={<ConceptUniversePage />} />
           <Route path="/laboratory" element={<LaboratoryPage />} />

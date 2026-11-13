@@ -1,185 +1,252 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Layers } from 'lucide-react';
 import {
-  CheckCircle2,
-  Clock,
-  Circle,
-  RotateCcw,
-  Sparkles,
-  ArrowRight,
-  ExternalLink,
-  Layers,
-} from 'lucide-react';
-import { useConcepts } from '../../hooks/useConcepts';
-import { markConceptExplored } from '../../concept-engine/ConceptEngine';
-import Card from '../common/Card';
-import Badge from '../common/Badge';
-import Button from '../common/Button';
+  ROADMAPS_DATA,
+  getTopicsForDomainAndLevel,
+  getTopicById,
+} from '../../data/roadmapsData';
+import { getMathTopicById } from '../../data/mathematicsData';
+import { useRoadmapProgress } from '../../hooks/useRoadmapProgress';
+import { fetchRoadmap } from '../../api/client';
+import RoadmapHeader from './RoadmapHeader';
+import RoadmapLevelSelector from './RoadmapLevelSelector';
+import RoadmapRecommendedCard from './RoadmapRecommendedCard';
+import RoadmapFilterToolbar from './RoadmapFilterToolbar';
+import RoadmapTopicCard from './RoadmapTopicCard';
+import RoadmapTopicDetailModal from './RoadmapTopicDetailModal';
+import RoadmapMathModal from './RoadmapMathModal';
 import Loading from '../common/Loading';
 import './Roadmap.css';
 
 const DOMAIN_METADATA = {
   'data-science': {
     title: 'Data Science Roadmap',
-    description: 'Master data ingestion, statistical thinking, probability distributions, and feature pipelines.',
+    description:
+      'Master data ingestion, statistical thinking, probability distributions, data wrangling, feature engineering, and predictive pipelines.',
     accent: 'var(--ds-accent, #06b6d4)',
     glow: 'var(--ds-glow, rgba(6, 182, 212, 0.15))',
   },
   'machine-learning': {
     title: 'Machine Learning Roadmap',
-    description: 'From classic regression to ensemble methods, loss optimization, and robust evaluation.',
+    description:
+      'From classic regression and classification to ensemble methods, clustering, loss optimization, and robust model evaluation.',
     accent: 'var(--ml-accent, #164BFF)',
     glow: 'var(--ml-glow, rgba(22, 75, 255, 0.15))',
   },
   'deep-learning': {
     title: 'Deep Learning Roadmap',
-    description: 'Journey from single perceptrons and forward propagation to transformers and modern attention.',
+    description:
+      'Journey from single perceptrons and forward propagation to CNNs, sequence modeling, transformers, and modern attention architectures.',
     accent: 'var(--dl-accent, #8b5cf6)',
     glow: 'var(--dl-glow, rgba(139, 92, 246, 0.15))',
   },
 };
 
-const LEVELS = [
-  { id: 'basic', label: 'Basic Foundations' },
-  { id: 'intermediate', label: 'Intermediate Core' },
-  { id: 'advanced', label: 'Advanced Specialization' },
-];
-
 export default function Roadmap() {
   const { domain: paramDomain } = useParams();
   const navigate = useNavigate();
-  const { concepts: allConcepts, loading } = useConcepts();
 
+  // Validate or fallback to data-science
   const domain = DOMAIN_METADATA[paramDomain] ? paramDomain : 'data-science';
   const meta = DOMAIN_METADATA[domain];
 
+  // Selected proficiency tier: basic, intermediate, advanced
   const [selectedLevel, setSelectedLevel] = useState('basic');
-  const [roadmapProgress, setRoadmapProgress] = useState(() => {
-    try {
-      const raw = localStorage.getItem(`ailu_roadmap_${domain}_basic`);
-      return raw ? JSON.parse(raw) : {};
-    } catch {
-      return {};
-    }
-  });
 
-  const storageKey = `ailu_roadmap_${domain}_${selectedLevel}`;
+  // Filter toolbar state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
 
-  const handleSelectLevel = (newLevel) => {
-    setSelectedLevel(newLevel);
-    try {
-      const raw = localStorage.getItem(`ailu_roadmap_${domain}_${newLevel}`);
-      setRoadmapProgress(raw ? JSON.parse(raw) : {});
-    } catch {
-      setRoadmapProgress({});
-    }
-  };
+  // Selected topic for detail modal
+  const [selectedTopicForModal, setSelectedTopicForModal] = useState(null);
 
-  // Sync external storage updates
+  // Mathematics Requirements Modal state
+  const [showMathModal, setShowMathModal] = useState(false);
+
+  // Progress Hook (loads and syncs learner progress cleanly)
+  const {
+    progressRecords,
+    getTopicStatus,
+    setTopicStatus,
+    cycleTopicStatus,
+    isPrerequisitesMet,
+    getMissingPrerequisites,
+    getMetricsForLevel,
+    getOverallMetrics,
+    getNextRecommendedTopic,
+    resetDomainProgress,
+    mathRecords,
+    getMathStatus,
+    setMathStatus,
+    cycleMathStatus,
+    isMathPrerequisitesMet,
+    getMissingMathPrerequisites,
+    getDomainMathMetrics,
+    resetDomainMathProgress,
+  } = useRoadmapProgress(domain);
+
+  // Optional: ping backend for latest roadmap payload (graceful fallback to local dataset)
   useEffect(() => {
-    const handleStorage = (e) => {
-      if (e.key === storageKey && e.newValue) {
-        try {
-          setRoadmapProgress(JSON.parse(e.newValue));
-        } catch {}
-      }
+    let isMounted = true;
+    fetchRoadmap(domain)
+      .then((data) => {
+        if (isMounted && data && data.topics) {
+          // backend is healthy and responding
+        }
+      })
+      .catch(() => {
+        // Fallback transparently to bundled dataset
+      });
+    return () => {
+      isMounted = false;
     };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, [storageKey]);
+  }, [domain]);
 
-  // Save progress helper
-  const updateStatus = useCallback((conceptId, newStatus) => {
-    setRoadmapProgress((prev) => {
-      const next = { ...prev, [conceptId]: newStatus };
-      try {
-        localStorage.setItem(storageKey, JSON.stringify(next));
-      } catch (err) {
-        console.warn('Roadmap storage error:', err);
-      }
-      return next;
+  // Reset filters when domain or level changes
+  const [prevDomainAndLevel, setPrevDomainAndLevel] = useState(`${domain}:${selectedLevel}`);
+  if (prevDomainAndLevel !== `${domain}:${selectedLevel}`) {
+    setPrevDomainAndLevel(`${domain}:${selectedLevel}`);
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setStatusFilter('all');
+  }
+
+  // Level topics
+  const levelTopics = useMemo(() => {
+    return getTopicsForDomainAndLevel(domain, selectedLevel);
+  }, [domain, selectedLevel]);
+
+  // Categories present in this level
+  const categories = useMemo(() => {
+    const set = new Set();
+    levelTopics.forEach((t) => {
+      if (t.category) set.add(t.category);
     });
+    return Array.from(set).sort();
+  }, [levelTopics]);
 
-    if (newStatus === 2) {
-      markConceptExplored(conceptId);
-    }
-  }, [storageKey]);
-
-  // Cycle status: 0 (Not Started) -> 1 (In Progress) -> 2 (Completed) -> 0
-  const handleCycleStatus = (conceptId) => {
-    const current = roadmapProgress[conceptId] ?? 0;
-    const next = (current + 1) % 3;
-    updateStatus(conceptId, next);
-  };
-
-  // Reset progress for this level
-  const handleReset = () => {
-    if (window.confirm(`Reset progress for ${meta.title} (${selectedLevel})?`)) {
-      setRoadmapProgress({});
-      try {
-        localStorage.removeItem(storageKey);
-      } catch {}
-    }
-  };
-
-  // Concepts in domain
-  const domainConcepts = useMemo(() => {
-    return allConcepts.filter((c) => {
-      if (c.domain) return c.domain === domain;
-      if (domain === 'data-science') {
-        return ['Foundations', 'Mathematics', 'Data Science'].includes(c.category);
+  // Filtered topics according to search, category, and status
+  const filteredTopics = useMemo(() => {
+    return levelTopics.filter((topic) => {
+      // Category filter
+      if (selectedCategory && selectedCategory !== 'all' && topic.category !== selectedCategory) {
+        return false;
       }
-      if (domain === 'deep-learning') {
-        return c.category === 'Deep Learning';
-      }
-      return !['Foundations', 'Mathematics', 'Data Science', 'Deep Learning'].includes(c.category);
-    });
-  }, [allConcepts, domain]);
-
-  // Concepts in current selected level
-  const levelConcepts = useMemo(() => {
-    return domainConcepts.filter((c) => {
-      const lvl = c.level || (c.difficulty === 'Beginner' ? 'basic' : c.difficulty === 'Advanced' ? 'advanced' : 'intermediate');
-      return lvl === selectedLevel;
-    });
-  }, [domainConcepts, selectedLevel]);
-
-  // Progress metrics
-  const { completedCount, inProgressCount, totalCount, progressPercent } = useMemo(() => {
-    let completed = 0;
-    let inProgress = 0;
-    const total = levelConcepts.length;
-    for (const c of levelConcepts) {
-      const st = roadmapProgress[c.id] ?? 0;
-      if (st === 2) completed++;
-      else if (st === 1) inProgress++;
-    }
-    const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
-    return {
-      completedCount: completed,
-      inProgressCount: inProgress,
-      totalCount: total,
-      progressPercent: percent,
-    };
-  }, [levelConcepts, roadmapProgress]);
-
-  // Find next recommended concept
-  const nextRecommended = useMemo(() => {
-    for (const c of levelConcepts) {
-      const st = roadmapProgress[c.id] ?? 0;
-      if (st !== 2) {
-        // Check if prerequisites in this domain are completed
-        const prereqs = c.prerequisites || [];
-        const allPrereqsDone = prereqs.every((pid) => (roadmapProgress[pid] ?? 0) === 2);
-        if (allPrereqsDone || prereqs.length === 0) {
-          return c;
+      // Status filter
+      if (statusFilter && statusFilter !== 'all') {
+        const currentStatus = getTopicStatus(topic.id);
+        if (currentStatus !== statusFilter) {
+          return false;
         }
       }
-    }
-    return levelConcepts.find((c) => (roadmapProgress[c.id] ?? 0) !== 2) || null;
-  }, [levelConcepts, roadmapProgress]);
+      // Search query
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase().trim();
+        const matchTitle = topic.title?.toLowerCase().includes(q);
+        const matchDesc = topic.description?.toLowerCase().includes(q);
+        const matchCat = topic.category?.toLowerCase().includes(q);
+        const matchTags = topic.tags?.some((tag) => tag.toLowerCase().includes(q));
+        const matchDict = topic.dictionaryTerms?.some((term) => term.toLowerCase().includes(q));
+        if (!matchTitle && !matchDesc && !matchCat && !matchTags && !matchDict) {
+          return false;
+        }
+      }
+      return true;
+    });
+  }, [levelTopics, selectedCategory, statusFilter, searchQuery, getTopicStatus]);
 
-  if (loading) return <Loading text="Loading roadmap..." />;
+  // Metrics for level selector
+  const levelMetrics = useMemo(() => {
+    return {
+      basic: getMetricsForLevel('basic'),
+      intermediate: getMetricsForLevel('intermediate'),
+      advanced: getMetricsForLevel('advanced'),
+    };
+  }, [getMetricsForLevel]);
+
+  // Overall domain metrics
+  const overallMetrics = useMemo(() => {
+    return getOverallMetrics();
+  }, [getOverallMetrics]);
+
+  // Mathematics domain metrics
+  const mathMetrics = useMemo(() => {
+    return getDomainMathMetrics();
+  }, [getDomainMathMetrics]);
+
+  // Next recommended topic in this level
+  const nextRecommended = useMemo(() => {
+    return getNextRecommendedTopic(levelTopics);
+  }, [levelTopics, getNextRecommendedTopic]);
+
+  // Prerequisite topic entities for modal display
+  const modalPrereqTopics = useMemo(() => {
+    if (!selectedTopicForModal || !selectedTopicForModal.prerequisites) return [];
+    return selectedTopicForModal.prerequisites
+      .map((prereqId) => getTopicById(prereqId))
+      .filter(Boolean);
+  }, [selectedTopicForModal]);
+
+  // Action handlers
+  const handleStartLesson = useCallback(
+    (topic) => {
+      // Automatically advance status to in-progress if not-started
+      const current = getTopicStatus(topic.id);
+      if (current === 'not-started') {
+        setTopicStatus(topic.id, 'in-progress');
+      }
+      if (topic.lessonRoute) {
+        navigate(topic.lessonRoute);
+      } else {
+        navigate(`/concept/${topic.slug}`);
+      }
+    },
+    [getTopicStatus, setTopicStatus, navigate]
+  );
+
+  const handleLaunchVisualization = useCallback(
+    (vizId) => {
+      if (vizId === 'neural-network-flow' || vizId.includes('neural')) {
+        navigate('/concept/neural-networks');
+      } else {
+        navigate('/laboratory');
+      }
+    },
+    [navigate]
+  );
+
+  const handleOpenDictionary = useCallback(
+    (term) => {
+      navigate(`/dictionary?search=${encodeURIComponent(term)}`);
+    },
+    [navigate]
+  );
+
+  const handleOpenProject = useCallback(
+    (projectId) => {
+      if (projectId.startsWith('mission')) {
+        navigate('/missions');
+      } else {
+        navigate('/laboratory');
+      }
+    },
+    [navigate]
+  );
+
+  const handleResetClick = useCallback(() => {
+    const confirmed = window.confirm(
+      `Reset all learning progress for ${meta.title}?\n\nThis will reset all topic statuses across Basic, Intermediate, and Advanced tiers to "Not Started".`
+    );
+    if (confirmed) {
+      resetDomainProgress();
+    }
+  }, [meta.title, resetDomainProgress]);
+
+  if (!ROADMAPS_DATA[domain]) {
+    return <Loading text="Loading roadmap..." />;
+  }
 
   return (
     <div
@@ -189,203 +256,136 @@ export default function Roadmap() {
         '--rd-glow': meta.glow,
       }}
     >
-      {/* Header Banner */}
-      <header className="roadmap__header">
-        <div className="roadmap__header-main">
-          <div className="roadmap__badge-row">
-            <Badge text="Structured Roadmap" color={meta.accent} size="md" />
-            <span className="roadmap__meta-item">
-              Domain: <strong>{meta.title}</strong>
-            </span>
-          </div>
+      {/* 1. Header Banner & Domain Switcher */}
+      <RoadmapHeader
+        domain={domain}
+        meta={meta}
+        overallMetrics={overallMetrics}
+        mathMetrics={mathMetrics}
+        onOpenMathRequirements={() => setShowMathModal(true)}
+        onResetClick={handleResetClick}
+      />
 
-          <h1 className="roadmap__title">{meta.title}</h1>
-          <p className="roadmap__desc">{meta.description}</p>
+      {/* 2. Proficiency Tier Cards */}
+      <RoadmapLevelSelector
+        selectedLevel={selectedLevel}
+        onSelectLevel={setSelectedLevel}
+        levelMetrics={levelMetrics}
+        accentColor={meta.accent}
+      />
 
-          {/* Overall Progress Bar */}
-          <div className="roadmap__progress-box">
-            <div className="roadmap__progress-head">
-              <span className="roadmap__progress-label">
-                Level Progress: <strong>{completedCount}</strong> completed · <strong>{inProgressCount}</strong> in progress of {totalCount}
-              </span>
-              <span className="roadmap__progress-val">{progressPercent}%</span>
-            </div>
-            <div className="roadmap__progress-track">
-              <div
-                className="roadmap__progress-fill"
-                style={{ width: `${progressPercent}%`, background: meta.accent }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="roadmap__header-actions">
-          <Button variant="ghost" icon={RotateCcw} onClick={handleReset} title="Reset Progress">
-            Reset
-          </Button>
-          <Button
-            variant="secondary"
-            icon={Layers}
-            onClick={() => navigate(`/${domain}`)}
-          >
-            Domain Overview
-          </Button>
-        </div>
-      </header>
-
-      {/* Level Tabs */}
-      <nav className="roadmap__tabs" role="tablist">
-        {LEVELS.map((lvl) => {
-          const isActive = selectedLevel === lvl.id;
-          return (
-            <button
-              key={lvl.id}
-              type="button"
-              className={`roadmap-tab ${isActive ? 'roadmap-tab--active' : ''}`}
-              onClick={() => handleSelectLevel(lvl.id)}
-            >
-              {lvl.label}
-            </button>
-          );
-        })}
-      </nav>
-
-      {/* Next Recommended Concept Section */}
+      {/* 3. Next Recommended Topic Card */}
       {nextRecommended && (
-        <section className="roadmap__recommended">
-          <Card className="recommended-card" hoverable={false}>
-            <div className="recommended-card__head">
-              <div className="recommended-card__badge">
-                <Sparkles size={14} style={{ color: meta.accent }} />
-                <span>Next Recommended Concept</span>
-              </div>
-              <Badge text={nextRecommended.category} color={meta.accent} size="sm" />
-            </div>
-
-            <div className="recommended-card__body">
-              <span className="recommended-card__icon">{nextRecommended.icon}</span>
-              <div>
-                <h3 className="recommended-card__title">{nextRecommended.title}</h3>
-                <p className="recommended-card__definition">{nextRecommended.definition}</p>
-              </div>
-            </div>
-
-            <div className="recommended-card__footer">
-              <Button
-                icon={ArrowRight}
-                onClick={() => navigate(`/concept/${nextRecommended.id}`)}
-                style={{ background: meta.accent, color: '#050814' }}
-              >
-                Learn Concept Theory
-              </Button>
-            </div>
-          </Card>
-        </section>
+        <RoadmapRecommendedCard
+          topic={nextRecommended}
+          status={getTopicStatus(nextRecommended.id)}
+          accentColor={meta.accent}
+          onOpenTopic={setSelectedTopicForModal}
+          onStartLearning={handleStartLesson}
+        />
       )}
 
-      {/* Checklist Grid */}
-      <section className="roadmap__checklist">
-        <div className="roadmap__checklist-header">
-          <h2 className="section-title">Concept Milestones ({levelConcepts.length})</h2>
-          <div className="roadmap__legend">
-            <span className="legend-item">
-              <Circle size={12} color="#64748b" /> Not Started
-            </span>
-            <span className="legend-item">
-              <Clock size={12} color="#f59e0b" /> In Progress
-            </span>
-            <span className="legend-item">
-              <CheckCircle2 size={12} color="#10b981" /> Completed
-            </span>
-          </div>
-        </div>
+      {/* 4. Filter, Search, and Status Toolbar */}
+      <RoadmapFilterToolbar
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        selectedCategory={selectedCategory}
+        onCategoryChange={setSelectedCategory}
+        categories={categories}
+        statusFilter={statusFilter}
+        onStatusFilterChange={setStatusFilter}
+        totalCount={levelTopics.length}
+        filteredCount={filteredTopics.length}
+      />
 
-        {levelConcepts.length === 0 ? (
+      {/* 5. Topic Checklist Grid */}
+      <section className="roadmap__grid-section" aria-label="Curriculum Topics">
+        {filteredTopics.length === 0 ? (
           <div className="roadmap__empty">
-            <p>No concepts found for this roadmap tier.</p>
+            <Layers size={32} style={{ color: 'var(--text-secondary)', marginBottom: '8px' }} />
+            <p>No topics match your current search or status filter.</p>
+            <button
+              type="button"
+              className="roadmap-toolbar__reset-link"
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('all');
+                setStatusFilter('all');
+              }}
+            >
+              Clear all filters
+            </button>
           </div>
         ) : (
-          <div className="roadmap-items-list">
-            {levelConcepts.map((item, index) => {
-              const status = roadmapProgress[item.id] ?? 0;
-              const isCompleted = status === 2;
-              const isInProgress = status === 1;
+          <div className="roadmap-grid">
+            {filteredTopics.map((topic) => {
+              const status = getTopicStatus(topic.id);
+              const prereqMet = isPrerequisitesMet(topic);
+              const missingPrereqs = prereqMet ? [] : getMissingPrerequisites(topic);
+              const mathPrereqMet = isMathPrerequisitesMet(topic);
+              const missingMath = mathPrereqMet
+                ? []
+                : getMissingMathPrerequisites(topic).map(
+                    (mid) => getMathTopicById(mid)?.title || mid
+                  );
 
               return (
-                <div
-                  key={item.id}
-                  className={`roadmap-item ${isCompleted ? 'roadmap-item--completed' : ''} ${
-                    isInProgress ? 'roadmap-item--in-progress' : ''
-                  }`}
-                  onClick={() => handleCycleStatus(item.id)}
-                >
-                  {/* Status Indicator Button */}
-                  <button
-                    type="button"
-                    className="roadmap-item__status-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCycleStatus(item.id);
-                    }}
-                    title="Click to cycle status"
-                  >
-                    {isCompleted ? (
-                      <CheckCircle2 size={22} className="status-icon status-icon--completed" />
-                    ) : isInProgress ? (
-                      <Clock size={22} className="status-icon status-icon--in-progress" />
-                    ) : (
-                      <Circle size={22} className="status-icon status-icon--not-started" />
-                    )}
-                  </button>
-
-                  {/* Step Index & Icon */}
-                  <span className="roadmap-item__index">#{index + 1}</span>
-                  <span className="roadmap-item__icon">{item.icon}</span>
-
-                  {/* Content */}
-                  <div className="roadmap-item__content">
-                    <div className="roadmap-item__title-row">
-                      <h4 className="roadmap-item__title">{item.title}</h4>
-                      <span className="roadmap-item__status-tag">
-                        {isCompleted ? 'Completed' : isInProgress ? 'In Progress' : 'Not Started'}
-                      </span>
-                    </div>
-
-                    <p className="roadmap-item__desc">
-                      {item.definition?.slice(0, 110)}{item.definition?.length > 110 ? '…' : ''}
-                    </p>
-
-                    {/* Prerequisites */}
-                    {item.prerequisites && item.prerequisites.length > 0 && (
-                      <div className="roadmap-item__prereqs">
-                        <span className="prereqs-label">Prerequisites:</span>
-                        {item.prerequisites.map((prereqId) => (
-                          <span key={prereqId} className="prereq-chip">
-                            {prereqId}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Link Out to Detail */}
-                  <button
-                    type="button"
-                    className="roadmap-item__view-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(`/concept/${item.id}`);
-                    }}
-                    title="View Concept Theory"
-                  >
-                    <ExternalLink size={16} />
-                  </button>
-                </div>
+                <RoadmapTopicCard
+                  key={topic.id}
+                  topic={topic}
+                  status={status}
+                  isPrereqMet={prereqMet}
+                  missingPrereqNames={missingPrereqs}
+                  isMathPrereqMet={mathPrereqMet}
+                  missingMathNames={missingMath}
+                  accentColor={meta.accent}
+                  onCycleStatus={cycleTopicStatus}
+                  onOpenDetails={setSelectedTopicForModal}
+                  onStartLesson={handleStartLesson}
+                  onLaunchVisualization={handleLaunchVisualization}
+                  onOpenDictionary={handleOpenDictionary}
+                  onOpenProject={handleOpenProject}
+                  onOpenMathRequirements={() => setShowMathModal(true)}
+                />
               );
             })}
           </div>
         )}
       </section>
+
+      {/* 6. Topic Detail Drawer / Modal */}
+      {selectedTopicForModal && (
+        <RoadmapTopicDetailModal
+          topic={selectedTopicForModal}
+          status={getTopicStatus(selectedTopicForModal.id)}
+          prereqTopics={modalPrereqTopics}
+          allRecords={progressRecords}
+          mathRecords={mathRecords}
+          accentColor={meta.accent}
+          onClose={() => setSelectedTopicForModal(null)}
+          onSetStatus={setTopicStatus}
+          onCycleMathStatus={cycleMathStatus}
+          onStartLesson={handleStartLesson}
+          onLaunchVisualization={handleLaunchVisualization}
+          onOpenDictionary={handleOpenDictionary}
+          onOpenProject={handleOpenProject}
+          onOpenMathRequirements={() => setShowMathModal(true)}
+        />
+      )}
+
+      {/* 7. Dedicated Mathematics Requirements Modal */}
+      {showMathModal && (
+        <RoadmapMathModal
+          domain={domain}
+          meta={meta}
+          mathRecords={mathRecords}
+          getMathStatus={getMathStatus}
+          onCycleMathStatus={cycleMathStatus}
+          onSetMathStatus={setMathStatus}
+          onResetMathProgress={resetDomainMathProgress}
+          onClose={() => setShowMathModal(false)}
+        />
+      )}
     </div>
   );
 }

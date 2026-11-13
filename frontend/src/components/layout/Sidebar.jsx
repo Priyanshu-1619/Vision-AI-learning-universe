@@ -18,6 +18,7 @@ import {
   Target,
   ChevronLeft,
   ChevronRight,
+  Map,
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -39,6 +40,7 @@ const navSections = [
   {
     title: 'EXPLORE',
     items: [
+      { path: '/roadmaps/data-science', label: 'Learning Roadmaps', icon: Map },
       { path: '/knowledge-graph', label: 'Knowledge Graph', icon: Network },
       { path: '/concept-universe', label: 'Concept Universe', icon: Globe2 },
     ],

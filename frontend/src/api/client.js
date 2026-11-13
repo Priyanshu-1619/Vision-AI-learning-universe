@@ -72,6 +72,23 @@ export async function fetchDictionaryTerm(termId) {
   return request(`/dictionary/${encodeURIComponent(termId)}`);
 }
 
+export async function fetchRoadmapOverview() {
+  return request('/roadmaps');
+}
+
+export async function fetchRoadmap(domain, level = '') {
+  const qs = level ? `?level=${encodeURIComponent(level)}` : '';
+  return request(`/roadmaps/${encodeURIComponent(domain)}${qs}`);
+}
+
+export async function fetchRoadmapTopic(domain, topicId) {
+  return request(`/roadmaps/${encodeURIComponent(domain)}/topics/${encodeURIComponent(topicId)}`);
+}
+
+export async function fetchDomainMathematics(domain) {
+  return request(`/roadmaps/${encodeURIComponent(domain)}/math`);
+}
+
 export async function fetchConcept(id) {
   return request(`/concepts/${id}`);
 }

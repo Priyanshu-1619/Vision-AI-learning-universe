@@ -230,7 +230,75 @@
 }
 
 .domain-card__footer {
-  margin-top: 8px;
+  margin-top: 14px;
   display: flex;
+  gap: 8px;
   justify-content: flex-end;
+}
+
+.domain-card__footer button {
+  flex: 1;
+}
+
+.domain-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.domain-card__progress-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.domain-card__progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+}
+
+.domain-card__progress-label {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.domain-card__progress-stat {
+  color: #f1f5f9;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.domain-card__track {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.domain-card__fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.domain-card__math-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: #cbd5e1;
+  background: rgba(250, 204, 21, 0.06);
+  border: 1px solid rgba(250, 204, 21, 0.16);
+  padding: 4px 8px;
+  border-radius: 6px;
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.domain-card__math-badge strong {
+  color: var(--accent-yellow, #FACC15);
+  font-family: monospace;
 }

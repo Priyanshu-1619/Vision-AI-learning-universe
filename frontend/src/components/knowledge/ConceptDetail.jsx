@@ -37,7 +37,28 @@ import Badge from '../common/Badge';
 import Button from '../common/Button';
 import Loading from '../common/Loading';
 import VisualizationContainer from '../common/VisualizationContainer';
+import VisualizationEngine from '../visualization/VisualizationEngine';
+import { getVisualizationConfig } from '../visualization/visualizationRegistry';
 import './ConceptDetail.css';
+
+const CONCEPT_TO_VIZ = {
+  'neural-networks': 'artificial-neuron',
+  'artificial-neurons': 'artificial-neuron',
+  'perceptrons': 'artificial-neuron',
+  'activation-functions': 'activation-functions',
+  'forward-propagation': 'forward-propagation',
+  'backpropagation': 'backpropagation-gradients',
+  'linear-regression': 'linear-functions',
+  'statistics': 'descriptive-statistics',
+  'data-cleaning': 'descriptive-statistics',
+  'correlation': 'correlation-analysis',
+  'classification': 'perceptron-classifier',
+  'linear-algebra': 'vector-transformations',
+  'kmeans-clustering': 'kmeans-clustering',
+  'clustering': 'kmeans-clustering',
+  'knn': 'knn-classifier',
+  'gradient-descent': 'gradient-descent',
+};
 
 export default function ConceptDetail() {
   const { id } = useParams();
@@ -81,6 +102,12 @@ export default function ConceptDetail() {
     () => resolveConceptLinks(concept, concepts),
     [concept, concepts]
   );
+
+  const matchedVizTopic = useMemo(() => {
+    if (!concept?.id) return null;
+    const mapped = CONCEPT_TO_VIZ[concept.id] || concept.id;
+    return getVisualizationConfig(mapped) ? mapped : null;
+  }, [concept]);
 
   if (detailLoading || (!concept && listLoading)) {
     return <Loading text="Loading concept details..." />;
@@ -236,6 +263,17 @@ export default function ConceptDetail() {
               <p className="concept-detail__math-explanation">{mathExplanation}</p>
             )}
           </Card>
+
+          {/* Live Modular Visualization Engine */}
+          {matchedVizTopic && (
+            <div className="concept-detail__live-viz">
+              <div className="concept-detail__card-head" style={{ marginBottom: '14px' }}>
+                <Sparkles size={18} style={{ color: 'var(--accent-yellow, #FFD928)' }} />
+                <h2>Live Interactive Visualization</h2>
+              </div>
+              <VisualizationEngine topicId={matchedVizTopic} />
+            </div>
+          )}
 
           {/* Visualization Spec Preview */}
           <VisualizationContainer
