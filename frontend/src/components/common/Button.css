@@ -1,36 +1,50 @@
 .btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-family: 'Inter', sans-serif;
+  padding: 8px 16px;
+  border-radius: var(--radius-button, 6px);
+  font-family: var(--font-body);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
   border: 1px solid transparent;
   transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn--sm {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+.btn--lg {
+  padding: 12px 24px;
+  font-size: 1rem;
 }
 
 .btn--primary {
-  background: var(--accent-cyan);
-  color: #0a0e1a;
+  background: var(--accent-primary, #10B981);
+  color: #0D0F12;
+  font-weight: 600;
 }
 
 .btn--primary:hover {
-  background: #22d3ee;
-  box-shadow: var(--glow-cyan);
+  background: #059669;
+  transform: translateY(-1px);
 }
 
 .btn--secondary {
-  background: transparent;
+  background: var(--bg-surface);
   color: var(--text-primary);
-  border-color: var(--border);
+  border-color: var(--border-subtle);
 }
 
 .btn--secondary:hover {
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  background: var(--bg-surface-hover);
+  border-color: var(--border-focus);
+  color: #FFFFFF;
 }
 
 .btn--ghost {
@@ -40,5 +54,11 @@
 
 .btn--ghost:hover {
   color: var(--text-primary);
-  background: var(--surface-elevated);
+  background: var(--bg-surface-hover);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
 }

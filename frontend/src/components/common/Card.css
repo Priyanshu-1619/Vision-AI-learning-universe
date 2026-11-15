@@ -1,24 +1,27 @@
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  transition: all var(--transition);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card, 8px);
+  padding: 1.5rem;
+  transition: background-color var(--transition), border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .card--hoverable:hover {
-  border-color: rgba(6, 182, 212, 0.3);
+  background: var(--bg-surface-hover);
+  border-color: var(--border-focus);
   transform: translateY(-2px);
+  box-shadow: var(--shadow-card, 0 4px 18px rgba(0, 0, 0, 0.35));
 }
 
 .card--glow-cyan.card--hoverable:hover {
-  box-shadow: var(--glow-cyan);
+  border-color: var(--accent-blue);
 }
 
 .card--glow-purple.card--hoverable:hover {
-  box-shadow: var(--glow-purple);
+  border-color: var(--dl-accent);
 }
 
 .card--glow-blue.card--hoverable:hover {
-  box-shadow: var(--glow-blue);
+  border-color: var(--accent-primary);
 }

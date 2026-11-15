@@ -4,22 +4,22 @@ import './PlotlyChart.css';
 
 const DEFAULT_LAYOUT = {
   paper_bgcolor: 'rgba(0,0,0,0)',
-  plot_bgcolor: '#070b15',
+  plot_bgcolor: 'rgba(13, 15, 18, 0.8)',
   font: {
-    family: 'Inter, system-ui, sans-serif',
-    color: '#94a3b8',
+    family: "Inter, 'Plus Jakarta Sans', system-ui, sans-serif",
+    color: '#B0B7C3',
     size: 12,
   },
   margin: { t: 28, r: 18, b: 42, l: 48 },
   xaxis: {
-    gridcolor: 'rgba(148, 163, 184, 0.12)',
-    zerolinecolor: 'rgba(148, 163, 184, 0.28)',
-    tickcolor: '#475569',
+    gridcolor: 'rgba(38, 44, 54, 0.6)',
+    zerolinecolor: 'rgba(59, 68, 84, 0.8)',
+    tickcolor: '#7C8594',
   },
   yaxis: {
-    gridcolor: 'rgba(148, 163, 184, 0.12)',
-    zerolinecolor: 'rgba(148, 163, 184, 0.28)',
-    tickcolor: '#475569',
+    gridcolor: 'rgba(38, 44, 54, 0.6)',
+    zerolinecolor: 'rgba(59, 68, 84, 0.8)',
+    tickcolor: '#7C8594',
   },
   legend: {
     orientation: 'h',

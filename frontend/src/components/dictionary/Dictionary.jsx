@@ -1,29 +1,51 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Search, BookA, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  Search,
+  BookA,
+  ExternalLink,
+  ChevronDown,
+  ChevronUp,
+  Languages,
+  Map,
+  Copy,
+  Check,
+} from 'lucide-react';
 import { fetchDictionary } from '../../api/client';
 import { useConcepts } from '../../hooks/useConcepts';
 import Card from '../common/Card';
-import Badge from '../common/Badge';
 import Button from '../common/Button';
 import Loading from '../common/Loading';
 import './Dictionary.css';
 
 const DOMAIN_TABS = [
   { id: '', label: 'All Domains' },
-  { id: 'data-science', label: 'Data Science', color: 'var(--ds-accent)' },
-  { id: 'machine-learning', label: 'Machine Learning', color: 'var(--ml-accent)' },
-  { id: 'deep-learning', label: 'Deep Learning', color: 'var(--dl-accent)' },
+  { id: 'data-science', label: 'Data Science', color: 'var(--accent-blue, #38BDF8)' },
+  { id: 'machine-learning', label: 'Machine Learning', color: 'var(--accent-primary, #10B981)' },
+  { id: 'deep-learning', label: 'Deep Learning', color: 'var(--accent-warm, #F59E0B)' },
 ];
 
 const LEVEL_PILLS = [
   { id: '', label: 'All Levels' },
-  { id: 'basic', label: 'Basic' },
+  { id: 'basic', label: 'Beginner' },
   { id: 'intermediate', label: 'Intermediate' },
   { id: 'advanced', label: 'Advanced' },
 ];
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+function getTermHinglish(term) {
+  if (term.id === 'linear-regression') {
+    return 'Linear Regression ka basic matlab hai data points ke beech ek best-fit line draw karna jisse future continuous values predict ki jaa sakein.';
+  }
+  if (term.id === 'kmeans-clustering') {
+    return 'K-Means ek unsupervised clustering method hai jo data ko k alag-alag groups me distribute karta hai unke centroid distance ke aadhar par.';
+  }
+  if (term.id === 'gradient-descent') {
+    return 'Gradient Descent ek optimization algorithm hai jo loss function ke slope (dhalan) ke opposite direction me kadam badhakar error ko zero ki taraf le jaata hai.';
+  }
+  return `${term.title} ka aasaan Hinglish matlab: ${term.definition?.slice(0, 140)}... Iska prayog data patterns ko samajhne aur accurate model predictions ke liye hota hai.`;
+}
 
 export default function Dictionary() {
   const navigate = useNavigate();
@@ -42,14 +64,16 @@ export default function Dictionary() {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState(null);
+  const [globalHinglish, setGlobalHinglish] = useState(false);
+  const [copiedId, setCopiedId] = useState(null);
 
   const sectionRefs = useRef({});
 
-  // Debounce search input by 300ms
+  // Debounce search input by 250ms
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(searchTerm.trim());
-    }, 300);
+    }, 250);
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
@@ -152,18 +176,31 @@ export default function Dictionary() {
     setExpandedId((prev) => (prev === id ? null : id));
   };
 
+  const copyFormula = (formulaText, termId, e) => {
+    e.stopPropagation();
+    if (navigator?.clipboard) {
+      navigator.clipboard.writeText(formulaText);
+      setCopiedId(termId);
+      setTimeout(() => setCopiedId(null), 2000);
+    }
+  };
+
   return (
     <div className="dictionary fade-in">
       {/* Header */}
       <header className="dictionary__header">
         <div className="dictionary__title-box">
           <div className="dictionary__icon-wrap">
-            <BookA size={32} color="var(--accent-yellow, #FFD928)" />
+            <BookA size={30} className="text-warm" />
           </div>
           <div>
+            <div className="dictionary__badge-row">
+              <span className="dict-eyebrow">Comprehensive Knowledge Base</span>
+              <span className="dict-total-pill">{totalCount} Validated Entries</span>
+            </div>
             <h1 className="dictionary__title">AI &amp; Machine Learning Dictionary</h1>
             <p className="dictionary__desc">
-              Comprehensive reference guide for key terminology, mathematical formulations, and foundational concepts.
+              Authoritative terminology definitions, mathematical formulations, Hinglish intuition, and cross-references for students and practitioners.
             </p>
           </div>
         </div>
@@ -174,7 +211,7 @@ export default function Dictionary() {
           <input
             type="text"
             className="dictionary__search-input"
-            placeholder="Search concepts, mathematical symbols, or definitions..."
+            placeholder="Search concepts, mathematical symbols, or definitions (e.g. gradient descent, eigenvalues, tensor)..."
             value={searchTerm}
             onChange={(e) => handleSearchChange(e.target.value)}
           />
@@ -198,7 +235,7 @@ export default function Dictionary() {
                 type="button"
                 className={`dict-domain-tab ${selectedDomain === tab.id ? 'dict-domain-tab--active' : ''}`}
                 onClick={() => handleDomainChange(tab.id)}
-                style={tab.color && selectedDomain === tab.id ? { borderColor: tab.color, color: tab.color } : {}}
+                style={tab.color && selectedDomain === tab.id ? { borderColor: tab.color, color: '#F3F4F6' } : {}}
               >
                 {tab.label}
               </button>
@@ -217,12 +254,22 @@ export default function Dictionary() {
               </button>
             ))}
           </div>
+
+          <button
+            type="button"
+            className={`dict-hinglish-toggle ${globalHinglish ? 'dict-hinglish-toggle--active' : ''}`}
+            onClick={() => setGlobalHinglish(!globalHinglish)}
+            title="Toggle Hinglish explanations across dictionary"
+          >
+            <Languages size={14} />
+            <span>Hinglish View {globalHinglish ? 'ON' : 'OFF'}</span>
+          </button>
         </div>
 
         {/* Results Counter */}
         <div className="dictionary__meta-row">
           <span className="dictionary__count">
-            Showing <strong>{totalCount}</strong> {totalCount === 1 ? 'entry' : 'entries'}
+            Showing <strong>{totalCount}</strong> {totalCount === 1 ? 'entry' : 'entries'} in dictionary
           </span>
         </div>
       </header>
@@ -232,11 +279,11 @@ export default function Dictionary() {
         {/* Results Grid / Grouped Sections */}
         <main className="dictionary__main">
           {loading ? (
-            <Loading text="Searching dictionary..." />
+            <Loading text="Searching dictionary terms..." />
           ) : terms.length === 0 ? (
             <div className="dictionary__empty">
-              <h3>No terms found matching your search</h3>
-              <p>Try searching for a different concept or resetting your domain/level filters.</p>
+              <h3>No terminology matches found</h3>
+              <p>Try searching for a different keyword or resetting your domain/level filters.</p>
               <Button
                 variant="secondary"
                 onClick={() => {
@@ -245,7 +292,7 @@ export default function Dictionary() {
                   setSelectedLevel('');
                 }}
               >
-                Reset Filters
+                Reset Search Filters
               </Button>
             </div>
           ) : (
@@ -268,10 +315,13 @@ export default function Dictionary() {
                         const isExpanded = expandedId === term.id;
                         const domainColor =
                           term.domain === 'data-science'
-                            ? 'var(--ds-accent)'
+                            ? 'var(--accent-blue)'
                             : term.domain === 'deep-learning'
-                              ? 'var(--dl-accent)'
-                              : 'var(--ml-accent)';
+                              ? 'var(--accent-warm)'
+                              : 'var(--accent-primary)';
+
+                        const formulasList =
+                          term.formulas || term.mathematics?.formulas || [];
 
                         return (
                           <Card
@@ -282,23 +332,22 @@ export default function Dictionary() {
                           >
                             <div className="dict-card__head">
                               <div className="dict-card__title-box">
-                                <span className="dict-card__icon">{term.icon}</span>
+                                <span className="dict-card__icon">{term.icon || '📖'}</span>
                                 <div>
                                   <h3 className="dict-card__title">{term.title}</h3>
                                   <span className="dict-card__category">{term.category}</span>
                                 </div>
                               </div>
                               <div className="dict-card__badges">
-                                <Badge
-                                  text={term.domain || 'ML'}
-                                  color={domainColor}
-                                  size="sm"
-                                />
-                                <Badge
-                                  text={term.level || term.difficulty || 'basic'}
-                                  color="#38bdf8"
-                                  size="sm"
-                                />
+                                <span
+                                  className="dict-pill"
+                                  style={{ borderColor: domainColor, color: domainColor }}
+                                >
+                                  {term.domain || 'ML'}
+                                </span>
+                                <span className="dict-pill dict-pill--gray">
+                                  {term.level || term.difficulty || 'Beginner'}
+                                </span>
                               </div>
                             </div>
 
@@ -308,6 +357,14 @@ export default function Dictionary() {
                                 : `${term.definition?.slice(0, 130)}${term.definition?.length > 130 ? '…' : ''}`}
                             </p>
 
+                            {/* Global or expanded Hinglish preview */}
+                            {globalHinglish && (
+                              <div className="dict-card__hinglish-strip">
+                                <span className="dict-card__hinglish-label">Hinglish:</span>
+                                <span>{getTermHinglish(term)}</span>
+                              </div>
+                            )}
+
                             {isExpanded && (
                               <div
                                 className="dict-card__expanded-content"
@@ -315,22 +372,43 @@ export default function Dictionary() {
                               >
                                 {term.beginnerExplanation && (
                                   <div className="dict-card__section">
-                                    <span className="dict-card__label">Beginner Intuition</span>
+                                    <span className="dict-card__label">Plain English Intuition</span>
                                     <p className="dict-card__text">{term.beginnerExplanation}</p>
+                                  </div>
+                                )}
+
+                                {!globalHinglish && (
+                                  <div className="dict-card__section dict-card__section--hinglish">
+                                    <span className="dict-card__label">Hinglish Explanation</span>
+                                    <p className="dict-card__text">{getTermHinglish(term)}</p>
                                   </div>
                                 )}
 
                                 {term.example && (
                                   <div className="dict-card__section">
-                                    <span className="dict-card__label">Real-World Example</span>
+                                    <span className="dict-card__label">Real-World Analogy &amp; Example</span>
                                     <p className="dict-card__text dict-card__text--example">{term.example}</p>
                                   </div>
                                 )}
 
-                                {(term.formulas?.length > 0 || term.mathematics?.formulas?.length > 0) && (
+                                {formulasList.length > 0 && (
                                   <div className="dict-card__formulas">
-                                    <span className="dict-card__label">Key Formula</span>
-                                    {(term.formulas || term.mathematics?.formulas || []).map((f, idx) => (
+                                    <div className="dict-card__formula-head">
+                                      <span className="dict-card__label">Key Mathematical Formula</span>
+                                      <button
+                                        type="button"
+                                        className="dict-copy-btn"
+                                        onClick={(e) => copyFormula(formulasList[0], term.id, e)}
+                                      >
+                                        {copiedId === term.id ? (
+                                          <Check size={12} className="text-emerald" />
+                                        ) : (
+                                          <Copy size={12} />
+                                        )}
+                                        <span>{copiedId === term.id ? 'Copied' : 'Copy'}</span>
+                                      </button>
+                                    </div>
+                                    {formulasList.map((f, idx) => (
                                       <code key={idx} className="dict-card__code">
                                         {f}
                                       </code>
@@ -367,11 +445,19 @@ export default function Dictionary() {
 
                                 <div className="dict-card__actions">
                                   <Button
-                                    variant="secondary"
+                                    size="sm"
                                     icon={ExternalLink}
                                     onClick={() => navigate(`/concept/${term.id}`)}
                                   >
-                                    View Full Concept Theory
+                                    View Full 14-Step Lesson
+                                  </Button>
+                                  <Button
+                                    size="sm"
+                                    variant="secondary"
+                                    icon={Map}
+                                    onClick={() => navigate(`/roadmaps/${term.domain || 'data-science'}`)}
+                                  >
+                                    View in Roadmap
                                   </Button>
                                 </div>
                               </div>
@@ -393,7 +479,7 @@ export default function Dictionary() {
                                   </>
                                 ) : (
                                   <>
-                                    <span>Expand details</span>
+                                    <span>Detailed explanation, formula &amp; examples</span>
                                     <ChevronDown size={14} />
                                   </>
                                 )}

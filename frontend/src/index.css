@@ -1,48 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* ==========================================================================
+   Vision AI Learning Universe — Master Design System: Warm Dark Study
+   Clean, academic, student-friendly, and comfortable for extended study.
+   ========================================================================== */
 
 :root {
-  /* Space-inspired deep backgrounds */
-  --bg-deep: #050814;
-  --bg-primary: #080F24;
-  --bg-surface: #0B1633;
+  /* Canvas & Structural Backgrounds */
+  --bg-canvas: #0D0F12;
+  --bg-sidebar: #12151A;
+  --bg-surface: #171B22;
+  --bg-surface-hover: #1E232C;
 
-  /* New accent colors */
-  --accent-electric: #164BFF;
-  --accent-electric-light: #245BFF;
-  --accent-electric-dark: #102A66;
-  --accent-yellow: #FFD928;
-  --accent-icy: #65CFFF;
+  /* Borders & Dividers */
+  --border-subtle: #262C36;
+  --border-focus: #3B4454;
 
-  /* Domain-specific accents */
-  --ds-accent: #06b6d4;
-  --ds-glow: rgba(6, 182, 212, 0.15);
-  --ml-accent: #164BFF;
-  --ml-accent-alt: #FFD928;
-  --ml-glow: rgba(22, 75, 255, 0.15);
-  --dl-accent: #8b5cf6;
-  --dl-glow: rgba(139, 92, 246, 0.15);
+  /* High-Contrast Accessible Text */
+  --text-primary: #F3F4F6;
+  --text-secondary: #B0B7C3;
+  --text-muted: #7C8594;
 
-  --bg: #050814;
-  --surface: #0B1633;
-  --surface-elevated: #122044;
-  --border: #1a2a4a;
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --accent-cyan: #06b6d4;
-  --accent-blue: #3b82f6;
-  --accent-purple: #8b5cf6;
-  --accent-emerald: #10b981;
-  --accent-amber: #f59e0b;
-  --accent-red: #ef4444;
-  --accent-pink: #ec4899;
-  --accent-orange: #f97316;
+  /* Curated Warm Accents */
+  --accent-primary: #10B981;
+  --accent-warm: #F59E0B;
+  --accent-orange: #E84A27;
+  --accent-blue: #38BDF8;
+  --accent-purple: #A78BFA;
+
+  /* Domain Identifiers */
+  --ds-accent: #38BDF8;
+  --ds-glow: rgba(56, 189, 248, 0.12);
+  --ml-accent: #10B981;
+  --ml-glow: rgba(16, 185, 129, 0.12);
+  --dl-accent: #A78BFA;
+  --dl-glow: rgba(167, 139, 250, 0.12);
+
+  /* Status Colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* Backwards-Compatibility Aliases */
+  --bg: var(--bg-canvas);
+  --bg-deep: var(--bg-canvas);
+  --bg-primary: var(--bg-canvas);
+  --surface: var(--bg-surface);
+  --surface-elevated: var(--bg-surface-hover);
+  --border: var(--border-subtle);
+
+  /* Geometry & Radius Tokens */
+  --radius-card: 8px;
+  --radius-button: 6px;
+  --radius-input: 6px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Typography Stacks */
+  --font-heading: 'Newsreader', Georgia, serif;
+  --font-body: 'Inter', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Layout Measurements */
   --sidebar-width: 260px;
   --sidebar-collapsed: 72px;
   --topbar-height: 64px;
-  --transition: 0.2s ease;
-  --glow-cyan: 0 0 20px rgba(6, 182, 212, 0.15);
-  --glow-purple: 0 0 20px rgba(139, 92, 246, 0.15);
-  --glow-blue: 0 0 20px rgba(59, 130, 246, 0.15);
+  --transition: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-card: 0 4px 18px rgba(0, 0, 0, 0.35);
+  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.5);
 }
 
 *, *::before, *::after {
@@ -53,88 +77,134 @@
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg);
+  font-family: var(--font-body);
+  background-color: var(--bg-canvas);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Typography Rules */
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.015em;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 3.5vw, 2.75rem);
+  line-height: 1.25;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 2.5vw, 1.85rem);
+  line-height: 1.35;
+}
+
+h3 {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+
+h4 {
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+p {
+  margin-bottom: 0.75rem;
+  color: var(--text-secondary);
+}
+
+code, pre, kbd, samp, .font-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+/* Study Scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: var(--bg-canvas);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--surface-elevated);
-  border-radius: 3px;
+  background: var(--border-subtle);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-secondary);
+  background: var(--border-focus);
 }
 
-/* Global link styles */
+/* Selection */
+::selection {
+  background: rgba(16, 185, 129, 0.25);
+  color: var(--text-primary);
+}
+
+/* Links */
 a {
-  color: var(--accent-cyan);
+  color: var(--accent-blue);
   text-decoration: none;
   transition: color var(--transition);
 }
 
 a:hover {
-  color: var(--accent-blue);
+  color: #7dd3fc;
 }
 
-/* Selection */
-::selection {
-  background: rgba(6, 182, 212, 0.3);
-  color: var(--text-primary);
+/* Focus Visible */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
 }
 
-/* Utility classes */
-.gradient-text {
-  background: linear-gradient(135deg, var(--accent-icy), var(--accent-electric), var(--accent-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+/* Global Utility Classes */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.text-emerald { color: var(--accent-primary); }
+.text-amber { color: var(--accent-warm); }
+.text-orange { color: var(--accent-orange); }
+.text-blue { color: var(--accent-blue); }
+
+.bg-canvas { background-color: var(--bg-canvas); }
+.bg-surface { background-color: var(--bg-surface); }
+.bg-surface-hover { background-color: var(--bg-surface-hover); }
+
+.border-subtle { border: 1px solid var(--border-subtle); }
+.rounded-card { border-radius: var(--radius-card); }
+.rounded-btn { border-radius: var(--radius-button); }
 
 .fade-in {
-  animation: fadeIn 0.4s ease-out;
+  animation: fadeIn 0.25s ease-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(6, 182, 212, 0.1); }
-  50% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.2); }
-}
-
+/* Subtle Shimmer for Skeleton States */
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 
 .loading-shimmer {
-  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-elevated) 50%, var(--surface) 75%);
+  background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-surface-hover) 50%, var(--bg-surface) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
 }

@@ -1,47 +1,29 @@
 import { useMemo, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, X, LogOut, User } from 'lucide-react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { Search, X, LogOut, User, Sparkles, Menu, Compass } from 'lucide-react';
 import { useConcepts } from '../../hooks/useConcepts';
 import { useAuth } from '../../context/useAuth';
 import './TopBar.css';
 
-const routeLabels = {
-  '/': 'Home',
-  '/dashboard': 'Dashboard',
-  '/knowledge-graph': 'Knowledge Graph',
-  '/concept-universe': 'Concept Universe',
-  '/laboratory': 'Laboratory',
-  '/mathematics': 'Mathematics',
-  '/inside-model': 'Inside the Model',
-  '/break-it': 'Break It!',
-  '/what-if': 'What If?',
-  '/challenges': 'Challenges',
-  '/debugging': 'Debugging Lab',
-  '/evolution': 'Evolution',
-  '/missions': 'Missions',
-};
+const TOP_NAV_LINKS = [
+  { label: 'Explore', path: '/roadmaps/data-science' },
+  { label: 'Data Science', path: '/data-science' },
+  { label: 'Machine Learning', path: '/machine-learning' },
+  { label: 'Deep Learning', path: '/deep-learning' },
+  { label: 'Concept Universe', path: '/concept-universe' },
+  { label: 'Laboratory', path: '/laboratory' },
+];
 
 export default function TopBar() {
-  const location = useLocation();
   const navigate = useNavigate();
   const { concepts } = useConcepts();
   const { user, isGuest, logout, openAuthModal } = useAuth();
 
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef(null);
-
-  const isConceptPage = location.pathname.startsWith('/concept/');
-  const activeConcept = useMemo(() => {
-    if (!isConceptPage) return null;
-    const conceptId = location.pathname.replace('/concept/', '');
-    return concepts.find((c) => c.id === conceptId) || { id: conceptId, title: conceptId };
-  }, [isConceptPage, location.pathname, concepts]);
-
-  const currentLabel = isConceptPage
-    ? activeConcept?.title || 'Concept Detail'
-    : routeLabels[location.pathname] || 'AI Learning Universe';
 
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -67,6 +49,7 @@ export default function TopBar() {
     setIsOpen(false);
     setActiveIndex(0);
     inputRef.current?.blur();
+    setMobileMenuOpen(false);
     navigate(`/concept/${concept.id}`);
   };
 
@@ -99,26 +82,46 @@ export default function TopBar() {
 
   return (
     <header className="topbar">
-      <div className="topbar__breadcrumb">
-        <Link to="/" className="topbar__breadcrumb-root">
-          AI Universe
+      <div className="topbar__left">
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          className="topbar__mobile-toggle"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation menu"
+        >
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+
+        {/* Brand / Logo */}
+        <Link to="/" className="topbar__brand" title="Vision AI Learning Universe">
+          <span className="topbar__brand-icon">
+            <Compass size={22} className="text-emerald" />
+          </span>
+          <span className="topbar__brand-text">AI Learning Universe</span>
         </Link>
-        <span className="topbar__breadcrumb-sep">/</span>
-        {isConceptPage && (
-          <>
-            <Link to="/knowledge-graph" className="topbar__breadcrumb-root">
-              Knowledge Graph
-            </Link>
-            <span className="topbar__breadcrumb-sep">/</span>
-          </>
-        )}
-        <span className="topbar__breadcrumb-current">{currentLabel}</span>
+
+        {/* Desktop Navigation Links */}
+        <nav className="topbar__nav" aria-label="Main Navigation">
+          {TOP_NAV_LINKS.map((link) => (
+            <NavLink
+              key={link.path}
+              to={link.path}
+              className={({ isActive }) =>
+                `topbar__nav-link ${isActive ? 'topbar__nav-link--active' : ''}`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
       </div>
 
-      <div className="topbar__actions-group">
+      <div className="topbar__right">
+        {/* Interactive Concept Search */}
         <div className="topbar__search-wrap" onBlur={handleBlur}>
           <div className="topbar__search">
-            <Search size={16} className="topbar__search-icon" />
+            <Search size={15} className="topbar__search-icon" />
             <input
               ref={inputRef}
               type="text"
@@ -130,7 +133,7 @@ export default function TopBar() {
               }}
               onFocus={() => setIsOpen(true)}
               onKeyDown={handleKeyDown}
-              placeholder="Search concepts by name or category..."
+              placeholder="Search concepts or math..."
               className="topbar__search-input"
               aria-label="Search concepts"
               aria-expanded={showDropdown}
@@ -148,7 +151,7 @@ export default function TopBar() {
                   inputRef.current?.focus();
                 }}
               >
-                <X size={14} />
+                <X size={13} />
               </button>
             )}
           </div>
@@ -171,14 +174,10 @@ export default function TopBar() {
                     }}
                     onMouseEnter={() => setActiveIndex(idx)}
                   >
-                    <span className="topbar__dropdown-icon">{concept.icon}</span>
+                    <span className="topbar__dropdown-icon">{concept.icon || '📖'}</span>
                     <div className="topbar__dropdown-info">
                       <span className="topbar__dropdown-title">{concept.title}</span>
                       <span className="topbar__dropdown-meta">
-                        <span
-                          className="topbar__dropdown-dot"
-                          style={{ background: concept.color || '#06b6d4' }}
-                        />
                         {concept.category} · {concept.difficulty}
                       </span>
                     </div>
@@ -193,7 +192,7 @@ export default function TopBar() {
           )}
         </div>
 
-        {/* Authentication controls */}
+        {/* Authentication & Profile Section */}
         {isGuest ? (
           <div className="topbar__auth-buttons">
             <button
@@ -210,6 +209,14 @@ export default function TopBar() {
             >
               Sign Up
             </button>
+            <button
+              type="button"
+              className="topbar__auth-btn topbar__auth-btn--cta"
+              onClick={() => navigate('/dashboard')}
+            >
+              <Sparkles size={14} />
+              Get Started
+            </button>
           </div>
         ) : (
           <div className="topbar__user-section">
@@ -218,6 +225,9 @@ export default function TopBar() {
               <User size={14} className="topbar__user-icon" />
               <span className="topbar__user-name">
                 {user.username || user.displayName || user.fullName}
+              </span>
+              <span className="topbar__user-streak" title="Daily Learning Streak">
+                🔥 3d
               </span>
             </div>
             <button
@@ -232,6 +242,55 @@ export default function TopBar() {
           </div>
         )}
       </div>
+
+      {/* Mobile Drawer Menu */}
+      {mobileMenuOpen && (
+        <div className="topbar__mobile-menu">
+          <nav className="topbar__mobile-nav">
+            {TOP_NAV_LINKS.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `topbar__mobile-link ${isActive ? 'topbar__mobile-link--active' : ''}`
+                }
+              >
+                {link.label}
+              </NavLink>
+            ))}
+            <div className="topbar__mobile-divider" />
+            <NavLink
+              to="/dashboard"
+              onClick={() => setMobileMenuOpen(false)}
+              className="topbar__mobile-link"
+            >
+              Dashboard
+            </NavLink>
+            <NavLink
+              to="/dictionary"
+              onClick={() => setMobileMenuOpen(false)}
+              className="topbar__mobile-link"
+            >
+              AI Dictionary
+            </NavLink>
+            <NavLink
+              to="/mathematics"
+              onClick={() => setMobileMenuOpen(false)}
+              className="topbar__mobile-link"
+            >
+              Mathematics Studio
+            </NavLink>
+            <NavLink
+              to="/missions"
+              onClick={() => setMobileMenuOpen(false)}
+              className="topbar__mobile-link"
+            >
+              AI Missions
+            </NavLink>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }

@@ -1,6 +1,12 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map, ArrowRight, ExternalLink, Sparkles } from 'lucide-react';
+import {
+  Map,
+  ArrowRight,
+  ExternalLink,
+  Sparkles,
+  Info,
+} from 'lucide-react';
 import { fetchConcepts } from '../../api/client';
 import { useConcepts } from '../../hooks/useConcepts';
 import { getExploredIds, EXPLORED_UPDATED_EVENT } from '../../concept-engine/ConceptEngine';
@@ -8,7 +14,6 @@ import VisualizationEngine from '../visualization/VisualizationEngine';
 import { getVisualizationsForDomain } from '../visualization/visualizationRegistry';
 import ConceptCard from '../common/ConceptCard';
 import Card from '../common/Card';
-import Badge from '../common/Badge';
 import Button from '../common/Button';
 import Loading from '../common/Loading';
 import './DomainLanding.css';
@@ -16,18 +21,42 @@ import './DomainLanding.css';
 const LEVELS = [
   {
     id: 'basic',
-    name: 'Basic',
-    description: 'Fundamental concepts, definitions, and visual explanations',
+    code: 'LEVEL 01',
+    name: 'Beginner',
+    tagline: 'Foundations, Essential Math & Visual Intuition',
+    description:
+      'Core terminology, introductory intuition, fundamental algebra, basic datasets, and simple visualizations.',
+    topics: [
+      'Introduction & Core Terminology',
+      'Fundamental Mathematics',
+      'Basic Visualizations & Data Exploration',
+    ],
   },
   {
     id: 'intermediate',
+    code: 'LEVEL 02',
     name: 'Intermediate',
-    description: 'Algorithm details, mathematical foundations, and hands-on experiments',
+    tagline: 'Core Algorithms, Implementations & Experiments',
+    description:
+      'Algorithmic formulations, scikit-learn models, hyperparameter tuning, loss landscapes, and interactive testing.',
+    topics: [
+      'Core Classical & Neural Algorithms',
+      'Loss Functions & Optimizers',
+      'Cross-Validation & Performance Metrics',
+    ],
   },
   {
     id: 'advanced',
+    code: 'LEVEL 03',
     name: 'Advanced',
-    description: 'Deep technical understanding, optimization, and real-world applications',
+    tagline: 'Complex Architectures, Optimization & Debugging',
+    description:
+      'Rigorous mathematical derivations, specialized architectures, custom loss design, edge cases, and model analysis.',
+    topics: [
+      'Deep Architectures & Attention',
+      'Mathematical Derivations & Gradients',
+      'Model Diagnostics & Edge-Case Debugging',
+    ],
   },
 ];
 
@@ -35,8 +64,7 @@ export default function DomainLanding({
   domainId,
   domainTitle,
   domainDescription,
-  accentColor = '#06b6d4',
-  glowColor = 'rgba(6, 182, 212, 0.15)',
+  accentColor = '#10B981',
   icon: DomainIcon,
   toolLinks = [],
 }) {
@@ -82,7 +110,6 @@ export default function DomainLanding({
           if (Array.isArray(data) && data.length > 0) {
             setLevelConcepts(data);
           } else {
-            // Fallback filtering from client concepts
             const filtered = domainConcepts.filter((c) => {
               const lvl = c.level || (c.difficulty === 'Beginner' ? 'basic' : c.difficulty === 'Advanced' ? 'advanced' : 'intermediate');
               return lvl === selectedLevel;
@@ -132,6 +159,22 @@ export default function DomainLanding({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelConcepts, progressTick]);
 
+  // Check beginner completion for prerequisite hints
+  const beginnerCompletedCount = useMemo(() => {
+    const explored = new Set(getExploredIds());
+    const beginnerConcepts = domainConcepts.filter(
+      (c) => (c.level || (c.difficulty === 'Beginner' ? 'basic' : 'intermediate')) === 'basic'
+    );
+    let count = 0;
+    for (const c of beginnerConcepts) {
+      if (explored.has(c.id)) count++;
+    }
+    return count;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [domainConcepts, progressTick]);
+
+  const showPrerequisiteHint = selectedLevel !== 'basic' && beginnerCompletedCount < 3;
+
   // Available interactive visualizations for this domain
   const domainVisualizations = useMemo(() => {
     return getVisualizationsForDomain(domainId);
@@ -142,34 +185,42 @@ export default function DomainLanding({
     return list[0]?.id || null;
   });
 
-  // Keep active topic synchronized when switching domains
   useEffect(() => {
     if (domainVisualizations.length > 0 && !domainVisualizations.some((v) => v.id === activeVizTopicId)) {
       setActiveVizTopicId(domainVisualizations[0].id);
     }
   }, [domainId, domainVisualizations, activeVizTopicId]);
 
+  const activeLevelObj = LEVELS.find((l) => l.id === selectedLevel) || LEVELS[0];
+
   return (
     <div
       className="domain-landing fade-in"
       style={{
         '--dom-accent': accentColor,
-        '--dom-glow': glowColor,
       }}
     >
-      {/* Domain Header */}
+      {/* Domain Header Banner */}
       <section className="domain-landing__header">
         <div className="domain-landing__header-content">
           <div className="domain-landing__badge-row">
-            <Badge text="Core Domain" color={accentColor} size="md" />
+            <span className="domain-pill" style={{ borderColor: accentColor, color: accentColor }}>
+              Independent Curriculum
+            </span>
             <span className="domain-landing__topic-count">
-              {domainConcepts.length} Total Concepts
+              {domainConcepts.length} Total Lessons across 3 Tiers
             </span>
           </div>
 
           <div className="domain-landing__title-row">
-            <div className="domain-landing__icon-box">
-              {DomainIcon && <DomainIcon size={34} style={{ color: accentColor }} />}
+            <div
+              className="domain-landing__icon-box"
+              style={{
+                background: `color-mix(in srgb, ${accentColor} 12%, transparent)`,
+                borderColor: `color-mix(in srgb, ${accentColor} 30%, transparent)`,
+              }}
+            >
+              {DomainIcon && <DomainIcon size={32} style={{ color: accentColor }} />}
             </div>
             <div>
               <h1 className="domain-landing__title">{domainTitle}</h1>
@@ -180,10 +231,10 @@ export default function DomainLanding({
           <div className="domain-landing__actions">
             <Button
               icon={Map}
-              onClick={() => navigate(`/roadmap/${domainId}`)}
-              style={{ background: accentColor, color: '#050814' }}
+              onClick={() => navigate(`/roadmaps/${domainId}`)}
+              style={{ background: accentColor, color: '#0D0F12', fontWeight: 600 }}
             >
-              View Learning Roadmap
+              View Complete Roadmap
             </Button>
             {toolLinks.map((tl) => (
               <Button
@@ -202,13 +253,20 @@ export default function DomainLanding({
       {/* 3 Level Selector Cards */}
       <section className="domain-landing__levels">
         <div className="domain-landing__section-head">
-          <h2 className="section-title">Proficiency Levels</h2>
-          <span className="domain-landing__progress-text">
-            Explored in {LEVELS.find((l) => l.id === selectedLevel)?.name}:{' '}
-            <strong>
-              {progress.completed}/{progress.total} ({progress.percent}%)
-            </strong>
-          </span>
+          <div>
+            <h2 className="section-title">Select Your Proficiency Level</h2>
+            <p className="domain-landing__section-sub">
+              You are free to begin at any tier. Foundations are always accessible for quick reference.
+            </p>
+          </div>
+          <div className="domain-landing__progress-tag">
+            <span>
+              {activeLevelObj.name} Progress:{' '}
+              <strong>
+                {progress.completed}/{progress.total} ({progress.percent}%)
+              </strong>
+            </span>
+          </div>
         </div>
 
         <div className="level-cards-grid">
@@ -223,13 +281,15 @@ export default function DomainLanding({
                 hoverable={true}
               >
                 <div className="level-card__header">
-                  <h3 className="level-card__name">{lvl.name}</h3>
-                  <span className="level-card__badge">{count} Concepts</span>
+                  <span className="level-card__code">{lvl.code}</span>
+                  <span className="level-card__badge">{count} Lessons</span>
                 </div>
+                <h3 className="level-card__name">{lvl.name}</h3>
+                <span className="level-card__tagline">{lvl.tagline}</span>
                 <p className="level-card__desc">{lvl.description}</p>
                 <div className="level-card__footer">
-                  <span className="level-card__cta">
-                    {isSelected ? 'Currently Viewing' : 'Select Level'}
+                  <span className="level-card__cta" style={isSelected ? { color: accentColor } : {}}>
+                    {isSelected ? 'Currently Selected' : 'Choose Level'}
                     <ArrowRight size={14} />
                   </span>
                 </div>
@@ -237,6 +297,26 @@ export default function DomainLanding({
             );
           })}
         </div>
+
+        {/* Non-blocking Prerequisite Hint when skipping Beginner */}
+        {showPrerequisiteHint && (
+          <div className="prereq-notice-banner">
+            <Info size={18} className="text-warm prereq-notice-banner__icon" />
+            <div className="prereq-notice-banner__content">
+              <strong>Learning Tip: You selected {activeLevelObj.name}.</strong>
+              <p>
+                You are free to explore {activeLevelObj.name} directly! If you encounter mathematical notations or terminology that seem unfamiliar, you can review LEVEL 01 (Beginner) fundamentals anytime.
+              </p>
+            </div>
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={() => setSelectedLevel('basic')}
+            >
+              Review Foundations
+            </Button>
+          </div>
+        )}
       </section>
 
       {/* Interactive Domain Visualization Studio */}
@@ -245,10 +325,10 @@ export default function DomainLanding({
           <div className="domain-landing__section-head">
             <div className="domain-landing__section-title-wrap">
               <Sparkles size={20} style={{ color: accentColor }} />
-              <h2 className="section-title">Interactive {domainTitle} Studio</h2>
+              <h2 className="section-title">Interactive {domainTitle} Proving Ground</h2>
             </div>
             <span className="domain-landing__viz-count">
-              {domainVisualizations.length} Interactive Topics Available
+              {domainVisualizations.length} Interactive Topics Ready to Test
             </span>
           </div>
 
@@ -264,6 +344,7 @@ export default function DomainLanding({
                   aria-selected={isActive}
                   className={`domain-landing__viz-tab ${isActive ? 'domain-landing__viz-tab--active' : ''}`}
                   onClick={() => setActiveVizTopicId(v.id)}
+                  style={isActive ? { borderColor: accentColor, color: '#F3F4F6' } : {}}
                 >
                   <span>{v.title}</span>
                 </button>
@@ -271,7 +352,7 @@ export default function DomainLanding({
             })}
           </div>
 
-          {/* Unified Modular Visualization Engine */}
+          {/* Modular Visualization Engine */}
           {activeVizTopicId && (
             <div className="domain-landing__viz-frame">
               <VisualizationEngine topicId={activeVizTopicId} />
@@ -280,22 +361,30 @@ export default function DomainLanding({
         </section>
       )}
 
-      {/* Filtered Concept Grid */}
+      {/* Structured Curriculum Lesson Cards */}
       <section className="domain-landing__concepts">
         <div className="domain-landing__section-head">
-          <h2 className="section-title">
-            {LEVELS.find((l) => l.id === selectedLevel)?.name} Concepts ({levelConcepts.length})
-          </h2>
-          <div className="level-progress-bar">
-            <div
-              className="level-progress-bar__fill"
-              style={{ width: `${progress.percent}%`, background: accentColor }}
-            />
+          <div>
+            <h2 className="section-title">
+              {activeLevelObj.name} Curriculum ({levelConcepts.length} Topics)
+            </h2>
+            <p className="domain-landing__section-sub">
+              Select any topic below to open its comprehensive W3Schools-style lesson with formulas, visual graphs, and quizzes.
+            </p>
+          </div>
+          <div className="domain-landing__progress-track-wrap">
+            <div className="domain-landing__track">
+              <div
+                className="domain-landing__fill"
+                style={{ width: `${progress.percent}%`, background: accentColor }}
+              />
+            </div>
+            <span className="domain-landing__pct">{progress.percent}% Completed</span>
           </div>
         </div>
 
         {loading ? (
-          <Loading text={`Loading ${selectedLevel} concepts...`} />
+          <Loading text={`Loading ${activeLevelObj.name} curriculum...`} />
         ) : levelConcepts.length === 0 ? (
           <div className="domain-landing__empty">
             <p>No concepts found for this domain and level.</p>

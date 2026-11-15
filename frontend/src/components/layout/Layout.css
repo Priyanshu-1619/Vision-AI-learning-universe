@@ -27,12 +27,13 @@
 }
 
 @media (max-width: 768px) {
-  .layout__main,
+  .layout .layout__main,
+  .layout.layout--collapsed .layout__main,
   .layout--collapsed .layout__main {
-    margin-left: 60px;
+    margin-left: 0 !important;
   }
 
   .layout__content {
-    padding: 16px;
+    padding: 16px 12px;
   }
 }
