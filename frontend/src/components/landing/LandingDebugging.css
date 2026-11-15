@@ -1,0 +1,198 @@
+/* Debugging Section */
+
+.landing-debug {
+  padding: 5rem 1.75rem;
+  background: #080f24;
+  position: relative;
+}
+
+.landing-debug__container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+/* 4-Stage Pipeline */
+.debug-pipeline-card {
+  background: #0b1633;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.debug-pipeline-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debug-pipeline-card__tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #f87171;
+  letter-spacing: 0.08em;
+}
+
+.debug-stages-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.debug-stage-box {
+  background: rgba(5, 8, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.debug-stage-box:hover {
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.debug-stage-box--active {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: #ef4444;
+}
+
+.debug-stage-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #f87171;
+}
+
+.debug-stage-desc {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* 4 Scenarios Grid */
+.failure-scenarios-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.failure-card {
+  background: #0b1633;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.failure-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--scen-accent);
+}
+
+.failure-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.failure-card__domain {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.failure-card__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.failure-card__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.failure-card__kicker {
+  font-size: 0.7rem;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.failure-card__val {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.failure-card__item--fix .failure-card__val {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #34d399;
+  font-weight: 500;
+}
+
+.landing-debug__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.landing-debug__cta {
+  padding: 12px 24px;
+  font-weight: 700;
+}
+
+@media (max-width: 1100px) {
+  .debug-stages-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .failure-scenarios-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .debug-stages-row {
+    grid-template-columns: 1fr;
+  }
+  .failure-scenarios-grid {
+    grid-template-columns: 1fr;
+  }
+  .landing-debug__actions {
+    flex-direction: column;
+  }
+  .landing-debug__actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}

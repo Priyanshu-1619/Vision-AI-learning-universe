@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import {
   Brain,
   LayoutDashboard,
@@ -26,7 +26,7 @@ import './Sidebar.css';
 const navSections = [
   {
     items: [
-      { path: '/', label: 'Dashboard', icon: LayoutDashboard },
+      { path: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
       { path: '/dictionary', label: 'Dictionary', icon: BookA },
     ],
   },
@@ -71,10 +71,10 @@ const navSections = [
 export default function Sidebar({ collapsed, onToggle }) {
   return (
     <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''}`}>
-      <div className="sidebar__logo">
+      <Link to="/" className="sidebar__logo" title="Back to Home / Landing Page">
         <Brain className="sidebar__logo-icon" size={28} />
         {!collapsed && <span className="sidebar__logo-text">AI Learning Universe</span>}
-      </div>
+      </Link>
 
       <nav className="sidebar__nav">
         {navSections.map((section, sIdx) => (

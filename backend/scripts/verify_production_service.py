@@ -75,19 +75,102 @@ def run_checks():
             except Exception as e:
                 print(f"  FAIL: GET {url_path} -> {e}")
 
-        # 1. Root index
+        # 1. Root index & Landing Page
         test_get("/", check_text="<div id=\"root\">")
+        test_get("/landing", check_text="<div id=\"root\">")
+        test_get("/dashboard", check_text="<div id=\"root\">")
 
         # 2. SPA Deep Links
+        test_get("/data-science", check_text="<div id=\"root\">")
+        test_get("/machine-learning", check_text="<div id=\"root\">")
+        test_get("/deep-learning", check_text="<div id=\"root\">")
         test_get("/roadmaps/deep-learning", check_text="<div id=\"root\">")
         test_get("/library-graph", check_text="<div id=\"root\">")
         test_get("/concept-universe", check_text="<div id=\"root\">")
         test_get("/laboratory", check_text="<div id=\"root\">")
+        test_get("/missions", check_text="<div id=\"root\">")
 
         # 3. API Endpoints
         test_get("/api/health", is_json=True)
         test_get("/api/concepts", is_json=True)
         test_get("/api/roadmaps", is_json=True)
+
+        # 4. Authentication & Guest Progress Transfer
+        total += 1
+        test_email = f"learner_{int(time.time())}@space.org"
+        auth_token = None
+        try:
+            reg_payload = json.dumps({
+                "email": test_email,
+                "password": "secret_space_pass_123",
+                "displayName": "Galileo Galilei",
+                "guestProgress": {
+                    "gradient-descent": {
+                        "userId": "learner_default",
+                        "topicId": "gradient-descent",
+                        "domain": "machine-learning",
+                        "status": "completed"
+                    }
+                },
+                "guestMathProgress": {
+                    "calculus-derivatives": {
+                        "userId": "learner_default",
+                        "topicId": "calculus-derivatives",
+                        "status": "completed"
+                    }
+                }
+            }).encode("utf-8")
+            req = urllib.request.Request(
+                f"{base_url}/api/auth/register",
+                data=reg_payload,
+                headers={"Content-Type": "application/json"}
+            )
+            with urllib.request.urlopen(req, timeout=5) as res:
+                reg_data = json.loads(res.read().decode("utf-8"))
+                assert "token" in reg_data
+                assert reg_data["user"]["email"] == test_email
+                assert reg_data["transferredTopics"] >= 1
+                auth_token = reg_data["token"]
+                print(f"  PASS: POST /api/auth/register -> user={reg_data['user']['displayName']}, transferred={reg_data['transferredTopics']}")
+                passed += 1
+        except Exception as e:
+            print(f"  FAIL: POST /api/auth/register -> {e}")
+
+        # Login test
+        total += 1
+        try:
+            login_payload = json.dumps({
+                "email": test_email,
+                "password": "secret_space_pass_123"
+            }).encode("utf-8")
+            req = urllib.request.Request(
+                f"{base_url}/api/auth/login",
+                data=login_payload,
+                headers={"Content-Type": "application/json"}
+            )
+            with urllib.request.urlopen(req, timeout=5) as res:
+                login_data = json.loads(res.read().decode("utf-8"))
+                assert "token" in login_data
+                print(f"  PASS: POST /api/auth/login -> successful login for {test_email}")
+                passed += 1
+        except Exception as e:
+            print(f"  FAIL: POST /api/auth/login -> {e}")
+
+        # Current User test (GET /api/auth/me)
+        if auth_token:
+            total += 1
+            try:
+                req = urllib.request.Request(
+                    f"{base_url}/api/auth/me",
+                    headers={"Authorization": f"Bearer {auth_token}"}
+                )
+                with urllib.request.urlopen(req, timeout=5) as res:
+                    me_data = json.loads(res.read().decode("utf-8"))
+                    assert me_data["email"] == test_email
+                    print(f"  PASS: GET /api/auth/me -> verified user {me_data['userId']}")
+                    passed += 1
+            except Exception as e:
+                print(f"  FAIL: GET /api/auth/me -> {e}")
 
         # 4. Strict 404 for missing API route (must NOT return HTML index.html)
         total += 1

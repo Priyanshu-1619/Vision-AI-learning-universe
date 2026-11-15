@@ -1,0 +1,123 @@
+/* Final CTA Section */
+
+.landing-cta {
+  position: relative;
+  padding: 6.5rem 1.75rem;
+  background: radial-gradient(circle at 50% 100%, #0b1633 0%, #050814 80%);
+  text-align: center;
+  overflow: hidden;
+}
+
+.landing-cta__glow {
+  position: absolute;
+  bottom: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 300px;
+  background: radial-gradient(ellipse, rgba(6, 182, 212, 0.25) 0%, rgba(22, 75, 255, 0.15) 50%, transparent 80%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.landing-cta__container {
+  max-width: 850px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.landing-cta__kicker {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #facc15;
+  text-transform: uppercase;
+}
+
+.landing-cta__headline {
+  font-size: clamp(2rem, 3.8vw, 3.5rem);
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.landing-cta__desc {
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  color: #94a3b8;
+  line-height: 1.6;
+  max-width: 650px;
+  margin: 0;
+}
+
+.landing-cta__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.landing-cta__btn-guest {
+  padding: 13px 26px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  background: #164bff;
+  border: 1px solid #38bdf8;
+  box-shadow: 0 4px 25px rgba(22, 75, 255, 0.5);
+}
+
+.landing-cta__btn-guest:hover {
+  background: #245bff;
+  box-shadow: 0 6px 35px rgba(6, 182, 212, 0.6);
+  transform: translateY(-2px);
+}
+
+.landing-cta__btn-register {
+  padding: 13px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.landing-cta__signin-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.landing-cta__signin-link:hover {
+  color: #38bdf8;
+}
+
+@media (max-width: 640px) {
+  .landing-cta {
+    padding: 4.5rem 1rem;
+  }
+  .landing-cta__buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .landing-cta__btn-guest,
+  .landing-cta__btn-register {
+    width: 100%;
+    justify-content: center;
+  }
+}

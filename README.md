@@ -20,7 +20,8 @@ AI Learning Universe is a full-stack educational environment designed to help le
 
 | Route | Feature | Description |
 |---|---|---|
-| `/` | **Master Dashboard** | Domain overview cards for Data Science, ML, and Deep Learning with independent progress tracking. |
+| `/` | **Cinematic Landing Page** | High-impact introduction, learning philosophy, domain chooser, interactive visual engine preview, level selector, and guest exploration. |
+| `/dashboard` | **Master Dashboard** | Domain overview cards for Data Science, ML, and Deep Learning with independent progress tracking and telemetry. |
 | `/concept-universe` | **AI Concept Universe** | Cosmic 2D constellation of **316 nodes** and **682 edges** across 8 clusters with real-time D3 physics, domain/level filters, and a custom **Spaceship Exploration Probe Cursor** with plasma exhaust trail. |
 | `/laboratory` | **AI Laboratory** | Proving ground running 13 live local models (Linear Regression OLS, Logistic Regression, K-Means, K-Nearest Neighbors, Decision Trees, Random Forest, SVM, Gaussian Naive Bayes, PCA, Gradient Descent, Perceptron, 2D CNN, and Autoencoder) with real-time decision surfaces. |
 | `/inside-model` | **Inside the Model** | Step-by-step visual inspectors including a **10-Stage Backpropagation Stepper** with interactive synaptic weights/biases editing, Single Neuron inspector, and Activation Function explorer. |

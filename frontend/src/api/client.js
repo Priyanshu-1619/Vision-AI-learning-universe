@@ -305,3 +305,35 @@ export async function predictChurnCustomer(customerFeatures, pipelineConfig) {
     body: JSON.stringify({ customer: customerFeatures, config: pipelineConfig }),
   });
 }
+
+// ── Authentication & Guest Upgrade API ──
+
+export async function registerUser({ email, password, displayName, guestProgress = {}, guestMathProgress = {} }) {
+  return requestStrict('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({
+      email,
+      password,
+      displayName,
+      guestProgress,
+      guestMathProgress,
+    }),
+  });
+}
+
+export async function loginUser({ email, password }) {
+  return requestStrict('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export async function fetchCurrentUser(token) {
+  if (!token) return null;
+  return request('/auth/me', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

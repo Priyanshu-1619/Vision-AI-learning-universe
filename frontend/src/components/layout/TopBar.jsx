@@ -5,7 +5,8 @@ import { useConcepts } from '../../hooks/useConcepts';
 import './TopBar.css';
 
 const routeLabels = {
-  '/': 'Dashboard',
+  '/': 'Home',
+  '/dashboard': 'Dashboard',
   '/knowledge-graph': 'Knowledge Graph',
   '/concept-universe': 'Concept Universe',
   '/laboratory': 'Laboratory',

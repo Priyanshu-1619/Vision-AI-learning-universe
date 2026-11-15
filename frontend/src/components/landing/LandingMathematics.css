@@ -1,0 +1,169 @@
+/* Mathematics Section */
+
+.landing-math {
+  padding: 5rem 1.75rem;
+  background: #080f24;
+  position: relative;
+}
+
+.landing-math__container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.landing-math__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.math-card {
+  background: #0b1633;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.math-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--math-accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.math-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.math-card__icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(5, 8, 20, 0.7);
+  border: 1px solid var(--math-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.math-card__name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.math-card__formula-box {
+  background: #050814;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  text-align: center;
+}
+
+.math-card__formula-box code {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.825rem;
+  color: var(--math-accent);
+  word-break: break-all;
+}
+
+.math-card__desc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Banner */
+.landing-math__banner {
+  background: radial-gradient(circle at 10% 50%, rgba(22, 75, 255, 0.15) 0%, #0b1633 100%);
+  border: 1px solid rgba(22, 75, 255, 0.35);
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.landing-math__banner-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 720px;
+}
+
+.landing-math__badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: #facc15;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.landing-math__banner-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.landing-math__banner-desc {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.landing-math__banner-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.landing-math__primary-btn {
+  padding: 12px 22px;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.landing-math__secondary-btn {
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  justify-content: center;
+}
+
+@media (max-width: 1200px) {
+  .landing-math__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .landing-math__grid {
+    grid-template-columns: 1fr;
+  }
+  .landing-math__banner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.5rem;
+  }
+  .landing-math__banner-actions {
+    width: 100%;
+  }
+}

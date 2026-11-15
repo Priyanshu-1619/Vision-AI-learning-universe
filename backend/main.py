@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 
-from routers import concepts, dictionary, health, labs, missions, roadmaps, progress
+from routers import concepts, dictionary, health, labs, missions, roadmaps, progress, auth
 
 app = FastAPI(
     title="AI Learning Universe",
@@ -27,6 +27,7 @@ app.add_middleware(
 
 # Include all API routers
 app.include_router(health.router)
+app.include_router(auth.router)
 app.include_router(concepts.router)
 app.include_router(dictionary.router)
 app.include_router(labs.router)

@@ -1,6 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 import Layout from './components/layout/Layout';
 import ConceptDetail from './components/knowledge/ConceptDetail';
+import LandingPage from './pages/LandingPage';
 import DashboardPage from './pages/DashboardPage';
 import KnowledgeGraphPage from './pages/KnowledgeGraphPage';
 import ConceptUniversePage from './pages/ConceptUniversePage';
@@ -23,33 +25,40 @@ import LibraryGraphPage from './pages/LibraryGraphPage';
 export default function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<DashboardPage />} />
-          <Route path="/dictionary" element={<DictionaryPage />} />
-          <Route path="/data-science" element={<DataSciencePage />} />
-          <Route path="/machine-learning" element={<MachineLearningPage />} />
-          <Route path="/deep-learning" element={<DeepLearningPage />} />
-          <Route path="/roadmap/:domain" element={<RoadmapPage />} />
-          <Route path="/roadmaps/:domain" element={<RoadmapPage />} />
-          <Route path="/roadmaps" element={<Navigate to="/roadmaps/data-science" replace />} />
-          <Route path="/roadmap" element={<Navigate to="/roadmap/data-science" replace />} />
-          <Route path="/knowledge-graph" element={<KnowledgeGraphPage />} />
-          <Route path="/concept-universe" element={<ConceptUniversePage />} />
-          <Route path="/laboratory" element={<LaboratoryPage />} />
-          <Route path="/mathematics" element={<MathematicsPage />} />
-          <Route path="/library-graph" element={<LibraryGraphPage />} />
-          <Route path="/inside-model" element={<InsideModelPage />} />
-          <Route path="/break-it" element={<BreakItPage />} />
-          <Route path="/what-if" element={<WhatIfPage />} />
-          <Route path="/challenges" element={<ChallengesPage />} />
-          <Route path="/debugging" element={<DebuggingPage />} />
-          <Route path="/evolution" element={<EvolutionPage />} />
-          <Route path="/missions" element={<MissionsPage />} />
-          <Route path="/concept/:id" element={<ConceptDetail />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Route>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          {/* Standalone Full-Bleed Cinematic Landing Page */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/landing" element={<LandingPage />} />
+
+          {/* Interactive Learning Workspace under Layout (Sidebar + TopBar) */}
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dictionary" element={<DictionaryPage />} />
+            <Route path="/data-science" element={<DataSciencePage />} />
+            <Route path="/machine-learning" element={<MachineLearningPage />} />
+            <Route path="/deep-learning" element={<DeepLearningPage />} />
+            <Route path="/roadmap/:domain" element={<RoadmapPage />} />
+            <Route path="/roadmaps/:domain" element={<RoadmapPage />} />
+            <Route path="/roadmaps" element={<Navigate to="/roadmaps/data-science" replace />} />
+            <Route path="/roadmap" element={<Navigate to="/roadmap/data-science" replace />} />
+            <Route path="/knowledge-graph" element={<KnowledgeGraphPage />} />
+            <Route path="/concept-universe" element={<ConceptUniversePage />} />
+            <Route path="/laboratory" element={<LaboratoryPage />} />
+            <Route path="/mathematics" element={<MathematicsPage />} />
+            <Route path="/library-graph" element={<LibraryGraphPage />} />
+            <Route path="/inside-model" element={<InsideModelPage />} />
+            <Route path="/break-it" element={<BreakItPage />} />
+            <Route path="/what-if" element={<WhatIfPage />} />
+            <Route path="/challenges" element={<ChallengesPage />} />
+            <Route path="/debugging" element={<DebuggingPage />} />
+            <Route path="/evolution" element={<EvolutionPage />} />
+            <Route path="/missions" element={<MissionsPage />} />
+            <Route path="/concept/:id" element={<ConceptDetail />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
