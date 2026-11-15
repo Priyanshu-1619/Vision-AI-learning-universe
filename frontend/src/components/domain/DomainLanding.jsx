@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map, ArrowRight, ExternalLink } from 'lucide-react';
+import { Map, ArrowRight, ExternalLink, Sparkles } from 'lucide-react';
 import { fetchConcepts } from '../../api/client';
 import { useConcepts } from '../../hooks/useConcepts';
 import { getExploredIds, EXPLORED_UPDATED_EVENT } from '../../concept-engine/ConceptEngine';
+import VisualizationEngine from '../visualization/VisualizationEngine';
+import { getVisualizationsForDomain } from '../visualization/visualizationRegistry';
 import ConceptCard from '../common/ConceptCard';
 import Card from '../common/Card';
 import Badge from '../common/Badge';
@@ -130,6 +132,23 @@ export default function DomainLanding({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [levelConcepts, progressTick]);
 
+  // Available interactive visualizations for this domain
+  const domainVisualizations = useMemo(() => {
+    return getVisualizationsForDomain(domainId);
+  }, [domainId]);
+
+  const [activeVizTopicId, setActiveVizTopicId] = useState(() => {
+    const list = getVisualizationsForDomain(domainId);
+    return list[0]?.id || null;
+  });
+
+  // Keep active topic synchronized when switching domains
+  useEffect(() => {
+    if (domainVisualizations.length > 0 && !domainVisualizations.some((v) => v.id === activeVizTopicId)) {
+      setActiveVizTopicId(domainVisualizations[0].id);
+    }
+  }, [domainId, domainVisualizations, activeVizTopicId]);
+
   return (
     <div
       className="domain-landing fade-in"
@@ -219,6 +238,47 @@ export default function DomainLanding({
           })}
         </div>
       </section>
+
+      {/* Interactive Domain Visualization Studio */}
+      {domainVisualizations.length > 0 && (
+        <section className="domain-landing__viz-studio">
+          <div className="domain-landing__section-head">
+            <div className="domain-landing__section-title-wrap">
+              <Sparkles size={20} style={{ color: accentColor }} />
+              <h2 className="section-title">Interactive {domainTitle} Studio</h2>
+            </div>
+            <span className="domain-landing__viz-count">
+              {domainVisualizations.length} Interactive Topics Available
+            </span>
+          </div>
+
+          {/* Visualization Topic Selector Tabs */}
+          <div className="domain-landing__viz-tabs" role="tablist" aria-label={`${domainTitle} Visual Topics`}>
+            {domainVisualizations.map((v) => {
+              const isActive = activeVizTopicId === v.id;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  className={`domain-landing__viz-tab ${isActive ? 'domain-landing__viz-tab--active' : ''}`}
+                  onClick={() => setActiveVizTopicId(v.id)}
+                >
+                  <span>{v.title}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Unified Modular Visualization Engine */}
+          {activeVizTopicId && (
+            <div className="domain-landing__viz-frame">
+              <VisualizationEngine topicId={activeVizTopicId} />
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Filtered Concept Grid */}
       <section className="domain-landing__concepts">

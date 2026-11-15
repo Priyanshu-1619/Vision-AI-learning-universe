@@ -1,6 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Network, Sparkles, Database, Brain, Zap, ArrowRight, BookA, Map } from 'lucide-react';
+import {
+  Network,
+  Sparkles,
+  Database,
+  Brain,
+  Zap,
+  ArrowRight,
+  BookA,
+  Map,
+  Calculator,
+} from 'lucide-react';
 import { useConcepts } from '../../hooks/useConcepts';
 import { fetchCategories, fetchDictionary } from '../../api/client';
 import {
@@ -9,6 +19,23 @@ import {
   getProgressStats,
   getExploredIds,
 } from '../../concept-engine/ConceptEngine';
+import {
+  PROGRESS_UPDATED_EVENT,
+  MATH_PROGRESS_UPDATED_EVENT,
+  readStorage,
+  readMathStorage,
+  computeProgressMetrics,
+  computeDomainMathMetrics,
+  getRecommendedNextTopic,
+} from '../../services/roadmapProgressService';
+import {
+  ALL_ROADMAP_TOPICS,
+  getTopicsForDomainAndLevel,
+} from '../../data/roadmapsData';
+import {
+  ALL_MATH_TOPICS,
+  getMathTopicsForDomain,
+} from '../../data/mathematicsData';
 import StatsOverview from './StatsOverview';
 import RecentConcepts from './RecentConcepts';
 import QuickActions from './QuickActions';
@@ -46,9 +73,13 @@ export default function Dashboard() {
   useEffect(() => {
     const refreshProgress = () => setProgressTick((t) => t + 1);
     window.addEventListener(EXPLORED_UPDATED_EVENT, refreshProgress);
+    window.addEventListener(PROGRESS_UPDATED_EVENT, refreshProgress);
+    window.addEventListener(MATH_PROGRESS_UPDATED_EVENT, refreshProgress);
     window.addEventListener('storage', refreshProgress);
     return () => {
       window.removeEventListener(EXPLORED_UPDATED_EVENT, refreshProgress);
+      window.removeEventListener(PROGRESS_UPDATED_EVENT, refreshProgress);
+      window.removeEventListener(MATH_PROGRESS_UPDATED_EVENT, refreshProgress);
       window.removeEventListener('storage', refreshProgress);
     };
   }, []);
@@ -58,6 +89,7 @@ export default function Dashboard() {
     return MOCK_CATEGORIES.length;
   }, [apiCategories]);
 
+  // Concept engine stats (legacy 39 concepts tracker)
   const progress = useMemo(() => {
     const validIds = new Set(concepts.map((c) => c.id));
     return getProgressStats(concepts.length, validIds);
@@ -95,6 +127,116 @@ export default function Dashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [concepts, domainCounts, progressTick]);
 
+  // Synchronized roadmap overall KPIs across all 194 topics
+  const roadmapKpis = useMemo(() => {
+    const roadmapRecords = readStorage();
+    return computeProgressMetrics(ALL_ROADMAP_TOPICS, roadmapRecords);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progressTick]);
+
+  // Synchronized independent domain roadmap stats (Basic, Intermediate, Advanced, Next Topic, Math)
+  const domainRoadmapStats = useMemo(() => {
+    const roadmapRecords = readStorage();
+    const mathRecords = readMathStorage();
+
+    const domainIds = ['data-science', 'machine-learning', 'deep-learning'];
+    const domainMeta = {
+      'data-science': {
+        title: 'Data Science',
+        icon: Database,
+        accent: 'var(--ds-accent)',
+        glow: 'var(--ds-glow)',
+      },
+      'machine-learning': {
+        title: 'Machine Learning',
+        icon: Brain,
+        accent: 'var(--ml-accent)',
+        glow: 'var(--ml-glow)',
+      },
+      'deep-learning': {
+        title: 'Deep Learning',
+        icon: Zap,
+        accent: 'var(--dl-accent)',
+        glow: 'var(--dl-glow)',
+      },
+    };
+
+    const stats = {};
+
+    for (const dom of domainIds) {
+      const basicTopics = getTopicsForDomainAndLevel(dom, 'basic');
+      const interTopics = getTopicsForDomainAndLevel(dom, 'intermediate');
+      const advTopics = getTopicsForDomainAndLevel(dom, 'advanced');
+      const allDomTopics = [...basicTopics, ...interTopics, ...advTopics];
+
+      const overall = computeProgressMetrics(allDomTopics, roadmapRecords);
+      const basicMetrics = computeProgressMetrics(basicTopics, roadmapRecords);
+      const interMetrics = computeProgressMetrics(interTopics, roadmapRecords);
+      const advMetrics = computeProgressMetrics(advTopics, roadmapRecords);
+
+      const mathTopics = getMathTopicsForDomain(dom);
+      const mathMetrics = computeDomainMathMetrics(mathTopics, mathRecords);
+
+      const nextTopic = getRecommendedNextTopic(allDomTopics, roadmapRecords);
+
+      let activeTier = 'Basic';
+      if (basicMetrics.percent === 100 && interMetrics.percent < 100) {
+        activeTier = 'Intermediate';
+      } else if (basicMetrics.percent === 100 && interMetrics.percent === 100 && advMetrics.percent < 100) {
+        activeTier = 'Advanced';
+      } else if (basicMetrics.percent === 100 && interMetrics.percent === 100 && advMetrics.percent === 100) {
+        activeTier = 'Mastered';
+      }
+
+      stats[dom] = {
+        ...domainMeta[dom],
+        id: dom,
+        overall,
+        levels: {
+          basic: { ...basicMetrics, total: basicTopics.length },
+          intermediate: { ...interMetrics, total: interTopics.length },
+          advanced: { ...advMetrics, total: advTopics.length },
+        },
+        activeTier,
+        nextTopic,
+        math: {
+          ...mathMetrics,
+          total: mathTopics.length,
+        },
+      };
+    }
+
+    return stats;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progressTick]);
+
+  // Synchronized canonical mathematics stats across all 83 topics
+  const mathSummary = useMemo(() => {
+    const mathRecords = readMathStorage();
+    let distinctCompleted = 0;
+    for (const t of ALL_MATH_TOPICS) {
+      if (mathRecords[t.id]?.status === 'completed') {
+        distinctCompleted++;
+      }
+    }
+
+    const dsMathTopics = getMathTopicsForDomain('data-science');
+    const mlMathTopics = getMathTopicsForDomain('machine-learning');
+    const dlMathTopics = getMathTopicsForDomain('deep-learning');
+
+    return {
+      totalDistinctMastered: distinctCompleted,
+      totalCanonicalTopics: ALL_MATH_TOPICS.length,
+      overallPercent: Math.round((distinctCompleted / Math.max(1, ALL_MATH_TOPICS.length)) * 100),
+      domains: {
+        'data-science': computeDomainMathMetrics(dsMathTopics, mathRecords),
+        'machine-learning': computeDomainMathMetrics(mlMathTopics, mathRecords),
+        'deep-learning': computeDomainMathMetrics(dlMathTopics, mathRecords),
+      },
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [progressTick]);
+
   const domains = [
     {
       id: 'data-science',
@@ -106,6 +248,7 @@ export default function Dashboard() {
       description:
         'Learn to collect, analyze, visualize, and prepare data. Master statistics, probability, and feature engineering.',
       path: '/data-science',
+      roadmapPath: '/roadmaps/data-science',
     },
     {
       id: 'machine-learning',
@@ -117,6 +260,7 @@ export default function Dashboard() {
       description:
         'Understand how machines learn patterns from data. Explore regression, classification, clustering, and optimization.',
       path: '/machine-learning',
+      roadmapPath: '/roadmaps/machine-learning',
     },
     {
       id: 'deep-learning',
@@ -128,6 +272,7 @@ export default function Dashboard() {
       description:
         'Explore neural networks and advanced architectures. From perceptrons to transformers, with interactive visualizations.',
       path: '/deep-learning',
+      roadmapPath: '/roadmaps/deep-learning',
     },
   ];
 
@@ -147,17 +292,20 @@ export default function Dashboard() {
           </h1>
           <p className="dashboard__hero-subtitle">
             Explore machine learning concepts through interactive visualizations,
-            mathematical intuition, and a connected knowledge graph.
+            mathematical intuition, and structured independent roadmaps.
           </p>
           <div className="dashboard__hero-actions">
-            <Button icon={Network} onClick={() => navigate('/knowledge-graph')}>
+            <Button icon={Map} onClick={() => navigate('/roadmaps/data-science')}>
+              Learning Roadmaps
+            </Button>
+            <Button variant="secondary" icon={Network} onClick={() => navigate('/knowledge-graph')}>
               Knowledge Graph
             </Button>
             <Button variant="secondary" icon={BookA} onClick={() => navigate('/dictionary')}>
               AI Dictionary
             </Button>
-            <Button variant="secondary" icon={Map} onClick={() => navigate('/roadmap/data-science')}>
-              Roadmaps
+            <Button variant="secondary" icon={Calculator} onClick={() => navigate('/mathematics')}>
+              Mathematics Studio
             </Button>
           </div>
         </div>
@@ -167,7 +315,7 @@ export default function Dashboard() {
         <div className="dashboard__hero-glow" />
       </section>
 
-      {/* Stats with Domain Progress */}
+      {/* Synchronized Stats with Domain Roadmaps & Mathematics */}
       <section className="dashboard__section">
         <StatsOverview
           totalConcepts={concepts.length}
@@ -175,68 +323,117 @@ export default function Dashboard() {
           exploredCount={progress.exploredCount}
           progressPercent={progress.percentage}
           domainProgress={domainProgress}
+          domainRoadmapStats={domainRoadmapStats}
+          mathSummary={mathSummary}
+          roadmapKpis={roadmapKpis}
         />
       </section>
 
-      {/* 3 Large Domain Cards */}
+      {/* 3 Large Domain Exploration Cards */}
       <section className="dashboard__section">
         <div className="dashboard__section-header">
           <h2 className="section-title">Core Learning Domains</h2>
           <span className="dashboard__section-meta">
-            Choose a domain to start a structured learning path
+            Choose a domain to start a structured learning path or explore interactive labs
           </span>
         </div>
         <div className="dashboard__domains">
-          {domains.map((dom) => (
-            <Card
-              key={dom.id}
-              className="domain-card"
-              style={{
-                '--dom-card-accent': dom.accent,
-                '--dom-card-glow': dom.glow,
-              }}
-              onClick={() => navigate(dom.path)}
-            >
-              <div
-                className="domain-card__accent-bar"
-                style={{ background: dom.accent }}
-              />
-              <div className="domain-card__inner">
-                <div className="domain-card__head">
-                  <div
-                    className="domain-card__icon-box"
-                    style={{
-                      background: `color-mix(in srgb, ${dom.accent} 15%, transparent)`,
-                      borderColor: `color-mix(in srgb, ${dom.accent} 30%, transparent)`,
-                    }}
-                  >
-                    <dom.icon size={26} style={{ color: dom.accent }} />
+          {domains.map((dom) => {
+            const domStats = domainRoadmapStats[dom.id];
+            const roadmapPercent = domStats?.overall.percent || 0;
+            const roadmapCompleted = domStats?.overall.completed || 0;
+            const roadmapTotal = domStats?.overall.total || 0;
+            const mathCompleted = domStats?.math.completed || 0;
+            const mathTotal = domStats?.math.total || 0;
+
+            return (
+              <Card
+                key={dom.id}
+                className="domain-card"
+                style={{
+                  '--dom-card-accent': dom.accent,
+                  '--dom-card-glow': dom.glow,
+                }}
+                onClick={() => navigate(dom.roadmapPath)}
+              >
+                <div
+                  className="domain-card__accent-bar"
+                  style={{ background: dom.accent }}
+                />
+                <div className="domain-card__inner">
+                  <div className="domain-card__head">
+                    <div
+                      className="domain-card__icon-box"
+                      style={{
+                        background: `color-mix(in srgb, ${dom.accent} 15%, transparent)`,
+                        borderColor: `color-mix(in srgb, ${dom.accent} 30%, transparent)`,
+                      }}
+                    >
+                      <dom.icon size={26} style={{ color: dom.accent }} />
+                    </div>
+                    <div className="domain-card__badges">
+                      <span className="domain-card__topic-badge">
+                        {roadmapTotal} Roadmap Topics
+                      </span>
+                    </div>
                   </div>
-                  <span className="domain-card__topic-badge">
-                    {dom.count} Topics
-                  </span>
-                </div>
 
-                <div className="domain-card__body">
-                  <h3 className="domain-card__title">{dom.title}</h3>
-                  <p className="domain-card__desc">{dom.description}</p>
-                </div>
+                  <div className="domain-card__body">
+                    <h3 className="domain-card__title">{dom.title}</h3>
+                    <p className="domain-card__desc">{dom.description}</p>
 
-                <div className="domain-card__footer">
-                  <Button
-                    variant="secondary"
-                    icon={ArrowRight}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(dom.path);
-                    }}
-                  >
-                    Explore Domain
-                  </Button>
+                    {/* Progress indicators */}
+                    <div className="domain-card__progress-block">
+                      <div className="domain-card__progress-meta">
+                        <span className="domain-card__progress-label">Roadmap Completion</span>
+                        <span className="domain-card__progress-stat">
+                          {roadmapCompleted}/{roadmapTotal} ({roadmapPercent}%)
+                        </span>
+                      </div>
+                      <div className="domain-card__track">
+                        <div
+                          className="domain-card__fill"
+                          style={{ width: `${roadmapPercent}%`, background: dom.accent }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="domain-card__math-badge">
+                      <Calculator size={13} className="text-yellow" />
+                      <span>
+                        Math Foundations: <strong>{mathCompleted}/{mathTotal}</strong>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="domain-card__footer">
+                    <Button
+                      size="sm"
+                      icon={Map}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(dom.roadmapPath);
+                      }}
+                      style={{ background: dom.accent, color: '#050814', fontWeight: 600 }}
+                    >
+                      Roadmap Journey
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      icon={ArrowRight}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(dom.path);
+                      }}
+                    >
+                      Explore Domain
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </div>
       </section>
 

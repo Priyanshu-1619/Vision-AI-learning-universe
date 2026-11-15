@@ -38,6 +38,48 @@
   max-width: 720px;
 }
 
+.im-studio__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.im-engine-selector {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(11, 22, 51, 0.7);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.im-engine-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #94a3b8);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.im-engine-btn:hover {
+  color: var(--text-primary, #ffffff);
+}
+
+.im-engine-btn--active {
+  background: var(--accent-electric, #164BFF);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(22, 75, 255, 0.4);
+}
+
 /* Main Tabs */
 .im-tabs {
   display: flex;

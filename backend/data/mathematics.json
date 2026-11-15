@@ -1,0 +1,1625 @@
+{
+  "topics": [
+    {
+      "id": "math-number-systems",
+      "category": "algebra",
+      "title": "Number Systems",
+      "description": "Understand real numbers, integers, rational numbers, and machine floating-point representations.",
+      "level": "basic",
+      "prerequisites": [],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-basic-arithmetic",
+      "category": "algebra",
+      "title": "Basic Arithmetic",
+      "description": "Order of operations (PEMDAS), rounding rules, and precision considerations in numerical computing.",
+      "level": "basic",
+      "prerequisites": [
+        "math-number-systems"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 15,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-fractions-percentages",
+      "category": "algebra",
+      "title": "Fractions and Percentages",
+      "description": "Converting proportions, calculating percentage change, growth rates, and baseline scaling.",
+      "level": "basic",
+      "prerequisites": [
+        "math-basic-arithmetic"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-ratios-proportions",
+      "category": "algebra",
+      "title": "Ratios and Proportions",
+      "description": "Comparing magnitudes, odds ratios, scale factors, and normalization ratios.",
+      "level": "basic",
+      "prerequisites": [
+        "math-fractions-percentages"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-algebra-fundamentals",
+      "category": "algebra",
+      "title": "Algebra Fundamentals",
+      "description": "Variables, algebraic expressions, factoring, and polynomial manipulation.",
+      "level": "basic",
+      "prerequisites": [
+        "math-basic-arithmetic"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-equations-inequalities",
+      "category": "algebra",
+      "title": "Equations and Inequalities",
+      "description": "Solving linear and quadratic equations, systems of equations, and boundary inequalities.",
+      "level": "basic",
+      "prerequisites": [
+        "math-algebra-fundamentals"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-functions",
+      "category": "algebra",
+      "title": "Functions",
+      "description": "Domain, range, mappings, function composition, and monotonic behavior.",
+      "level": "basic",
+      "prerequisites": [
+        "math-algebra-fundamentals"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-linear-functions",
+      "category": "algebra",
+      "title": "Linear Functions",
+      "description": "Equations of straight lines, direct relationships, and linear transformations in 1D.",
+      "level": "basic",
+      "prerequisites": [
+        "math-functions"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-slope-intercept",
+      "category": "algebra",
+      "title": "Slope and Intercept",
+      "description": "Rate of change (rise over run), y-intercept, and interpreting linear slopes physically.",
+      "level": "basic",
+      "prerequisites": [
+        "math-linear-functions"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-coordinate-geometry",
+      "category": "algebra",
+      "title": "Coordinate Geometry",
+      "description": "Cartesian coordinates, distance formulas, midpoints, and multidimensional space intuition.",
+      "level": "basic",
+      "prerequisites": [
+        "math-linear-functions"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=distance",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-graph-interpretation",
+      "category": "algebra",
+      "title": "Graph Interpretation",
+      "description": "Reading scatter plots, identifying trends, non-linear curvature, and detecting asymptotic limits.",
+      "level": "basic",
+      "prerequisites": [
+        "math-coordinate-geometry"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-exponents",
+      "category": "algebra",
+      "title": "Exponents",
+      "description": "Power laws, exponential growth, e (Euler's number), and exponential decay curves.",
+      "level": "basic",
+      "prerequisites": [
+        "math-algebra-fundamentals"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-logarithms",
+      "category": "algebra",
+      "title": "Logarithms",
+      "description": "Properties of logarithms, natural log (ln), log-likelihood, and stabilizing multiplications into sums.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-exponents"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-summations",
+      "category": "algebra",
+      "title": "Summations",
+      "description": "Sigma notation, indexing, double summations, and vectorized matrix reduction parallels.",
+      "level": "basic",
+      "prerequisites": [
+        "math-algebra-fundamentals"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-mean-median-mode",
+      "category": "statistics",
+      "title": "Mean, Median, Mode",
+      "description": "Measures of central tendency, center of mass analogy, and robustness to extreme outliers.",
+      "level": "basic",
+      "prerequisites": [
+        "math-basic-arithmetic"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=mean",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-percentiles-quartiles",
+      "category": "statistics",
+      "title": "Percentiles and Quartiles",
+      "description": "Quantiles, interquartile range (IQR), box plots, and non-parametric spread metrics.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-mean-median-mode"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-variance",
+      "category": "statistics",
+      "title": "Variance",
+      "description": "Mean squared deviation as physical area and penalty for distance from the center.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-mean-median-mode"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=variance",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-standard-deviation",
+      "category": "statistics",
+      "title": "Standard Deviation",
+      "description": "The natural scale of dispersion in original measurement units and the 68-95-99.7 empirical rule.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-variance"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=standard-deviation",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-measures-spread",
+      "category": "statistics",
+      "title": "Measures of Spread",
+      "description": "Range, MAD (median absolute deviation), coefficient of variation, and relative dispersion.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-standard-deviation"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-correlation",
+      "category": "statistics",
+      "title": "Correlation",
+      "description": "Pearson's r, Spearman's rank correlation, and measuring standardized co-variation.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-standard-deviation"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=correlation",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-covariance",
+      "category": "statistics",
+      "title": "Covariance",
+      "description": "Joint variability of two random variables, directional tendency, and covariance matrices.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-variance"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=correlation",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-probability",
+      "category": "statistics",
+      "title": "Probability",
+      "description": "Probability axioms, events, sample spaces, joint probability, and law of total probability.",
+      "level": "basic",
+      "prerequisites": [
+        "math-fractions-percentages"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-probability-distributions",
+      "category": "statistics",
+      "title": "Probability Distributions",
+      "description": "Probability mass functions (PMF), probability density functions (PDF), and cumulative distributions (CDF).",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-probability"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-normal-distribution",
+      "category": "statistics",
+      "title": "Normal Distribution",
+      "description": "The Gaussian bell curve, parameters mu and sigma, standardization to standard normal z-distribution.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-probability-distributions"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=standard-deviation",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-sampling",
+      "category": "statistics",
+      "title": "Sampling",
+      "description": "Simple random sampling, stratified sampling, sampling bias, and standard error of the mean.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-normal-distribution"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-conditional-probability",
+      "category": "statistics",
+      "title": "Conditional Probability",
+      "description": "P(A|B), independence, product rule, and updating probabilities based on observed evidence.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-probability"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-bayes-theorem",
+      "category": "statistics",
+      "title": "Bayes' Theorem",
+      "description": "Prior probability, likelihood, marginal evidence, and posterior belief revision formulation.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-conditional-probability"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-hypothesis-testing",
+      "category": "statistics",
+      "title": "Hypothesis Testing",
+      "description": "Null (H0) and alternative (H1) hypotheses, Type I / Type II errors, test statistics, and rejection regions.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-normal-distribution"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-confidence-intervals",
+      "category": "statistics",
+      "title": "Confidence Intervals",
+      "description": "Point estimation vs interval estimation, critical values, margin of error, and interpretation of 95% CI.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-hypothesis-testing"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-p-values",
+      "category": "statistics",
+      "title": "P-Values",
+      "description": "Significance level alpha, continuous probability of extremes under null hypothesis, and misinterpretations.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-hypothesis-testing"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-descriptive-statistics",
+      "category": "statistics",
+      "title": "Descriptive Statistics",
+      "description": "Summary tables, skewness, kurtosis, distributions, and initial dataset shape profiling.",
+      "level": "basic",
+      "prerequisites": [
+        "math-mean-median-mode"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=mean",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-expected-value",
+      "category": "statistics",
+      "title": "Expected Value",
+      "description": "Probability-weighted average outcomes E[X] for discrete and continuous systems.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-probability-distributions"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-statistical-inference",
+      "category": "statistics",
+      "title": "Statistical Inference",
+      "description": "Drawing conclusions about population parameters from finite training sample statistics.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-sampling"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-random-variables",
+      "category": "statistics",
+      "title": "Random Variables",
+      "description": "Mapping sample space events to real numerical values in deep probabilistic architectures.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-probability"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-entropy",
+      "category": "statistics",
+      "title": "Entropy",
+      "description": "Shannon entropy H(X) as the fundamental measure of uncertainty and average surprise in information.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-probability-distributions",
+        "math-logarithms"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-cross-entropy",
+      "category": "statistics",
+      "title": "Cross-Entropy",
+      "description": "H(p, q) as penalty for predicting distribution q when true distribution is p; foundation of classification loss.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-entropy"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=loss-functions",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-information-theory",
+      "category": "statistics",
+      "title": "Information Theory",
+      "description": "KL Divergence, mutual information, bits of information, and lossy compression bounds.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-cross-entropy"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 40,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-scalars",
+      "category": "linear-algebra",
+      "title": "Scalars",
+      "description": "Single numeric quantities (rank-0 tensors) representing scale, loss, learning rate, and bias terms.",
+      "level": "basic",
+      "prerequisites": [
+        "math-number-systems"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 15,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-vectors",
+      "category": "linear-algebra",
+      "title": "Vectors",
+      "description": "Ordered lists of numbers as geometric displacement arrows in coordinate space.",
+      "level": "basic",
+      "prerequisites": [
+        "math-coordinate-geometry"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=vectors",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-vector-operations",
+      "category": "linear-algebra",
+      "title": "Vector Operations",
+      "description": "Vector addition (tip-to-tail), scalar multiplication, linear combinations, and elementwise math.",
+      "level": "basic",
+      "prerequisites": [
+        "math-vectors"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=vectors",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-vector-magnitude",
+      "category": "linear-algebra",
+      "title": "Vector Magnitude",
+      "description": "Euclidean length ||v||2, Manhattan length ||v||1, unit vectors, and vector normalization.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-vector-operations"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=distance",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-dot-product",
+      "category": "linear-algebra",
+      "title": "Dot Product",
+      "description": "Inner product a\u00b7b = ||a||||b||cos(theta), measuring directional alignment and orthogonal projections.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-vector-magnitude"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=dot-product",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-matrices",
+      "category": "linear-algebra",
+      "title": "Matrices",
+      "description": "2D arrays representing linear transformations warping the coordinate plane.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-vectors"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=matrices",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-matrix-addition",
+      "category": "linear-algebra",
+      "title": "Matrix Addition",
+      "description": "Elementwise addition, broadcasting intuition, and scalar-matrix operations.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-matrices"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=matrices",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-matrix-multiplication",
+      "category": "linear-algebra",
+      "title": "Matrix Multiplication",
+      "description": "Row-column dot product composition, non-commutativity (AB != BA), and dimension compatibility.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-matrices",
+        "math-dot-product"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=matrices",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-transpose",
+      "category": "linear-algebra",
+      "title": "Transpose",
+      "description": "Flipping rows and columns A^T, symmetric matrices, and inner vs outer product dimensions.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-matrices"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=matrices",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-identity-matrix",
+      "category": "linear-algebra",
+      "title": "Identity Matrix",
+      "description": "The neutral matrix element I where AI = IA = A, diagonal matrices, and standard basis transformations.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-matrix-multiplication"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 20,
+      "difficulty": "beginner"
+    },
+    {
+      "id": "math-inverse-matrix",
+      "category": "linear-algebra",
+      "title": "Inverse Matrix",
+      "description": "Un-transforming space with A^(-1), determinants det(A) as scaling factors, and singularity.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-matrix-multiplication"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-eigenvalues-eigenvectors",
+      "category": "linear-algebra",
+      "title": "Eigenvalues and Eigenvectors",
+      "description": "Vectors whose directions do not change during linear transformation (Av = lambda v); basis of PCA.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-inverse-matrix"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 45,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-dimensionality",
+      "category": "linear-algebra",
+      "title": "Dimensionality and Dimensions",
+      "description": "Degrees of freedom, feature space volume, curse of dimensionality, and hyperplanes.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-vectors"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-tensors",
+      "category": "linear-algebra",
+      "title": "Scalars, Vectors, Matrices, Tensors",
+      "description": "Unified geometric representation across 0D scalars, 1D vectors, 2D matrices, and ND tensor arrays.",
+      "level": "basic",
+      "prerequisites": [
+        "math-matrices"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=matrices",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-tensor-operations",
+      "category": "linear-algebra",
+      "title": "Tensor Operations",
+      "description": "Tensor contractions, einsum operations, channel manipulation, batch dimensions, and broadcasting.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-tensors"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-vector-spaces",
+      "category": "linear-algebra",
+      "title": "Vector Spaces",
+      "description": "Span, linear independence, basis vectors, null spaces, and sub-space projections.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-vector-operations"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-limits",
+      "category": "calculus",
+      "title": "Limits",
+      "description": "Behavior of functions as inputs approach an infinitesimal boundary or infinity.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-functions"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=derivative",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-derivatives",
+      "category": "calculus",
+      "title": "Derivatives",
+      "description": "Instantaneous rate of change as secant line collapses into tangent slope f'(x).",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-limits",
+        "math-functions"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=derivative",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-partial-derivatives",
+      "category": "calculus",
+      "title": "Partial Derivatives",
+      "description": "Rate of change along one coordinate axis while holding all other independent variables constant.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-derivatives"
+      ],
+      "relatedDomains": [
+        "data-science",
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-chain-rule",
+      "category": "calculus",
+      "title": "Chain Rule",
+      "description": "Differentiating composite functions d/dx[f(g(x))] = f'(g(x))g'(x); core engine of backpropagation.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-derivatives"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=derivative",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-gradients",
+      "category": "calculus",
+      "title": "Gradients",
+      "description": "The vector of partial derivatives pointing in the direction of steepest ascent across multivariable surfaces.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-partial-derivatives",
+        "math-vectors"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-multivariable-calculus",
+      "category": "calculus",
+      "title": "Multivariable Calculus",
+      "description": "Surfaces in R^n, directional derivatives, contour curves, and hyper-tangent planes.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-gradients"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 40,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-jacobian",
+      "category": "calculus",
+      "title": "Jacobian",
+      "description": "The matrix of all first-order partial derivatives of a vector-valued function.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-multivariable-calculus",
+        "math-matrices"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 40,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-computational-graphs",
+      "category": "calculus",
+      "title": "Computational Graphs",
+      "description": "Directed acyclic graphs (DAG) representing mathematical operations and gradient accumulation passes.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-chain-rule"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-gradient-descent",
+      "category": "optimization",
+      "title": "Gradient Descent",
+      "description": "Iteratively stepping parameters opposite the gradient to converge toward local and global minima.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-gradients"
+      ],
+      "relatedDomains": [
+        "machine-learning",
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient-descent",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-cost-functions",
+      "category": "optimization",
+      "title": "Cost Functions",
+      "description": "Formulating aggregate objective landscapes over entire datasets to measure model fit.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-functions"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=loss-functions",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-optimization",
+      "category": "optimization",
+      "title": "Optimization",
+      "description": "First-order vs second-order conditions, stationary points, convex optimization, and saddle points.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-gradient-descent"
+      ],
+      "relatedDomains": [
+        "machine-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient-descent",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-loss-functions",
+      "category": "optimization",
+      "title": "Loss Functions",
+      "description": "Penalty metrics comparing ground-truth targets with predicted outputs on single instances.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-cost-functions"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=loss-functions",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-mean-squared-error",
+      "category": "optimization",
+      "title": "Mean Squared Error",
+      "description": "Quadratic error L2 penalty, sensitivity to large mistakes, and gradient linearity.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-loss-functions"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=loss-functions",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 25,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-binary-cross-entropy",
+      "category": "optimization",
+      "title": "Binary Cross-Entropy",
+      "description": "Negative log-likelihood loss for Bernoulli trials and binary classification calibration.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-cross-entropy"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=loss-functions",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-categorical-cross-entropy",
+      "category": "optimization",
+      "title": "Categorical Cross-Entropy",
+      "description": "Multinomial negative log-likelihood coupled with Softmax activation for multiclass classification.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-binary-cross-entropy"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=loss-functions",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-stochastic-gradient-descent",
+      "category": "optimization",
+      "title": "Stochastic Gradient Descent",
+      "description": "Mini-batch noisy gradients, escaping sharp local minima, and epoch traversal dynamics.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-gradient-descent"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient-descent",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-momentum",
+      "category": "optimization",
+      "title": "Momentum",
+      "description": "Exponential moving average of previous velocity vectors to dampen oscillations and accelerate descent.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-stochastic-gradient-descent"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient-descent",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-adam-optimizer",
+      "category": "optimization",
+      "title": "Adam Optimizer",
+      "description": "Combining momentum (first moment) with RMSProp (second moment of squared gradients) for adaptive steps.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-momentum"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient-descent",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 40,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-weight-initialization",
+      "category": "optimization",
+      "title": "Weight Initialization",
+      "description": "Preserving activation and gradient variance across deep layers: Xavier / Glorot and He initialization formulas.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-variance"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-activation-math",
+      "category": "optimization",
+      "title": "Activation Function Mathematics",
+      "description": "Non-linear mappings and their analytical derivatives: Sigmoid, Tanh, ReLU, Leaky ReLU, and Softmax.",
+      "level": "intermediate",
+      "prerequisites": [
+        "math-functions",
+        "math-derivatives"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-backpropagation-math",
+      "category": "optimization",
+      "title": "Backpropagation Mathematics",
+      "description": "Complete multivariable chain rule application propagating error deltas backward through layer weights.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-chain-rule",
+        "math-matrix-multiplication"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 45,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-regularization",
+      "category": "optimization",
+      "title": "Regularization",
+      "description": "L2 weight decay (shrinking weights) and L1 sparsity penalty (feature selection) mathematical formulations.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-cost-functions"
+      ],
+      "relatedDomains": [
+        "deep-learning"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-linear-regression-math",
+      "category": "optimization",
+      "title": "Linear Regression Mathematics",
+      "description": "Analytical derivation of ordinary least squares slope beta1 and intercept beta0 minimizing squared errors.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-slope-intercept",
+        "math-mean-median-mode"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-least-squares-method",
+      "category": "optimization",
+      "title": "Least Squares Method",
+      "description": "Projection of target vector y onto column space of feature matrix X via normal equation (X^T X)^(-1) X^T y.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-linear-regression-math",
+        "math-matrices"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 40,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-residuals",
+      "category": "statistics",
+      "title": "Residuals",
+      "description": "Differences between observed y and predicted y_hat; homoscedasticity and normality of error distributions.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-linear-regression-math"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 25,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-r-squared",
+      "category": "statistics",
+      "title": "R-Squared",
+      "description": "Proportion of total variance explained by regression model (1 - SS_res / SS_tot) and adjusted R^2.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-residuals",
+        "math-variance"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-multiple-regression",
+      "category": "optimization",
+      "title": "Multiple Regression",
+      "description": "Matrix formulation of linear models with p predictors, multicollinearity, and partial slopes.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-least-squares-method",
+        "math-matrices"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics",
+      "hasInteractiveLesson": false,
+      "estimatedMinutes": 40,
+      "difficulty": "hard"
+    },
+    {
+      "id": "math-matrix-fundamentals",
+      "category": "linear-algebra",
+      "title": "Matrix Fundamentals",
+      "description": "Tabular matrices, row vectors as data points, column vectors as features, and design matrices.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-coordinate-geometry"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics?topic=matrices",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-basic-calculus",
+      "category": "calculus",
+      "title": "Basic Calculus",
+      "description": "Intuition for rates of change, continuous curves, and areas under probability density functions.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-functions"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics?topic=derivative",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 30,
+      "difficulty": "medium"
+    },
+    {
+      "id": "math-optimization-fundamentals",
+      "category": "optimization",
+      "title": "Optimization Fundamentals",
+      "description": "Setting derivatives to zero (f'(x) = 0), unconstrained optimization, and loss minimization.",
+      "level": "advanced",
+      "prerequisites": [
+        "math-derivatives",
+        "math-partial-derivatives"
+      ],
+      "relatedDomains": [
+        "data-science"
+      ],
+      "lessonRoute": "/mathematics?topic=gradient-descent",
+      "hasInteractiveLesson": true,
+      "estimatedMinutes": 35,
+      "difficulty": "hard"
+    }
+  ],
+  "domains": {
+    "data-science": {
+      "totalCount": 39,
+      "topicIds": [
+        "math-number-systems",
+        "math-basic-arithmetic",
+        "math-fractions-percentages",
+        "math-ratios-proportions",
+        "math-algebra-fundamentals",
+        "math-equations-inequalities",
+        "math-functions",
+        "math-linear-functions",
+        "math-slope-intercept",
+        "math-coordinate-geometry",
+        "math-graph-interpretation",
+        "math-mean-median-mode",
+        "math-percentiles-quartiles",
+        "math-variance",
+        "math-standard-deviation",
+        "math-measures-spread",
+        "math-correlation",
+        "math-covariance",
+        "math-probability",
+        "math-probability-distributions",
+        "math-normal-distribution",
+        "math-sampling",
+        "math-conditional-probability",
+        "math-bayes-theorem",
+        "math-hypothesis-testing",
+        "math-confidence-intervals",
+        "math-p-values",
+        "math-vectors",
+        "math-matrices",
+        "math-derivatives",
+        "math-partial-derivatives",
+        "math-linear-regression-math",
+        "math-least-squares-method",
+        "math-residuals",
+        "math-r-squared",
+        "math-multiple-regression",
+        "math-matrix-fundamentals",
+        "math-basic-calculus",
+        "math-optimization-fundamentals"
+      ]
+    },
+    "machine-learning": {
+      "totalCount": 47,
+      "topicIds": [
+        "math-algebra-fundamentals",
+        "math-equations-inequalities",
+        "math-functions",
+        "math-linear-functions",
+        "math-slope-intercept",
+        "math-coordinate-geometry",
+        "math-graph-interpretation",
+        "math-exponents",
+        "math-logarithms",
+        "math-summations",
+        "math-mean-median-mode",
+        "math-percentiles-quartiles",
+        "math-variance",
+        "math-standard-deviation",
+        "math-measures-spread",
+        "math-correlation",
+        "math-covariance",
+        "math-probability",
+        "math-probability-distributions",
+        "math-normal-distribution",
+        "math-sampling",
+        "math-conditional-probability",
+        "math-bayes-theorem",
+        "math-descriptive-statistics",
+        "math-expected-value",
+        "math-statistical-inference",
+        "math-scalars",
+        "math-vectors",
+        "math-vector-operations",
+        "math-vector-magnitude",
+        "math-dot-product",
+        "math-matrices",
+        "math-matrix-addition",
+        "math-matrix-multiplication",
+        "math-transpose",
+        "math-identity-matrix",
+        "math-inverse-matrix",
+        "math-eigenvalues-eigenvectors",
+        "math-dimensionality",
+        "math-limits",
+        "math-derivatives",
+        "math-partial-derivatives",
+        "math-chain-rule",
+        "math-gradients",
+        "math-gradient-descent",
+        "math-cost-functions",
+        "math-optimization"
+      ]
+    },
+    "deep-learning": {
+      "totalCount": 47,
+      "topicIds": [
+        "math-functions",
+        "math-exponents",
+        "math-logarithms",
+        "math-summations",
+        "math-variance",
+        "math-probability",
+        "math-probability-distributions",
+        "math-normal-distribution",
+        "math-conditional-probability",
+        "math-bayes-theorem",
+        "math-expected-value",
+        "math-random-variables",
+        "math-entropy",
+        "math-cross-entropy",
+        "math-information-theory",
+        "math-scalars",
+        "math-vectors",
+        "math-vector-operations",
+        "math-vector-magnitude",
+        "math-dot-product",
+        "math-matrices",
+        "math-matrix-addition",
+        "math-matrix-multiplication",
+        "math-transpose",
+        "math-eigenvalues-eigenvectors",
+        "math-tensors",
+        "math-tensor-operations",
+        "math-vector-spaces",
+        "math-derivatives",
+        "math-partial-derivatives",
+        "math-chain-rule",
+        "math-gradients",
+        "math-multivariable-calculus",
+        "math-jacobian",
+        "math-computational-graphs",
+        "math-gradient-descent",
+        "math-loss-functions",
+        "math-mean-squared-error",
+        "math-binary-cross-entropy",
+        "math-categorical-cross-entropy",
+        "math-stochastic-gradient-descent",
+        "math-momentum",
+        "math-adam-optimizer",
+        "math-weight-initialization",
+        "math-activation-math",
+        "math-backpropagation-math",
+        "math-regularization"
+      ]
+    }
+  }
+}

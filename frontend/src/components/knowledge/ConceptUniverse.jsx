@@ -32,20 +32,21 @@ import { categoryColors } from '../../theme/colors';
 import Badge from '../common/Badge';
 import Button from '../common/Button';
 import Loading from '../common/Loading';
+import SpaceshipCursor from './SpaceshipCursor';
 import './ConceptUniverse.css';
 
-const WORLD_WIDTH = 1600;
-const WORLD_HEIGHT = 1100;
+const WORLD_WIDTH = 2400;
+const WORLD_HEIGHT = 1600;
 
 const CLUSTER_ANCHORS = {
-  Foundations: { x: 270, y: 245 },
-  Mathematics: { x: 780, y: 210 },
-  'Data Science': { x: 1320, y: 235 },
-  'Core ML': { x: 485, y: 530 },
-  Algorithms: { x: 1155, y: 545 },
-  Optimization: { x: 265, y: 850 },
-  'Deep Learning': { x: 825, y: 835 },
-  Evaluation: { x: 1355, y: 865 },
+  Foundations: { x: 380, y: 350 },
+  Mathematics: { x: 1200, y: 320 },
+  'Data Science': { x: 2020, y: 360 },
+  'Core ML': { x: 580, y: 820 },
+  Algorithms: { x: 1820, y: 840 },
+  Optimization: { x: 380, y: 1280 },
+  'Deep Learning': { x: 1200, y: 1260 },
+  Evaluation: { x: 2020, y: 1280 },
 };
 
 const DIFFICULTY_RADIUS = {
@@ -53,6 +54,21 @@ const DIFFICULTY_RADIUS = {
   Intermediate: 18,
   Advanced: 21,
 };
+
+const DOMAIN_OPTIONS = [
+  { id: 'All', label: 'All Domains' },
+  { id: 'data-science', label: 'Data Science' },
+  { id: 'machine-learning', label: 'Machine Learning' },
+  { id: 'deep-learning', label: 'Deep Learning' },
+  { id: 'mathematics', label: 'Mathematics' },
+];
+
+const LEVEL_OPTIONS = [
+  { id: 'All', label: 'All Levels' },
+  { id: 'basic', label: 'Basic' },
+  { id: 'intermediate', label: 'Intermediate' },
+  { id: 'advanced', label: 'Advanced' },
+];
 
 const DIFFICULTIES = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 const MASTERY_FILTERS = ['All', 'Explored', 'Unexplored'];
@@ -62,8 +78,8 @@ const CONNECTION_MODES = [
   { id: 'all', label: 'All Connections' },
 ];
 
-// Deterministic background starfield so the cosmos stays crisp across renders
-const BACKGROUND_STARS = Array.from({ length: 130 }, (_, i) => {
+// Deterministic background starfield across 2400x1600 cosmic cosmos
+const BACKGROUND_STARS = Array.from({ length: 240 }, (_, i) => {
   const sx = ((i * 397 + 73) % (WORLD_WIDTH - 40)) + 20;
   const sy = ((i * 613 + 131) % (WORLD_HEIGHT - 40)) + 20;
   const r = i % 7 === 0 ? 1.7 : i % 3 === 0 ? 1.2 : 0.8;
@@ -112,6 +128,8 @@ export default function ConceptUniverse() {
   const focusedCategory = searchParams.get('category') || 'All';
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [domainFilter, setDomainFilter] = useState('All');
+  const [levelFilter, setLevelFilter] = useState('All');
   const [difficultyFilter, setDifficultyFilter] = useState('All');
   const [masteryFilter, setMasteryFilter] = useState('All');
   const [connectionMode, setConnectionMode] = useState('selected');
@@ -119,6 +137,7 @@ export default function ConceptUniverse() {
   const [hoveredNodeId, setHoveredNodeId] = useState(null);
   const [exploredList, setExploredList] = useState(() => getExploredIds());
 
+  const canvasWrapRef = useRef(null);
   const svgRef = useRef(null);
   const zoomLayerRef = useRef(null);
   const zoomBehaviorRef = useRef(null);
@@ -164,8 +183,8 @@ export default function ConceptUniverse() {
       const idx = Math.max(0, categoryNames.indexOf(cat));
       const angle = (idx / Math.max(1, categoryNames.length)) * Math.PI * 2;
       return {
-        x: WORLD_WIDTH / 2 + Math.cos(angle) * 460,
-        y: WORLD_HEIGHT / 2 + Math.sin(angle) * 320,
+        x: WORLD_WIDTH / 2 + Math.cos(angle) * 520,
+        y: WORLD_HEIGHT / 2 + Math.sin(angle) * 360,
       };
     };
 
@@ -181,11 +200,15 @@ export default function ConceptUniverse() {
       const sortedMembers = [...members].sort((a, b) => a.title.localeCompare(b.title));
       sortedMembers.forEach((node, idx) => {
         const angle = idx * 2.39996; // Golden angle spiral inside cluster
-        const dist = 24 + Math.sqrt(idx) * 34;
+        const dist = 28 + Math.sqrt(idx) * 36;
         const radius = DIFFICULTY_RADIUS[node.difficulty] || 17;
+        const fullConcept = conceptMap.get(node.id);
         simNodes.push({
           ...node,
           color: node.color || categoryColors[node.category] || '#06b6d4',
+          domain: fullConcept?.domain || 'machine-learning',
+          level: fullConcept?.level || 'intermediate',
+          definition: fullConcept?.definition || '',
           radius,
           anchorX: anchor.x,
           anchorY: anchor.y,
@@ -197,10 +220,10 @@ export default function ConceptUniverse() {
 
     const simulation = d3
       .forceSimulation(simNodes)
-      .force('x', d3.forceX((d) => d.anchorX).strength(0.36))
-      .force('y', d3.forceY((d) => d.anchorY).strength(0.36))
-      .force('charge', d3.forceManyBody().strength(-70))
-      .force('collide', d3.forceCollide((d) => d.radius + 26).strength(0.95).iterations(3))
+      .force('x', d3.forceX((d) => d.anchorX).strength(0.38))
+      .force('y', d3.forceY((d) => d.anchorY).strength(0.38))
+      .force('charge', d3.forceManyBody().strength(-75))
+      .force('collide', d3.forceCollide((d) => d.radius + 24).strength(0.95).iterations(3))
       .stop();
 
     for (let i = 0; i < 180; i += 1) {
@@ -228,7 +251,7 @@ export default function ConceptUniverse() {
         color: categoryColors[cat] || settled[0]?.color || '#06b6d4',
         cx,
         cy,
-        radius: Math.max(108, maxReach + 42),
+        radius: Math.max(120, maxReach + 48),
         nodeIds: settled.map((n) => n.id),
       });
     }
@@ -255,7 +278,7 @@ export default function ConceptUniverse() {
       .filter(Boolean);
 
     return { nodes: simNodes, nodeById, clusters, edges };
-  }, [rawGraph]);
+  }, [rawGraph, conceptMap]);
 
   const isLoading = conceptsLoading && graphLoading;
 
@@ -271,14 +294,14 @@ export default function ConceptUniverse() {
 
     const zoom = d3
       .zoom()
-      .scaleExtent([0.45, 3.6])
+      .scaleExtent([0.35, 3.8])
       .extent([
         [0, 0],
         [WORLD_WIDTH, WORLD_HEIGHT],
       ])
       .translateExtent([
-        [-260, -200],
-        [WORLD_WIDTH + 260, WORLD_HEIGHT + 200],
+        [-350, -250],
+        [WORLD_WIDTH + 350, WORLD_HEIGHT + 250],
       ])
       .on('zoom', (event) => {
         layer.attr('transform', event.transform.toString());
@@ -307,8 +330,8 @@ export default function ConceptUniverse() {
         applyZoomTransform(d3.zoomIdentity, 550);
         return;
       }
-      const pad = cluster.radius * 2.55;
-      const scale = Math.min(2.6, Math.max(0.85, Math.min(WORLD_WIDTH / pad, WORLD_HEIGHT / pad)));
+      const pad = cluster.radius * 2.4;
+      const scale = Math.min(2.8, Math.max(0.65, Math.min(WORLD_WIDTH / pad, WORLD_HEIGHT / pad)));
       const tx = WORLD_WIDTH / 2 - scale * cluster.cx;
       const ty = WORLD_HEIGHT / 2 - scale * cluster.cy;
       applyZoomTransform(d3.zoomIdentity.translate(tx, ty).scale(scale), 550);
@@ -319,7 +342,7 @@ export default function ConceptUniverse() {
   const zoomToNode = useCallback(
     (node) => {
       if (!node) return;
-      const scale = 1.9;
+      const scale = 2.1;
       const tx = WORLD_WIDTH / 2 - scale * node.x;
       const ty = WORLD_HEIGHT / 2 - scale * node.y;
       applyZoomTransform(d3.zoomIdentity.translate(tx, ty).scale(scale), 550);
@@ -368,10 +391,14 @@ export default function ConceptUniverse() {
       .call(zoomBehaviorRef.current.scaleBy, factor);
   };
 
-  // Search + difficulty + mastery filtering
+  // Search + domain + level + difficulty + mastery filtering
   const searchLower = searchQuery.trim().toLowerCase();
   const hasActiveFilter =
-    Boolean(searchLower) || difficultyFilter !== 'All' || masteryFilter !== 'All';
+    Boolean(searchLower) ||
+    domainFilter !== 'All' ||
+    levelFilter !== 'All' ||
+    difficultyFilter !== 'All' ||
+    masteryFilter !== 'All';
 
   const matchingIds = useMemo(() => {
     const ids = new Set();
@@ -380,7 +407,14 @@ export default function ConceptUniverse() {
         !searchLower ||
         node.title?.toLowerCase().includes(searchLower) ||
         node.category?.toLowerCase().includes(searchLower) ||
-        node.id?.toLowerCase().includes(searchLower);
+        node.id?.toLowerCase().includes(searchLower) ||
+        node.domain?.toLowerCase().includes(searchLower) ||
+        node.definition?.toLowerCase().includes(searchLower);
+
+      const matchesDomain =
+        domainFilter === 'All' || node.domain === domainFilter;
+      const matchesLevel =
+        levelFilter === 'All' || node.level === levelFilter;
       const matchesDiff =
         difficultyFilter === 'All' || node.difficulty === difficultyFilter;
       const isExplored = exploredSet.has(node.id);
@@ -389,12 +423,12 @@ export default function ConceptUniverse() {
         (masteryFilter === 'Explored' && isExplored) ||
         (masteryFilter === 'Unexplored' && !isExplored);
 
-      if (matchesSearch && matchesDiff && matchesMastery) {
+      if (matchesSearch && matchesDomain && matchesLevel && matchesDiff && matchesMastery) {
         ids.add(node.id);
       }
     }
     return ids;
-  }, [layout.nodes, searchLower, difficultyFilter, masteryFilter, exploredSet]);
+  }, [layout.nodes, searchLower, domainFilter, levelFilter, difficultyFilter, masteryFilter, exploredSet]);
 
   const activeFocusId = hoveredNodeId || selectedNodeId;
   const lineage = useMemo(
@@ -456,12 +490,13 @@ export default function ConceptUniverse() {
           <div>
             <div className="cu-header__eyebrow">
               <Sparkles size={14} />
-              <span>Phase 2 · Spatial Knowledge Constellation</span>
+              <span>Phase 2 · Cosmic Spatial Knowledge Constellation</span>
             </div>
             <h1 className="cu-header__title">AI Concept Universe</h1>
             <p className="cu-header__subtitle">
-              Zoom into domain constellations, trace prerequisite lineages, and track your
-              mastery across {layout.nodes.length} interconnected concepts.
+              Navigate {layout.nodes.length} interconnected nodes across Data Science,
+              Machine Learning, Deep Learning, and Mathematics. Trace prerequisite lineages,
+              filter by domain and level, and inspect granular formulas.
             </p>
           </div>
 
@@ -473,7 +508,7 @@ export default function ConceptUniverse() {
           </div>
         </div>
 
-        {/* Filter Bar */}
+        {/* Filter Controls Bar */}
         <div className="cu-controls">
           <div className="cu-search">
             <Search size={15} className="cu-search__icon" />
@@ -482,7 +517,7 @@ export default function ConceptUniverse() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchKeyDown}
-              placeholder="Find star (Enter to focus)..."
+              placeholder="Find node across cosmos (Enter to focus)..."
               className="cu-search__input"
               aria-label="Search Concept Universe"
             />
@@ -498,6 +533,41 @@ export default function ConceptUniverse() {
             )}
           </div>
 
+          {/* Domain Filter */}
+          <div className="cu-control-group" role="group" aria-label="Domain filter">
+            <span className="cu-control-label">Domain</span>
+            <div className="cu-segmented">
+              {DOMAIN_OPTIONS.map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  className={`cu-seg-btn ${domainFilter === opt.id ? 'cu-seg-btn--active' : ''}`}
+                  onClick={() => setDomainFilter(opt.id)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Level Filter */}
+          <div className="cu-control-group" role="group" aria-label="Level filter">
+            <span className="cu-control-label">Level</span>
+            <div className="cu-segmented">
+              {LEVEL_OPTIONS.map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  className={`cu-seg-btn ${levelFilter === opt.id ? 'cu-seg-btn--active' : ''}`}
+                  onClick={() => setLevelFilter(opt.id)}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Difficulty Filter */}
           <div className="cu-control-group" role="group" aria-label="Difficulty filter">
             <span className="cu-control-label">Difficulty</span>
             <div className="cu-segmented">
@@ -514,6 +584,7 @@ export default function ConceptUniverse() {
             </div>
           </div>
 
+          {/* Mastery Filter */}
           <div className="cu-control-group" role="group" aria-label="Mastery filter">
             <span className="cu-control-label">Mastery</span>
             <div className="cu-segmented">
@@ -530,6 +601,7 @@ export default function ConceptUniverse() {
             </div>
           </div>
 
+          {/* Links Display Mode */}
           <div className="cu-control-group" role="group" aria-label="Connection display mode">
             <span className="cu-control-label">Links</span>
             <div className="cu-segmented">
@@ -580,7 +652,10 @@ export default function ConceptUniverse() {
 
       {/* Main Cosmic Viewport + Side Inspector */}
       <div className={`cu-workspace ${selectedConcept ? 'cu-workspace--with-panel' : ''}`}>
-        <div className="cu-canvas-wrap">
+        <div className="cu-canvas-wrap" ref={canvasWrapRef}>
+          {/* Spaceship Exploration Probe Cursor */}
+          <SpaceshipCursor containerRef={canvasWrapRef} />
+
           <svg
             ref={svgRef}
             className="cu-svg"
@@ -599,9 +674,9 @@ export default function ConceptUniverse() {
                 <stop offset="100%" stopColor="#04070f" />
               </radialGradient>
 
-              <pattern id="cu-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+              <pattern id="cu-grid" width="100" height="100" patternUnits="userSpaceOnUse">
                 <path
-                  d="M 80 0 L 0 0 0 80"
+                  d="M 100 0 L 0 0 0 100"
                   fill="none"
                   stroke="rgba(148, 163, 184, 0.05)"
                   strokeWidth="1"
@@ -653,133 +728,117 @@ export default function ConceptUniverse() {
                 markerHeight="6"
                 orient="auto"
               >
-                <path d="M0,-5L10,0L0,5" fill="#34d399" />
+                <path d="M0,-5L10,0L0,5" fill="#facc15" />
               </marker>
             </defs>
 
-            {/* Fixed backdrop */}
+            {/* Cosmos Deep Space Base */}
             <rect width={WORLD_WIDTH} height={WORLD_HEIGHT} fill="url(#cu-space-bg)" />
-            <rect width={WORLD_WIDTH} height={WORLD_HEIGHT} fill="url(#cu-grid)" />
+            <rect width={WORLD_WIDTH} height={WORLD_HEIGHT} fill="url(#cu-grid)" opacity="0.6" />
 
-            {/* Zoomable Cosmic Universe Layer */}
-            <g ref={zoomLayerRef}>
+            {/* Dynamic Zoom/Pan Transformation Layer */}
+            <g ref={zoomLayerRef} className="cu-zoom-layer">
               {/* Starfield */}
-              <g className="cu-starfield" pointerEvents="none">
-                {BACKGROUND_STARS.map((star) => (
+              <g className="cu-starfield" opacity="0.85">
+                {BACKGROUND_STARS.map((s) => (
                   <circle
-                    key={star.id}
-                    cx={star.x}
-                    cy={star.y}
-                    r={star.r}
+                    key={s.id}
+                    cx={s.x}
+                    cy={s.y}
+                    r={s.r}
                     fill="#e2e8f0"
-                    opacity={star.opacity}
+                    opacity={s.opacity}
                   />
                 ))}
               </g>
 
-              {/* Domain Constellations */}
-              <g className="cu-clusters">
+              {/* Cluster Nebula Clouds */}
+              <g className="cu-nebulae">
                 {layout.clusters.map((cluster) => {
-                  const isFocused = focusedCategory === cluster.name;
-                  const clusterExplored = cluster.nodeIds.filter((id) =>
-                    exploredSet.has(id)
-                  ).length;
-
+                  const isFocused = focusedCategory === 'All' || focusedCategory === cluster.name;
                   return (
-                    <g
-                      key={cluster.name}
-                      className={`cu-cluster ${isFocused ? 'cu-cluster--focused' : ''}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCategoryFocus(cluster.name);
-                      }}
-                    >
+                    <g key={cluster.slug} className="cu-nebula-group">
                       <circle
                         cx={cluster.cx}
                         cy={cluster.cy}
                         r={cluster.radius}
                         fill={`url(#nebula-${cluster.slug})`}
-                        stroke={cluster.color}
-                        strokeOpacity={isFocused ? 0.65 : 0.28}
-                        strokeWidth={isFocused ? 2 : 1.25}
-                        strokeDasharray={isFocused ? 'none' : '5 7'}
+                        opacity={isFocused ? 1 : 0.28}
+                        className="cu-nebula-glow"
                       />
-
-                      {/* Cluster Label Header */}
-                      <g transform={`translate(${cluster.cx}, ${cluster.cy - cluster.radius - 14})`}>
-                        <text className="cu-cluster__name" textAnchor="middle" fill={cluster.color}>
-                          {cluster.name.toUpperCase()}
-                        </text>
-                        <text className="cu-cluster__stats" y="16" textAnchor="middle">
-                          {clusterExplored}/{cluster.nodeIds.length} explored
-                        </text>
-                      </g>
+                      <circle
+                        cx={cluster.cx}
+                        cy={cluster.cy}
+                        r={cluster.radius}
+                        fill="none"
+                        stroke={cluster.color}
+                        strokeWidth="1"
+                        strokeDasharray="4 6"
+                        opacity={isFocused ? 0.35 : 0.12}
+                      />
+                      <text
+                        x={cluster.cx}
+                        y={cluster.cy - cluster.radius + 18}
+                        textAnchor="middle"
+                        className="cu-cluster-label"
+                        fill={cluster.color}
+                        opacity={isFocused ? 0.85 : 0.35}
+                      >
+                        {cluster.name.toUpperCase()}
+                      </text>
                     </g>
                   );
                 })}
               </g>
 
-              {/* Cosmic Filaments (Edges) */}
-              <g className="cu-edges" pointerEvents="none">
+              {/* Inter-Concept Gravitational Edges */}
+              <g className="cu-edges">
                 {layout.edges.map((edge) => {
-                  if (connectionMode === 'prerequisites' && edge.type !== 'prerequisite') {
-                    return null;
-                  }
-
                   const isUpstream =
-                    Boolean(activeFocusId) &&
-                    edge.type === 'prerequisite' &&
-                    lineage.ancestorIds.has(edge.sourceId) &&
-                    (edge.targetId === activeFocusId || lineage.ancestorIds.has(edge.targetId));
-
+                    edge.targetId === activeFocusId && lineage.ancestorIds.has(edge.sourceId);
                   const isDownstream =
-                    Boolean(activeFocusId) &&
-                    edge.type === 'prerequisite' &&
-                    (edge.sourceId === activeFocusId || lineage.descendantIds.has(edge.sourceId)) &&
-                    lineage.descendantIds.has(edge.targetId);
+                    edge.sourceId === activeFocusId && lineage.descendantIds.has(edge.targetId);
+                  const isRelatedEdge =
+                    (edge.sourceId === activeFocusId && lineage.relatedIds.has(edge.targetId)) ||
+                    (edge.targetId === activeFocusId && lineage.relatedIds.has(edge.sourceId));
 
-                  const isDirectRelated =
-                    Boolean(activeFocusId) &&
-                    edge.type === 'related' &&
-                    ((edge.sourceId === activeFocusId && lineage.relatedIds.has(edge.targetId)) ||
-                      (edge.targetId === activeFocusId && lineage.relatedIds.has(edge.sourceId)));
+                  const isLineageEdge = isUpstream || isDownstream || isRelatedEdge;
 
-                  const isHighlighted = isUpstream || isDownstream || isDirectRelated;
-
-                  if (connectionMode === 'selected' && !activeFocusId && edge.type === 'related') {
-                    return null;
+                  let shouldRender = false;
+                  if (connectionMode === 'all') {
+                    shouldRender = true;
+                  } else if (connectionMode === 'prerequisites') {
+                    shouldRender = edge.type === 'prerequisite';
+                  } else {
+                    // connectionMode === 'selected'
+                    shouldRender = isLineageEdge;
                   }
 
-                  let stroke = 'rgba(56, 189, 248, 0.14)';
-                  let strokeWidth = 1.2;
-                  let opacity = 0.7;
-                  let markerEnd = edge.type === 'prerequisite' ? 'url(#cu-arrow-base)' : undefined;
+                  if (!shouldRender && !isLineageEdge) return null;
 
-                  if (edge.type === 'related') {
-                    stroke = 'rgba(148, 163, 184, 0.2)';
-                    strokeWidth = 1.1;
-                  }
+                  let stroke = 'rgba(148, 163, 184, 0.14)';
+                  let strokeWidth = 1;
+                  let strokeDasharray = edge.type === 'related' ? '3 3' : 'none';
+                  let markerEnd = 'url(#cu-arrow-base)';
+                  let opacity = 0.55;
 
-                  if (activeFocusId) {
-                    if (isUpstream) {
-                      stroke = '#38bdf8';
-                      strokeWidth = 2.4;
-                      opacity = 1;
-                      markerEnd = 'url(#cu-arrow-upstream)';
-                    } else if (isDownstream) {
-                      stroke = '#34d399';
-                      strokeWidth = 2.4;
-                      opacity = 1;
-                      markerEnd = 'url(#cu-arrow-downstream)';
-                    } else if (isDirectRelated) {
-                      stroke = '#a78bfa';
-                      strokeWidth = 2;
-                      opacity = 0.95;
-                    } else {
-                      opacity = connectionMode === 'selected' ? 0.08 : 0.14;
-                    }
-                  } else if (connectionMode === 'selected') {
-                    opacity = 0.45;
+                  if (isUpstream) {
+                    stroke = '#38bdf8';
+                    strokeWidth = 2.4;
+                    markerEnd = 'url(#cu-arrow-upstream)';
+                    opacity = 1;
+                  } else if (isDownstream) {
+                    stroke = '#facc15';
+                    strokeWidth = 2.4;
+                    markerEnd = 'url(#cu-arrow-downstream)';
+                    opacity = 1;
+                  } else if (isRelatedEdge) {
+                    stroke = '#a855f7';
+                    strokeWidth = 1.8;
+                    strokeDasharray = '4 3';
+                    opacity = 0.85;
+                  } else if (activeFocusId) {
+                    opacity = 0.08;
                   }
 
                   return (
@@ -789,146 +848,129 @@ export default function ConceptUniverse() {
                       fill="none"
                       stroke={stroke}
                       strokeWidth={strokeWidth}
-                      strokeDasharray={edge.type === 'related' ? '5 5' : undefined}
-                      strokeOpacity={opacity}
+                      strokeDasharray={strokeDasharray}
                       markerEnd={markerEnd}
-                      className={isHighlighted ? 'cu-edge--active' : ''}
+                      opacity={opacity}
+                      className="cu-edge"
                     />
                   );
                 })}
               </g>
 
-              {/* Concept Stars (Nodes) */}
+              {/* Concept Star Nodes */}
               <g className="cu-nodes">
                 {layout.nodes.map((node) => {
+                  const isSelected = node.id === selectedNodeId;
+                  const isHovered = node.id === hoveredNodeId;
+                  const isFocused = isSelected || isHovered;
                   const isExplored = exploredSet.has(node.id);
-                  const isSelected = selectedNodeId === node.id;
-                  const isHovered = hoveredNodeId === node.id;
-                  const isAncestor = lineage.ancestorIds.has(node.id);
-                  const isDescendant = lineage.descendantIds.has(node.id);
-                  const isRelated = lineage.relatedIds.has(node.id);
-                  const isLineageMember =
-                    isSelected || isHovered || isAncestor || isDescendant || isRelated;
 
-                  const matchesCurrentFilters = matchingIds.has(node.id);
-                  const categoryDimmed =
-                    focusedCategory !== 'All' &&
-                    node.category !== focusedCategory &&
-                    !isLineageMember;
+                  const isUpstream = lineage.ancestorIds.has(node.id);
+                  const isDownstream = lineage.descendantIds.has(node.id);
+                  const isRelated = lineage.relatedIds.has(node.id);
+                  const isInLineage = isUpstream || isDownstream || isRelated;
+
+                  const isMatched = matchingIds.has(node.id);
 
                   let opacity = 1;
-                  if (hasActiveFilter && !matchesCurrentFilters) {
-                    opacity = 0.16;
-                  } else if (activeFocusId && !isLineageMember) {
-                    opacity = 0.25;
-                  } else if (categoryDimmed) {
-                    opacity = 0.42;
+                  if (hasActiveFilter && !isMatched) {
+                    opacity = 0.15;
+                  } else if (activeFocusId && !isFocused && !isInLineage) {
+                    opacity = 0.28;
                   }
 
-                  const ringColor = isAncestor
-                    ? '#38bdf8'
-                    : isDescendant
-                    ? '#34d399'
-                    : isRelated
-                    ? '#a78bfa'
-                    : node.color;
+                  let ringColor = 'transparent';
+                  let ringWidth = 0;
+                  if (isFocused) {
+                    ringColor = '#ffffff';
+                    ringWidth = 3;
+                  } else if (isUpstream) {
+                    ringColor = '#38bdf8';
+                    ringWidth = 2.2;
+                  } else if (isDownstream) {
+                    ringColor = '#facc15';
+                    ringWidth = 2.2;
+                  } else if (isRelated) {
+                    ringColor = '#a855f7';
+                    ringWidth = 1.6;
+                  }
 
                   return (
                     <g
                       key={node.id}
-                      transform={`translate(${node.x}, ${node.y})`}
-                      className={`cu-star ${isSelected ? 'cu-star--selected' : ''} ${
-                        isExplored ? 'cu-star--explored' : ''
+                      transform={`translate(${node.x.toFixed(1)}, ${node.y.toFixed(1)})`}
+                      opacity={opacity}
+                      className={`cu-node ${isFocused ? 'cu-node--focused' : ''} ${
+                        isExplored ? 'cu-node--explored' : ''
                       }`}
-                      style={{ opacity }}
                       onMouseEnter={() => setHoveredNodeId(node.id)}
                       onMouseLeave={() => setHoveredNodeId(null)}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setSelectedNodeId(node.id);
+                        handleSelectAndFocusNode(node.id);
                       }}
                     >
-                      {/* Explored Mastery Aura */}
-                      {isExplored && (
+                      {/* Aura glow when focused or matched */}
+                      {(isFocused || (hasActiveFilter && isMatched)) && (
                         <circle
-                          r={node.radius + 7}
-                          fill="none"
-                          stroke="#10b981"
-                          strokeWidth="1.5"
-                          strokeOpacity="0.65"
+                          r={node.radius + 14}
+                          fill={node.color}
+                          opacity="0.25"
+                          className="cu-node__glow"
                         />
                       )}
 
-                      {/* Difficulty Orbit Rings for Intermediate / Advanced */}
-                      {node.difficulty === 'Intermediate' && (
-                        <circle
-                          r={node.radius + 4}
-                          fill="none"
-                          stroke={ringColor}
-                          strokeWidth="1"
-                          strokeOpacity="0.45"
-                        />
-                      )}
-                      {node.difficulty === 'Advanced' && (
+                      {/* Lineage / Selection indicator ring */}
+                      {ringWidth > 0 && (
                         <circle
                           r={node.radius + 5}
                           fill="none"
                           stroke={ringColor}
-                          strokeWidth="1.3"
-                          strokeDasharray="3 3"
-                          strokeOpacity="0.7"
+                          strokeWidth={ringWidth}
+                          strokeDasharray={isRelated ? '3 3' : 'none'}
+                          className="cu-node__ring"
                         />
                       )}
 
-                      {/* Active Selection / Lineage Halo */}
-                      {(isSelected || isHovered || isLineageMember) && (
-                        <circle
-                          r={node.radius + 10}
-                          fill="none"
-                          stroke={ringColor}
-                          strokeWidth={isSelected ? 2.5 : 1.6}
-                          strokeOpacity={isSelected ? 0.95 : 0.7}
-                        />
-                      )}
-
-                      {/* Core Star Body */}
+                      {/* Main node orb */}
                       <circle
                         r={node.radius}
-                        fill={isExplored ? '#0f2229' : '#0f172a'}
-                        stroke={ringColor}
-                        strokeWidth={isSelected ? 2.8 : 2}
+                        fill="#0b1633"
+                        stroke={node.color}
+                        strokeWidth={isExplored ? 2.5 : 1.5}
+                        className="cu-node__core"
                       />
 
-                      {/* Star Icon */}
+                      {/* Explored orbital bead */}
+                      {isExplored && (
+                        <circle
+                          cx={node.radius - 3}
+                          cy={-node.radius + 3}
+                          r={4.2}
+                          fill="#10b981"
+                          stroke="#0b1633"
+                          strokeWidth="1.2"
+                        />
+                      )}
+
+                      {/* Center Emoji Icon */}
                       <text
-                        className="cu-star__icon"
                         textAnchor="middle"
                         dominantBaseline="central"
-                        fontSize={node.radius > 18 ? '16px' : '14px'}
+                        fontSize={node.radius * 0.95}
+                        className="cu-node__icon"
+                        pointerEvents="none"
                       >
                         {node.icon || '✦'}
                       </text>
 
-                      {/* Explored Checkmark Badge */}
-                      {isExplored && (
-                        <g transform={`translate(${node.radius * 0.72}, ${-node.radius * 0.72})`}>
-                          <circle r="6" fill="#10b981" stroke="#080d1a" strokeWidth="1.5" />
-                          <path
-                            d="M-2.5 0 L-0.7 1.8 L2.8 -1.8"
-                            fill="none"
-                            stroke="#04120e"
-                            strokeWidth="1.6"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </g>
-                      )}
-
-                      {/* Star Title */}
+                      {/* Star Title Label */}
                       <text
-                        className="cu-star__label"
-                        y={node.radius + 16}
+                        y={node.radius + 15}
                         textAnchor="middle"
+                        className="cu-node__label"
+                        fill="#f8fafc"
+                        pointerEvents="none"
                       >
                         {node.title}
                       </text>
@@ -939,60 +981,8 @@ export default function ConceptUniverse() {
             </g>
           </svg>
 
-          {/* Filter Match Pill */}
-          {hasActiveFilter && (
-            <div className="cu-filter-status">
-              <span>
-                Showing <strong>{matchingIds.size}</strong> of {layout.nodes.length} concepts
-              </span>
-              {matchingIds.size > 0 && searchLower && (
-                <button
-                  type="button"
-                  className="cu-filter-status__btn"
-                  onClick={() => {
-                    const first = layout.nodes.find((n) => matchingIds.has(n.id));
-                    if (first) handleSelectAndFocusNode(first.id);
-                  }}
-                >
-                  Focus First
-                </button>
-              )}
-              <button
-                type="button"
-                className="cu-filter-status__clear"
-                onClick={() => {
-                  setSearchQuery('');
-                  setDifficultyFilter('All');
-                  setMasteryFilter('All');
-                }}
-              >
-                Clear
-              </button>
-            </div>
-          )}
-
-          {/* Legend */}
-          <div className="cu-legend">
-            <span className="cu-legend__item">
-              <span className="cu-legend__swatch cu-legend__swatch--upstream" />
-              Prerequisite
-            </span>
-            <span className="cu-legend__item">
-              <span className="cu-legend__swatch cu-legend__swatch--downstream" />
-              Unlocks
-            </span>
-            <span className="cu-legend__item">
-              <span className="cu-legend__swatch cu-legend__swatch--related" />
-              Related
-            </span>
-            <span className="cu-legend__item">
-              <span className="cu-legend__check">✓</span>
-              Explored
-            </span>
-          </div>
-
-          {/* Zoom Controls */}
-          <div className="cu-zoom-controls">
+          {/* Canvas Floating Navigation Controls */}
+          <div className="cu-canvas-controls" role="toolbar" aria-label="Constellation Zoom Controls">
             <button
               type="button"
               className="cu-zoom-btn"
@@ -1036,6 +1026,26 @@ export default function ConceptUniverse() {
                       text={selectedConcept.category}
                       color={selectedConcept.color || '#06b6d4'}
                     />
+                    {selectedConcept.domain && (
+                      <Badge
+                        text={
+                          selectedConcept.domain === 'data-science'
+                            ? 'Data Science'
+                            : selectedConcept.domain === 'deep-learning'
+                            ? 'Deep Learning'
+                            : selectedConcept.domain === 'mathematics'
+                            ? 'Mathematics'
+                            : 'Machine Learning'
+                        }
+                        color="#10b981"
+                      />
+                    )}
+                    {selectedConcept.level && (
+                      <Badge
+                        text={selectedConcept.level.toUpperCase()}
+                        color="#f59e0b"
+                      />
+                    )}
                     <Badge text={selectedConcept.difficulty} color="#3b82f6" />
                   </div>
                 </div>
@@ -1080,8 +1090,13 @@ export default function ConceptUniverse() {
 
             <div className="cu-panel__body">
               <div className="cu-panel__section">
-                <h3 className="cu-panel__section-title">Definition</h3>
+                <h3 className="cu-panel__section-title">Definition & Overview</h3>
                 <p className="cu-panel__text">{selectedConcept.definition}</p>
+                {selectedConcept.beginnerExplanation && (
+                  <p className="cu-panel__text cu-panel__text--muted" style={{ marginTop: '8px' }}>
+                    {selectedConcept.beginnerExplanation}
+                  </p>
+                )}
               </div>
 
               {(selectedConcept.mathematics?.formulas?.length > 0 ||
@@ -1180,9 +1195,15 @@ export default function ConceptUniverse() {
               <Button
                 icon={ExternalLink}
                 className="cu-panel__open-btn"
-                onClick={() => navigate(`/concept/${selectedConcept.id}`)}
+                onClick={() => {
+                  if (selectedConcept.lessonRoute) {
+                    navigate(selectedConcept.lessonRoute);
+                  } else {
+                    navigate(`/concept/${selectedConcept.id}`);
+                  }
+                }}
               >
-                Open Full Concept Page
+                Open Full Concept Lesson
               </Button>
             </div>
           </aside>

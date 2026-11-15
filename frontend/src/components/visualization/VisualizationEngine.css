@@ -1,0 +1,57 @@
+.viz-engine {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.viz-engine-empty {
+  padding: 30px;
+  text-align: center;
+  background: rgba(11, 22, 51, 0.4);
+  border: 1px dashed var(--border, #1a2a4a);
+  border-radius: 8px;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.viz-engine__workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .viz-engine__workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+.viz-engine__graph-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.viz-engine__controls-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.viz-engine__sliders-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.viz-engine__group-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary, #94a3b8);
+}
+

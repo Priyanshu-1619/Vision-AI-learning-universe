@@ -1,0 +1,106 @@
+.formula-renderer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(5, 8, 20, 0.7);
+  border: 1px solid var(--border, #1a2a4a);
+  border-left: 3px solid var(--accent-purple, #8b5cf6);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.formula-renderer__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.formula-renderer__title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-purple, #8b5cf6);
+}
+
+.formula-renderer__vars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.formula-renderer__var-chip {
+  font-size: 0.725rem;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--text-secondary, #94a3b8);
+  font-family: monospace;
+}
+
+.formula-renderer__var-chip em {
+  font-style: italic;
+  color: var(--accent-yellow, #FFD928);
+}
+
+.formula-renderer__var-chip strong {
+  color: var(--accent-icy, #65CFFF);
+}
+
+.formula-renderer__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formula-renderer__equation {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.formula-renderer__symbol {
+  font-size: 0.75rem;
+  font-family: Georgia, serif;
+  font-style: italic;
+  color: var(--accent-purple, #8b5cf6);
+  opacity: 0.8;
+}
+
+.formula-renderer__code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #c4b5fd;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.formula-renderer__substituted {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.formula-renderer__sub-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--accent-yellow, #FFD928);
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.formula-renderer__sub-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.84rem;
+  color: var(--accent-icy, #65CFFF);
+  font-weight: 500;
+  word-break: break-all;
+}
+
