@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Calculator, ExternalLink, Lightbulb, Sparkles } from 'lucide-react';
+import { Calculator, ExternalLink, Lightbulb, Sparkles, Compass } from 'lucide-react';
 import { MATH_GROUPS, MATH_TOPICS, getMathTopicById } from './mathConfig';
 import StatisticsVisualizer from './StatisticsVisualizer';
 import LinearAlgebraVisualizer from './LinearAlgebraVisualizer';
@@ -41,6 +41,15 @@ export default function MathematicsStudio() {
             Build geometric and physical intuition for the statistics, linear algebra, and
             calculus powering machine learning—computed live in your browser.
           </p>
+        </div>
+        <div className="math-studio__header-actions" style={{ marginTop: '12px' }}>
+          <Button
+            icon={Compass}
+            onClick={() => navigate('/library-graph')}
+            style={{ background: 'var(--accent-cyan, #06B6D4)', color: '#050814', fontWeight: 600 }}
+          >
+            Launch Library Graph
+          </Button>
         </div>
       </header>
 

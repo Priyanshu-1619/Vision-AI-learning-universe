@@ -9,6 +9,8 @@ import StepController from './StepController';
 import FormulaRenderer from './FormulaRenderer';
 import MetricsPanel from './MetricsPanel';
 import ExplanationPanel from './ExplanationPanel';
+import GraphNotesModal from './GraphNotesModal';
+import EquationCustomizerModal from './EquationCustomizerModal';
 import './VisualizationEngine.css';
 
 /**
@@ -39,6 +41,24 @@ export default function VisualizationEngine({
   const [activePresetId, setActivePresetId] = useState(null);
   const [selectedDatasetId, setSelectedDatasetId] = useState(() => config?.datasets?.[0]?.id || null);
 
+  // Graph Notes & Custom Equation Modals
+  const [isGraphNotesOpen, setIsGraphNotesOpen] = useState(false);
+  const [isCustomizeEqOpen, setIsCustomizeEqOpen] = useState(false);
+
+  // Custom Equations & Axis customization state
+  const [customEquations, setCustomEquations] = useState([]);
+  const [customPoints, setCustomPoints] = useState([]);
+  const [axisSettings, setAxisSettings] = useState({
+    xMin: config?.defaultAxis?.xMin ?? -10,
+    xMax: config?.defaultAxis?.xMax ?? 10,
+    yMin: config?.defaultAxis?.yMin ?? -10,
+    yMax: config?.defaultAxis?.yMax ?? 10,
+    gridVisible: true,
+    dataPointsVisible: true,
+    xLabel: 'X',
+    yLabel: 'Y',
+  });
+
   // Animation / Step state (if applicable)
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(1);
@@ -64,7 +84,19 @@ export default function VisualizationEngine({
     setActivePresetId(null);
     setCurrentStep(0);
     setIsPlaying(false);
-  }, [initialParams]);
+    setCustomEquations([]);
+    setCustomPoints([]);
+    setAxisSettings({
+      xMin: config?.defaultAxis?.xMin ?? -10,
+      xMax: config?.defaultAxis?.xMax ?? 10,
+      yMin: config?.defaultAxis?.yMin ?? -10,
+      yMax: config?.defaultAxis?.yMax ?? 10,
+      gridVisible: true,
+      dataPointsVisible: true,
+      xLabel: 'X',
+      yLabel: 'Y',
+    });
+  }, [initialParams, config]);
 
   // Active dataset reference
   const activeDataset = useMemo(() => {
@@ -97,6 +129,8 @@ export default function VisualizationEngine({
         activePresetId={activePresetId}
         onSelectPreset={handleSelectPreset}
         onReset={handleReset}
+        onOpenGraphNotes={() => setIsGraphNotesOpen(true)}
+        onOpenCustomizeEquation={() => setIsCustomizeEqOpen(true)}
       />
 
       {/* 2. Symbolic & Substituted Mathematical Formula */}
@@ -118,6 +152,9 @@ export default function VisualizationEngine({
             data={computed.graphData || {}}
             parameters={parameters}
             domain={config.domain}
+            customEquations={customEquations}
+            axisSettings={axisSettings}
+            customPoints={customPoints}
           />
 
           {/* Stepper or Animation Controller if configured */}
@@ -192,6 +229,28 @@ export default function VisualizationEngine({
           domain={config.domain}
         />
       )}
+
+      {/* 6. Graph Notes Drawer Modal */}
+      <GraphNotesModal
+        isOpen={isGraphNotesOpen}
+        onClose={() => setIsGraphNotesOpen(false)}
+        topicKey={topicId || config.id || 'custom-equation'}
+      />
+
+      {/* 7. Customize Equation Modal */}
+      <EquationCustomizerModal
+        isOpen={isCustomizeEqOpen}
+        onClose={() => setIsCustomizeEqOpen(false)}
+        equations={customEquations}
+        onUpdateEquations={setCustomEquations}
+        axisSettings={axisSettings}
+        onUpdateAxisSettings={setAxisSettings}
+        variables={parameters}
+        onUpdateVariables={setParameters}
+        customPoints={customPoints}
+        onUpdateCustomPoints={setCustomPoints}
+        onResetDefaults={handleReset}
+      />
     </div>
   );
 }

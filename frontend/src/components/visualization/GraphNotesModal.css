@@ -1,0 +1,317 @@
+.graph-notes-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 20, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1200;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+}
+
+.graph-notes-drawer {
+  width: min(720px, 94vw);
+  background: #0B1633;
+  border-left: 1px solid rgba(22, 75, 255, 0.35);
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.graph-notes__header {
+  padding: 20px 24px;
+  background: rgba(5, 8, 20, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.graph-notes__header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.graph-notes__icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.graph-notes__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.graph-notes__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.graph-notes__header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.graph-notes__lang-toggle {
+  display: flex;
+  align-items: center;
+  background: rgba(5, 8, 20, 0.8);
+  border: 1px solid rgba(22, 75, 255, 0.3);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.graph-notes__lang-icon {
+  margin-left: 8px;
+  margin-right: 4px;
+  color: var(--accent-icy, #65CFFF);
+}
+
+.graph-notes__lang-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.graph-notes__lang-btn:hover {
+  color: #fff;
+}
+
+.graph-notes__lang-btn--active {
+  background: var(--accent-electric, #164BFF);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(22, 75, 255, 0.5);
+}
+
+.graph-notes__close-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.graph-notes__close-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Tabs */
+.graph-notes__tabs {
+  display: flex;
+  background: rgba(5, 8, 20, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 24px;
+  gap: 16px;
+}
+
+.graph-notes__tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 4px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.graph-notes__tab-btn:hover {
+  color: #f1f5f9;
+}
+
+.graph-notes__tab-btn--active {
+  color: var(--accent-icy, #65CFFF);
+  border-bottom-color: var(--accent-icy, #65CFFF);
+}
+
+/* Body */
+.graph-notes__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.graph-notes__card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.graph-notes__card {
+  background: rgba(5, 8, 20, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 16px 18px;
+  transition: all 0.2s ease;
+}
+
+.graph-notes__card:hover {
+  border-color: rgba(101, 207, 255, 0.25);
+  background: rgba(5, 8, 20, 0.7);
+}
+
+.graph-notes__card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.graph-notes__card-head h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.graph-notes__card p {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.graph-notes__axes-sub {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.graph-notes__axes-sub p {
+  font-size: 0.85rem;
+}
+
+.graph-notes__axes-sub strong {
+  color: var(--accent-icy, #65CFFF);
+}
+
+.graph-notes__card--highlight {
+  background: rgba(22, 75, 255, 0.08);
+  border-color: rgba(22, 75, 255, 0.3);
+}
+
+.text-strong {
+  font-weight: 600;
+  color: #ffffff !important;
+}
+
+.graph-notes__app-tag {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: rgba(250, 204, 21, 0.06);
+  border: 1px solid rgba(250, 204, 21, 0.18);
+  border-radius: 8px;
+  font-size: 0.82rem;
+  color: #e2e8f0;
+}
+
+.graph-notes__app-tag span {
+  font-weight: 700;
+  color: var(--accent-yellow, #FACC15);
+}
+
+/* Terms View */
+.graph-notes__terms-intro {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin-bottom: 18px;
+}
+
+.graph-notes__terms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.graph-term-card {
+  background: rgba(5, 8, 20, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.graph-term-card:hover {
+  border-color: var(--accent-electric, #164BFF);
+}
+
+.graph-term-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.graph-term-card__title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.graph-term-card__desc {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Footer */
+.graph-notes__footer {
+  padding: 16px 24px;
+  background: rgba(5, 8, 20, 0.7);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.graph-notes__footer-note {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-style: italic;
+}

@@ -1,0 +1,93 @@
+/* Spaceship Exploration Probe Cursor & Plasma Exhaust Trail */
+
+.cu-spaceship-cursor-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.cu-spaceship-cursor-layer--visible {
+  opacity: 1;
+}
+
+.cu-spaceship-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 26px;
+  height: 30px;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 12px rgba(22, 75, 255, 0.45));
+}
+
+.cu-ship-cockpit {
+  filter: drop-shadow(0 0 4px #06b6d4);
+}
+
+.cu-ship-thrust {
+  animation: cu-thrust-pulse 0.16s infinite alternate ease-in-out;
+  transform-origin: 13px 26px;
+}
+
+.cu-ship-thrust-core {
+  animation: cu-thrust-core-pulse 0.12s infinite alternate ease-in-out;
+  transform-origin: 13px 26px;
+}
+
+@keyframes cu-thrust-pulse {
+  0% {
+    transform: scaleY(0.85);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scaleY(1.35);
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #38bdf8);
+  }
+}
+
+@keyframes cu-thrust-core-pulse {
+  0% {
+    transform: scaleY(0.7);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scaleY(1.2);
+    opacity: 1;
+  }
+}
+
+/* Trailing engine plasma particles */
+.cu-spaceship-trail {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.cu-trail-dot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #38bdf8 0%, rgba(22, 75, 255, 0.6) 70%, transparent 100%);
+  filter: blur(0.5px);
+  pointer-events: none;
+  will-change: transform, opacity;
+  box-shadow: 0 0 6px #06b6d4;
+}
+
+/* Fallback for touch devices: hide custom cursor layer completely */
+@media (hover: none) or (pointer: coarse) {
+  .cu-spaceship-cursor-layer {
+    display: none !important;
+  }
+}
+

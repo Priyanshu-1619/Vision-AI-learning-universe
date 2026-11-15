@@ -1,7 +1,26 @@
-fastapi
-uvicorn[standard]
-numpy
-pandas
-scikit-learn
-torch
-pydantic
+# AI Learning Universe — Backend Python Dependencies
+# High-performance local ML & mathematical calculation engine
+# All algorithms run locally using scikit-learn, NumPy, and Pandas (Zero external AI APIs required)
+
+# Web Framework & ASGI Server
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+pydantic>=2.10.0
+starlette>=0.38.0
+
+# Scientific & Mathematical Computing
+numpy>=1.26.0
+scipy>=1.14.0
+pandas>=2.2.0
+
+# Machine Learning & Dimensionality Reduction
+scikit-learn>=1.5.0
+joblib>=1.4.0
+
+# Deep Learning (Optional / Local Neural Prototyping)
+torch>=2.2.0
+
+# Environment & Utilities
+python-dotenv>=1.0.0
+PyYAML>=6.0.0
+watchfiles>=0.23.0

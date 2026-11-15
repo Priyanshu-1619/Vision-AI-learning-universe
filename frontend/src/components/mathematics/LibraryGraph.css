@@ -1,0 +1,355 @@
+.lib-graph {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lib-graph__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(11, 22, 51, 0.95) 0%, rgba(14, 28, 64, 0.9) 100%);
+  border: 1px solid rgba(22, 75, 255, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.lib-graph__header-left {
+  max-width: 680px;
+}
+
+.lib-graph__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: #65CFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.lib-graph__title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+
+.lib-graph__subtitle {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.lib-graph__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Workspace */
+.lib-graph__workspace {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+}
+
+@media (max-width: 1080px) {
+  .lib-graph__workspace {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lib-graph__canvas-box {
+  background: var(--surface, #0B1633);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lib-graph__svg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 760 / 480;
+  background: #050814;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: crosshair;
+}
+
+.lib-graph__readout {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(5, 8, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+.lib-graph__readout-item span {
+  color: #94a3b8;
+}
+
+.lib-graph__readout-item strong {
+  color: var(--accent-icy, #65CFFF);
+  font-family: monospace;
+}
+
+.lib-graph__readout-curves {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.lib-graph__curve-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: #e2e8f0;
+}
+
+.lib-graph__curve-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Sidebar Controls */
+.lib-graph__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lib-graph__card {
+  background: var(--surface, #0B1633);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lib-graph__card-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.lib-graph__select,
+.lib-graph__input,
+.lib-graph__num-input {
+  background: rgba(5, 8, 20, 0.8);
+  border: 1px solid rgba(22, 75, 255, 0.3);
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #f1f5f9;
+  font-size: 0.84rem;
+  outline: none;
+  width: 100%;
+}
+
+.lib-graph__select:focus,
+.lib-graph__input:focus,
+.lib-graph__num-input:focus {
+  border-color: var(--accent-icy, #65CFFF);
+}
+
+.lib-graph__input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.lib-graph__input--error {
+  border-color: #ef4444 !important;
+}
+
+.lib-graph__error {
+  color: #ef4444;
+  font-size: 0.76rem;
+}
+
+/* Equation List */
+.lib-graph__eq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lib-graph__eq-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(5, 8, 20, 0.5);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lib-graph__eq-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.lib-graph__eq-text {
+  flex: 1;
+  font-size: 0.78rem;
+  font-family: monospace;
+  color: #e2e8f0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lib-graph__eq-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.lib-graph__icon-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #94a3b8;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lib-graph__icon-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.lib-graph__icon-btn--del:hover {
+  color: #ef4444;
+}
+
+/* Sliders */
+.lib-graph__sliders-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lib-graph__slider-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lib-graph__slider-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  font-family: monospace;
+}
+
+.lib-graph__slider-label {
+  color: var(--accent-yellow, #FACC15);
+  font-weight: 700;
+}
+
+.lib-graph__slider-val {
+  color: #fff;
+}
+
+.lib-graph__slider {
+  width: 100%;
+  accent-color: var(--accent-electric, #164BFF);
+}
+
+/* Axes */
+.lib-graph__axes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.lib-graph__axes-grid label {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.lib-graph__toggle-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.lib-graph__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  cursor: pointer;
+}
+
+/* Points */
+.lib-graph__point-inputs {
+  display: flex;
+  gap: 6px;
+}
+
+.lib-graph__points-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.lib-graph__pt-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(22, 75, 255, 0.15);
+  border: 1px solid rgba(22, 75, 255, 0.3);
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.74rem;
+  font-family: monospace;
+  color: #f1f5f9;
+}
+
+.lib-graph__pt-pill button {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 700;
+}
+
+.lib-graph__pt-pill button:hover {
+  color: #ef4444;
+}

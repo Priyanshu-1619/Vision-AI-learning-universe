@@ -19,6 +19,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Map,
+  Compass,
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -50,6 +51,7 @@ const navSections = [
     items: [
       { path: '/laboratory', label: 'Laboratory', icon: FlaskConical },
       { path: '/mathematics', label: 'Mathematics', icon: Calculator },
+      { path: '/library-graph', label: 'Library Graph', icon: Compass },
       { path: '/inside-model', label: 'Inside the Model', icon: Eye },
       { path: '/break-it', label: 'Break It!', icon: Hammer },
       { path: '/what-if', label: 'What If?', icon: HelpCircle },

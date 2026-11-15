@@ -1,3 +1,4 @@
+import { compileEquation, generatePlotPoints } from '../../utils/safeMathParser';
 import './GraphEngine.css';
 
 /**
@@ -19,6 +20,9 @@ export default function GraphEngine({
   domain = 'machine-learning',
   width = 680,
   height = 300,
+  customEquations = [],
+  axisSettings = null,
+  customPoints = [],
   onPointClick = null,
   className = '',
 }) {
@@ -30,13 +34,13 @@ export default function GraphEngine({
     const w = width;
     const h = height;
 
-    const xMin = data.xMin ?? -10;
-    const xMax = data.xMax ?? 10;
-    const yMin = data.yMin ?? -10;
-    const yMax = data.yMax ?? 10;
+    const xMin = axisSettings?.xMin ?? data.xMin ?? -10;
+    const xMax = axisSettings?.xMax ?? data.xMax ?? 10;
+    const yMin = axisSettings?.yMin ?? data.yMin ?? -10;
+    const yMax = axisSettings?.yMax ?? data.yMax ?? 10;
 
-    const mapX = (x) => pad.left + ((x - xMin) / (xMax - xMin)) * (w - pad.left - pad.right);
-    const mapY = (y) => h - pad.bottom - ((y - yMin) / (yMax - yMin)) * (h - pad.top - pad.bottom);
+    const mapX = (x) => pad.left + ((x - xMin) / (xMax - xMin || 1)) * (w - pad.left - pad.right);
+    const mapY = (y) => h - pad.bottom - ((y - yMin) / (yMax - yMin || 1)) * (h - pad.top - pad.bottom);
 
     // Compute curve path
     const fn = data.fn || ((x) => (parameters.slope ?? 2) * x + (parameters.intercept ?? 1));
@@ -60,27 +64,46 @@ export default function GraphEngine({
       secPathD = secPts.join(' ');
     }
 
+    // Custom plotted equations
+    const activeCustomEqs = (customEquations.length > 0 ? customEquations : (data.customEquations || []))
+      .filter((eq) => eq.visible !== false && eq.raw);
+
+    const compiledCustomPaths = activeCustomEqs.map((eq) => {
+      const comp = compileEquation(eq.raw);
+      if (comp.error) return null;
+      const pts = generatePlotPoints(comp.evaluate, xMin, xMax, 120, parameters);
+      if (pts.length === 0) return null;
+      const d = pts.map((pt, i) => `${i === 0 ? 'M' : 'L'} ${mapX(pt.x).toFixed(1)} ${mapY(pt.y).toFixed(1)}`).join(' ');
+      return { id: eq.id, d, color: eq.color || '#FACC15', label: eq.label || eq.raw };
+    }).filter(Boolean);
+
+    const showGrid = axisSettings?.gridVisible ?? true;
+    const showPoints = axisSettings?.dataPointsVisible ?? true;
+    const allCustomPoints = [...(data.points || []), ...(customPoints || [])];
+
     return (
       <svg viewBox={`0 0 ${w} ${h}`} className="graph-svg" aria-label="Cartesian Graph">
         {/* Background Grid */}
-        <g className="graph-grid">
-          {Array.from({ length: 9 }).map((_, i) => {
-            const vx = xMin + (i / 8) * (xMax - xMin);
-            const vy = yMin + (i / 8) * (yMax - yMin);
-            return (
-              <g key={i}>
-                <line x1={mapX(vx)} y1={pad.top} x2={mapX(vx)} y2={h - pad.bottom} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
-                <line x1={pad.left} y1={mapY(vy)} x2={w - pad.right} y2={mapY(vy)} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
-                <text x={mapX(vx)} y={h - pad.bottom + 16} fill="#64748b" fontSize="10" textAnchor="middle" fontFamily="monospace">
-                  {vx.toFixed(0)}
-                </text>
-                <text x={pad.left - 8} y={mapY(vy) + 3} fill="#64748b" fontSize="10" textAnchor="end" fontFamily="monospace">
-                  {vy.toFixed(0)}
-                </text>
-              </g>
-            );
-          })}
-        </g>
+        {showGrid && (
+          <g className="graph-grid">
+            {Array.from({ length: 9 }).map((_, i) => {
+              const vx = xMin + (i / 8) * (xMax - xMin);
+              const vy = yMin + (i / 8) * (yMax - yMin);
+              return (
+                <g key={i}>
+                  <line x1={mapX(vx)} y1={pad.top} x2={mapX(vx)} y2={h - pad.bottom} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                  <line x1={pad.left} y1={mapY(vy)} x2={w - pad.right} y2={mapY(vy)} stroke="rgba(255,255,255,0.06)" strokeDasharray="3 3" />
+                  <text x={mapX(vx)} y={h - pad.bottom + 16} fill="#64748b" fontSize="10" textAnchor="middle" fontFamily="monospace">
+                    {vx.toFixed(0)}
+                  </text>
+                  <text x={pad.left - 8} y={mapY(vy) + 3} fill="#64748b" fontSize="10" textAnchor="end" fontFamily="monospace">
+                    {vy.toFixed(0)}
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+        )}
 
         {/* Origin Axes (x=0, y=0) */}
         {xMin <= 0 && xMax >= 0 && (
@@ -90,16 +113,55 @@ export default function GraphEngine({
           <line x1={pad.left} y1={mapY(0)} x2={w - pad.right} y2={mapY(0)} stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
         )}
 
-        {/* Function Curves */}
+        {/* Axis Labels if configured */}
+        {axisSettings?.xLabel && (
+          <text x={w - pad.right} y={h - pad.bottom - 6} fill="#94a3b8" fontSize="11" fontWeight="700" textAnchor="end">
+            {axisSettings.xLabel}
+          </text>
+        )}
+        {axisSettings?.yLabel && (
+          <text x={pad.left + 8} y={pad.top + 12} fill="#94a3b8" fontSize="11" fontWeight="700">
+            {axisSettings.yLabel}
+          </text>
+        )}
+
+        {/* Secondary function curve */}
         {secPathD && (
           <path d={secPathD} fill="none" stroke="rgba(255, 217, 40, 0.7)" strokeWidth="2" strokeDasharray="4 4" />
         )}
+
+        {/* Base Function Curve */}
         <path d={pathD.join(' ')} fill="none" stroke="var(--accent-electric, #164BFF)" strokeWidth="3" />
 
-        {/* Specific Highlight Points (e.g. intercepts, tangents) */}
-        {data.points && data.points.map((pt, i) => (
-          <g key={i} className="graph-point">
-            <circle cx={mapX(pt.x)} cy={mapY(pt.y)} r={pt.r || 5} fill={pt.color || 'var(--accent-icy, #65CFFF)'} stroke="#050814" strokeWidth="2" />
+        {/* User Custom Equations Curves */}
+        {compiledCustomPaths.map((eq) => (
+          <path
+            key={eq.id}
+            d={eq.d}
+            fill="none"
+            stroke={eq.color}
+            strokeWidth="2.5"
+            strokeDasharray={eq.color === '#FACC15' ? 'none' : '4 2'}
+          >
+            <title>{eq.label}</title>
+          </path>
+        ))}
+
+        {/* Data / Reference Points */}
+        {showPoints && allCustomPoints.map((pt, i) => (
+          <g key={pt.id || i} className="graph-point">
+            <circle
+              cx={mapX(pt.x)}
+              cy={mapY(pt.y)}
+              r={pt.r || 5}
+              fill={pt.color || 'var(--accent-icy, #65CFFF)'}
+              stroke="#050814"
+              strokeWidth="2"
+              onClick={() => onPointClick && onPointClick(pt)}
+              style={{ cursor: onPointClick ? 'pointer' : 'default' }}
+            >
+              <title>{`(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`}</title>
+            </circle>
             {pt.label && (
               <text x={mapX(pt.x) + 8} y={mapY(pt.y) - 6} fill="#ffffff" fontSize="11" fontWeight="600">
                 {pt.label}
@@ -139,6 +201,21 @@ export default function GraphEngine({
     const lineX2 = xMax;
     const lineY2 = slope * lineX2 + intercept;
 
+    // Custom plotted equations over scatter
+    const activeCustomEqs = (customEquations.length > 0 ? customEquations : (data.customEquations || []))
+      .filter((eq) => eq.visible !== false && eq.raw);
+
+    const customPaths = activeCustomEqs.map((eq) => {
+      const comp = compileEquation(eq.raw);
+      if (comp.error) return null;
+      const pts = generatePlotPoints(comp.evaluate, xMin, xMax, 100, parameters);
+      if (pts.length === 0) return null;
+      const d = pts.map((pt, i) => `${i === 0 ? 'M' : 'L'} ${mapX(pt.x).toFixed(1)} ${mapY(pt.y).toFixed(1)}`).join(' ');
+      return { id: eq.id, d, color: eq.color || '#FACC15', label: eq.label || eq.raw };
+    }).filter(Boolean);
+
+    const allPoints = [...points, ...(customPoints || [])];
+
     return (
       <svg viewBox={`0 0 ${w} ${h}`} className="graph-svg" aria-label="Scatter and Regression Plot">
         {/* Grid */}
@@ -172,8 +249,22 @@ export default function GraphEngine({
           strokeWidth="3"
         />
 
+        {/* Custom Plotted Curves */}
+        {customPaths.map((cp) => (
+          <path
+            key={cp.id}
+            d={cp.d}
+            fill="none"
+            stroke={cp.color}
+            strokeWidth="2.5"
+            strokeDasharray="4 2"
+          >
+            <title>{cp.label}</title>
+          </path>
+        ))}
+
         {/* Data Points */}
-        {points.map((p, i) => (
+        {allPoints.map((p, i) => (
           <circle
             key={i}
             cx={mapX(p.x)}

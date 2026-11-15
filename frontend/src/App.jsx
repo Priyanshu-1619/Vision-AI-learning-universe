@@ -18,6 +18,7 @@ import MachineLearningPage from './pages/MachineLearningPage';
 import DeepLearningPage from './pages/DeepLearningPage';
 import DictionaryPage from './pages/DictionaryPage';
 import RoadmapPage from './pages/RoadmapPage';
+import LibraryGraphPage from './pages/LibraryGraphPage';
 
 export default function App() {
   return (
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/concept-universe" element={<ConceptUniversePage />} />
           <Route path="/laboratory" element={<LaboratoryPage />} />
           <Route path="/mathematics" element={<MathematicsPage />} />
+          <Route path="/library-graph" element={<LibraryGraphPage />} />
           <Route path="/inside-model" element={<InsideModelPage />} />
           <Route path="/break-it" element={<BreakItPage />} />
           <Route path="/what-if" element={<WhatIfPage />} />

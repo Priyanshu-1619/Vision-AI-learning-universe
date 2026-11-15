@@ -1,4 +1,4 @@
-import { RotateCcw, Sparkles } from 'lucide-react';
+import { RotateCcw, Sparkles, HelpCircle, Sliders } from 'lucide-react';
 import './VisualizationToolbar.css';
 
 /**
@@ -13,6 +13,8 @@ export default function VisualizationToolbar({
   activePresetId = null,
   onSelectPreset,
   onReset,
+  onOpenGraphNotes = null,
+  onOpenCustomizeEquation = null,
   extraActions = null,
   className = '',
 }) {
@@ -79,6 +81,30 @@ export default function VisualizationToolbar({
               );
             })}
           </div>
+        )}
+
+        {onOpenCustomizeEquation && (
+          <button
+            type="button"
+            className="viz-tool-btn viz-tool-btn--customize"
+            onClick={onOpenCustomizeEquation}
+            title="Add and customize mathematical equations and coordinates"
+          >
+            <Sliders size={13} />
+            <span>Customize Equation</span>
+          </button>
+        )}
+
+        {onOpenGraphNotes && (
+          <button
+            type="button"
+            className="viz-tool-btn viz-tool-btn--notes"
+            onClick={onOpenGraphNotes}
+            title="Read pedagogical explanation and terminology in English or Hinglish"
+          >
+            <HelpCircle size={13} />
+            <span>Graph Notes / Explain Graph</span>
+          </button>
         )}
 
         {onReset && (

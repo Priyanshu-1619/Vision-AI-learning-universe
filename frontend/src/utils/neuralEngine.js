@@ -158,16 +158,20 @@ export function computeNeuronForward({
 }
 
 // ---------------------------------------------------------------------------
-// Step-by-Step Backpropagation State Machine (2 -> 2 -> 1 Network)
+// Step-by-Step Backpropagation State Machine (2 -> 2 -> 1 Network) - 10 Stages
 // ---------------------------------------------------------------------------
 
 export const BACKPROP_STAGES = [
-  { id: 'forward_hidden', label: '1. Forward Hidden', phase: 'forward' },
-  { id: 'prediction', label: '2. Prediction', phase: 'forward' },
-  { id: 'loss', label: '3. Loss', phase: 'loss' },
-  { id: 'backward_output', label: '4. Backward Output', phase: 'backward' },
-  { id: 'backward_hidden', label: '5. Backward Hidden', phase: 'backward' },
-  { id: 'weight_update', label: '6. Weight Update', phase: 'update' },
+  { id: 'input_layer', label: '1. Input Layer', phase: 'forward', shortName: 'Input' },
+  { id: 'weighted_sum', label: '2. Weighted Sum', phase: 'forward', shortName: 'Sum (z)' },
+  { id: 'activation_function', label: '3. Activation Function', phase: 'forward', shortName: 'Act (h)' },
+  { id: 'forward_propagation', label: '4. Forward Propagation', phase: 'forward', shortName: 'Output z' },
+  { id: 'prediction', label: '5. Prediction', phase: 'forward', shortName: 'Predict (ŷ)' },
+  { id: 'loss_calculation', label: '6. Loss Calculation', phase: 'loss', shortName: 'Loss (L)' },
+  { id: 'backward_propagation', label: '7. Backward Propagation', phase: 'backward', shortName: 'Back Output' },
+  { id: 'gradient_calculation', label: '8. Gradient Calculation', phase: 'backward', shortName: 'Gradients' },
+  { id: 'weight_update', label: '9. Weight Update', phase: 'update', shortName: 'Update (w)' },
+  { id: 'new_prediction', label: '10. New Prediction', phase: 'update', shortName: 'New Output' },
 ];
 
 export const DEFAULT_NETWORK_CONFIG = {
@@ -276,13 +280,13 @@ export function createInitialBackpropState(config = DEFAULT_NETWORK_CONFIG) {
 }
 
 /**
- * Advance the backpropagation state machine by exactly one stage (1..6).
- * Advancing past stage 6 (weight_update) begins the next cycle at stage 1 (forward_hidden).
+ * Advance the backpropagation state machine by exactly one stage (0..9).
+ * Advancing past stage 9 (new_prediction) begins the next training cycle at stage 0.
  */
 export function advanceBackpropStage(state, config) {
   const nextStage = state.stageIndex + 1;
 
-  // Moving from weight_update (5) -> start new cycle at forward_hidden (0)
+  // Moving past Stage 10 (new_prediction) -> start new cycle at Stage 1 (input_layer)
   if (nextStage >= BACKPROP_STAGES.length) {
     const freshSnapshot = computeFullPassAndGradients(state.weights, config);
     return {
@@ -294,8 +298,8 @@ export function advanceBackpropStage(state, config) {
     };
   }
 
-  // Entering weight_update (5): apply gradient descent and record updated loss
-  if (nextStage === BACKPROP_STAGES.length - 1) {
+  // Entering Stage 9 (weight_update, index 8): apply gradient descent and record updated weights
+  if (nextStage === 8) {
     const preSnapshot = computeFullPassAndGradients(state.weights, config);
     const updatedWeights = applyNetworkWeightUpdate(
       state.weights,
@@ -325,12 +329,41 @@ export function advanceBackpropStage(state, config) {
 }
 
 /**
+ * Move back by one stage in the backpropagation sequence.
+ */
+export function stepBackBackpropStage(state, config) {
+  if (state.stageIndex <= 0) {
+    return state; // Already at the first step
+  }
+  const prevStage = state.stageIndex - 1;
+
+  // If stepping back before weight update, restore previousWeights if available
+  if (state.stageIndex >= 8 && prevStage < 8 && state.previousWeights) {
+    const restoredWeights = state.previousWeights;
+    const restoredSnapshot = computeFullPassAndGradients(restoredWeights, config);
+    return {
+      ...state,
+      stageIndex: prevStage,
+      weights: restoredWeights,
+      previousWeights: null,
+      snapshot: restoredSnapshot,
+      lossHistory: state.lossHistory.slice(0, -1),
+    };
+  }
+
+  return {
+    ...state,
+    stageIndex: prevStage,
+  };
+}
+
+/**
  * Complete one full forward -> backward -> weight_update cycle in one action.
- * Always executes up through weight_update (stage 5) and records loss history.
+ * Always executes up through new_prediction (stage 9) and records loss history.
  */
 export function completeBackpropCycle(state, config) {
   let workingState = state;
-  // If already sitting on weight_update (5), advance once to start a fresh cycle
+  // If already at stage 9 or beyond, advance once to start fresh cycle
   if (workingState.stageIndex >= BACKPROP_STAGES.length - 1) {
     workingState = advanceBackpropStage(workingState, config);
   }

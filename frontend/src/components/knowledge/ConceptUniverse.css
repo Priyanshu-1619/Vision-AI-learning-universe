@@ -246,6 +246,14 @@
   cursor: grabbing;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .cu-canvas-wrap,
+  .cu-canvas-wrap .cu-svg,
+  .cu-canvas-wrap .cu-svg:active {
+    cursor: none; /* Spaceship exploration probe takes over cursor */
+  }
+}
+
 .cu-cluster {
   cursor: pointer;
   transition: opacity var(--transition);
