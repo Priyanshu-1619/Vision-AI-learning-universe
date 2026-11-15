@@ -159,6 +159,248 @@ export const LABS = [
         'PCA rotates axes to align with orthogonal directions of maximum variance. Without StandardScaler standardization, a single high-magnitude feature (like 8x scale) dominates PC1; enabling standardization treats every feature on equal variance footing.',
     },
   },
+  {
+    id: 'logistic-regression',
+    title: 'Logistic Regression',
+    icon: '📉',
+    badge: 'Supervised · Classification',
+    description:
+      'Fit a sigmoid probability hyperplane z = wᵀx + b minimizing cross-entropy log-loss, inspect decision odds, and observe the boundary surface.',
+    conceptId: 'logistic-regression',
+    defaultDataset: 'moons',
+    datasets: [
+      { value: 'moons', label: 'Two Moons (non-linear manifold)' },
+      { value: 'circles', label: 'Concentric Circles' },
+      { value: 'linear', label: 'Linearly Separable Cloud' },
+      { value: 'blobs', label: 'Gaussian Blobs' },
+    ],
+    steps: [
+      'Compute linear combination z = w₁x₁ + w₂x₂ + b',
+      'Pass z through logistic sigmoid function σ(z) = 1 / (1 + e⁻ᶻ)',
+      'Optimize cross-entropy log-loss via scikit-learn L-BFGS solver',
+      'Establish decision boundary at probability threshold P(y=1) = 0.5',
+    ],
+    math: {
+      formulas: [
+        'P(y=1|x) = σ(wᵀx + b) = 1 / (1 + e^{-(wᵀx + b)})',
+        'Log-Loss = - (1/n) Σ [yᵢ log(pᵢ) + (1-yᵢ) log(1-pᵢ)]',
+        'Decision Boundary: w₁x₁ + w₂x₂ + b = 0',
+      ],
+      explanation:
+        'Logistic Regression maps arbitrary real-valued affine projections into calibrated [0, 1] probabilities via the logistic sigmoid function. Regularization C controls the penalty on large weight coefficients.',
+    },
+  },
+  {
+    id: 'random-forest',
+    title: 'Random Forest',
+    icon: '🌲',
+    badge: 'Supervised · Ensemble',
+    description:
+      'Train an ensemble of bootstrap decision trees with random feature subspaces to reduce variance and compute Out-of-Bag (OOB) accuracy.',
+    conceptId: 'random-forest',
+    defaultDataset: 'moons',
+    datasets: [
+      { value: 'moons', label: 'Two Moons' },
+      { value: 'circles', label: 'Concentric Circles' },
+      { value: 'blobs', label: 'Gaussian Blobs' },
+      { value: 'linear', label: 'Linearly Separable' },
+    ],
+    steps: [
+      'Draw B bootstrap samples with replacement from training dataset',
+      'Grow decision tree on each bootstrap sample using random feature subsets',
+      'Aggregate individual tree predictions via majority voting',
+      'Evaluate Out-of-Bag (OOB) generalization error and feature importances',
+    ],
+    math: {
+      formulas: [
+        'ŷ = mode({ Tree_b(x) }) for b=1..B',
+        'Var(Ensemble) = ρ·σ² + ((1-ρ)/B)·σ²',
+        'Feature Importance = (1/B) Σ_b ΔGini(Feature)',
+      ],
+      explanation:
+        'Random Forest achieves lower variance than individual decision trees by bagging bootstrap replicas and de-correlating trees through random feature subset selection at each split.',
+    },
+  },
+  {
+    id: 'svm',
+    title: 'Support Vector Machine',
+    icon: '🛡️',
+    badge: 'Supervised · Margin Classifier',
+    description:
+      'Optimize maximal-margin separating hyperplanes and non-linear RBF kernel projections while isolating critical support vectors.',
+    conceptId: 'support-vector-machines',
+    defaultDataset: 'moons',
+    datasets: [
+      { value: 'moons', label: 'Two Moons' },
+      { value: 'circles', label: 'Concentric Circles' },
+      { value: 'linear', label: 'Linearly Separable' },
+      { value: 'blobs', label: 'Gaussian Blobs' },
+    ],
+    steps: [
+      'Formulate convex quadratic program maximizing geometric margin 2 / ||w||',
+      'Apply kernel function (Linear, RBF, or Polynomial) to map features',
+      'Solve dual Lagrangian multipliers αᵢ for each observation',
+      'Isolate support vectors (αᵢ > 0) that define the margin boundaries',
+    ],
+    math: {
+      formulas: [
+        'Geometric Margin = 2 / ||w||',
+        'RBF Kernel: K(x, x\') = exp(-γ ||x - x\'||²)',
+        'Dual Objective: max_α Σ αᵢ - (1/2) Σᵢ Σⱼ αᵢ αⱼ yᵢ yⱼ K(xᵢ, xⱼ)',
+      ],
+      explanation:
+        'Support Vector Machines seek the unique decision boundary that maximizes the geometric distance to the closest training points (support vectors). Non-linear kernels project points into infinite-dimensional reproducing kernel Hilbert spaces where linear separation becomes feasible.',
+    },
+  },
+  {
+    id: 'naive-bayes',
+    title: 'Naive Bayes',
+    icon: '🔮',
+    badge: 'Probabilistic · Classification',
+    description:
+      'Estimate feature class-conditional Gaussian distributions under feature independence assumptions and compute Bayesian posterior boundaries.',
+    conceptId: 'naive-bayes',
+    defaultDataset: 'blobs',
+    datasets: [
+      { value: 'blobs', label: 'Gaussian Blobs' },
+      { value: 'moons', label: 'Two Moons' },
+      { value: 'linear', label: 'Linearly Separable' },
+    ],
+    steps: [
+      'Calculate class prior probabilities P(y = c)',
+      'Estimate mean μ_{c,j} and variance σ²_{c,j} for each feature given class c',
+      'Compute Gaussian probability density function for input features',
+      'Multiply prior by conditional likelihoods to obtain maximum a posteriori class',
+    ],
+    math: {
+      formulas: [
+        'P(y=c|x) ∝ P(y=c) · ∏ⱼ P(xⱼ|y=c)',
+        'P(xⱼ|y=c) = (1 / √(2πσ²)) · exp(-(xⱼ - μ)² / (2σ²))',
+        'ŷ = argmax_c [ log P(y=c) + Σⱼ log P(xⱼ|y=c) ]',
+      ],
+      explanation:
+        'Gaussian Naive Bayes assumes each feature is conditionally independent given the class label. Despite this simplifying "naive" assumption, it provides competitive classification performance with exceptionally fast training.',
+    },
+  },
+  {
+    id: 'gradient-descent',
+    title: 'Gradient Descent',
+    icon: '⛰️',
+    badge: 'Optimization · Convergence',
+    description:
+      'Simulate iterative analytical gradient descent across multi-dimensional loss surfaces (quadratic, Rosenbrock banana, saddle points) with momentum.',
+    conceptId: 'gradient-descent',
+    defaultDataset: 'quadratic',
+    datasets: [
+      { value: 'quadratic', label: 'Convex Quadratic Bowl' },
+      { value: 'rosenbrock', label: 'Rosenbrock Banana Valley' },
+      { value: 'saddle', label: 'Saddle Point Manifold' },
+    ],
+    steps: [
+      'Initialize parameter weights θ₀ at starting coordinate',
+      'Evaluate loss f(θₜ) and analytical gradient vector ∇f(θₜ)',
+      'Update velocity vector with momentum: v_{t+1} = β·v_t + α·∇f(θₜ)',
+      'Step parameters in direction of steepest descent: θ_{t+1} = θₜ - v_{t+1}',
+    ],
+    math: {
+      formulas: [
+        'v_{t+1} = β·v_t + α·∇f(θ_t)',
+        'θ_{t+1} = θ_t - v_{t+1}',
+        'Convergence Criterion: ||∇f(θ)|| < 10⁻⁴',
+      ],
+      explanation:
+        'Gradient Descent iteratively descends the slope of a differentiable objective function. Momentum (β) accelerates progress along consistent directions while dampening oscillations across steep narrow valleys.',
+    },
+  },
+  {
+    id: 'perceptron',
+    title: 'Perceptron',
+    icon: '⚡',
+    badge: 'Deep Learning · Neural Unit',
+    description:
+      'Train Rosenblatt’s fundamental single-layer artificial neuron with step-function activation and observe online weight vector adaptation.',
+    conceptId: 'perceptrons',
+    defaultDataset: 'linear',
+    datasets: [
+      { value: 'linear', label: 'Linearly Separable' },
+      { value: 'moons', label: 'Two Moons' },
+      { value: 'blobs', label: 'Gaussian Blobs' },
+    ],
+    steps: [
+      'Initialize synaptic weights w and bias b to zero',
+      'Compute linear activation z = wᵀx + b',
+      'Apply Heaviside step activation: ŷ = 1 if z ≥ 0 else 0',
+      'If prediction is incorrect, update weights: w ← w + η(y - ŷ)x, b ← b + η(y - ŷ)',
+    ],
+    math: {
+      formulas: [
+        'z = w₁x₁ + w₂x₂ + b',
+        'ŷ = 𝟙(z ≥ 0)',
+        'Δw = η·(y - ŷ)·x   and   Δb = η·(y - ŷ)',
+      ],
+      explanation:
+        'The Perceptron is the foundational building block of artificial neural networks. By Rosenblatt’s Perceptron Convergence Theorem, it is guaranteed to find a separating hyperplane in finite steps if the dataset is linearly separable.',
+    },
+  },
+  {
+    id: 'cnn',
+    title: 'Convolutional Layer (CNN)',
+    icon: '👁️',
+    badge: 'Deep Learning · Computer Vision',
+    description:
+      'Apply 2D spatial cross-correlation kernels (Sobel, Laplacian, Sharpen), ReLU non-linear activations, and 2x2 max-pooling subsampling.',
+    conceptId: 'convolutional-neural-networks',
+    defaultDataset: 'checker',
+    datasets: [
+      { value: 'checker', label: 'Geometric Cross & Edges' },
+    ],
+    steps: [
+      'Slide K×K spatial filter across padded input matrix',
+      'Compute element-wise dot product and sum at each receptive window',
+      'Apply Rectified Linear Unit (ReLU) activation: max(0, z)',
+      'Subsample feature representations using 2×2 Max-Pooling',
+    ],
+    math: {
+      formulas: [
+        'S(i, j) = (I * K)(i, j) = Σₘ Σₙ I(i-m, j-n)·K(m, n)',
+        'Output Size: ⌊(W - F + 2P)/S⌋ + 1',
+        'Max-Pooling: Pool(i, j) = max_{u,v ∈ W} S(i·s + u, j·s + v)',
+      ],
+      explanation:
+        'Convolutional layers enforce translation equivariance through shared filter weights. Max-pooling introduces spatial invariance and reduces parameter dimensionality.',
+    },
+  },
+  {
+    id: 'autoencoder',
+    title: 'Autoencoder',
+    icon: '🧬',
+    badge: 'Deep Learning · Representation',
+    description:
+      'Project higher-dimensional data through an information bottleneck latent layer z and reconstruct input signals while minimizing Mean Squared Error.',
+    conceptId: 'autoencoders',
+    defaultDataset: 'correlated',
+    datasets: [
+      { value: 'correlated', label: 'Scaled Correlated Cloud' },
+      { value: 'blobs', label: 'Gaussian Blobs' },
+      { value: 'moons', label: 'Two Moons' },
+      { value: 'circles', label: 'Concentric Circles' },
+    ],
+    steps: [
+      'Encode high-dimensional input x into lower-dimensional bottleneck latent representation z',
+      'Decode latent representation z back into reconstructed output space x̂',
+      'Compute reconstruction error loss ||x - x̂||²',
+      'Compare compressed variance against uncompressed dimensionality',
+    ],
+    math: {
+      formulas: [
+        'Encoder: z = f(W_e·x + b_e)',
+        'Decoder: x̂ = g(W_d·z + b_d)',
+        'Reconstruction MSE = (1/n) Σ ||xᵢ - x̂ᵢ||²',
+      ],
+      explanation:
+        'Autoencoders learn self-supervised low-dimensional manifold representations. When constrained by a bottleneck layer, the network captures the dominant intrinsic coordinates of the data distribution.',
+    },
+  },
 ];
 
 export function getLabById(id) {

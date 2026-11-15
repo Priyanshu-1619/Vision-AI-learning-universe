@@ -22,7 +22,7 @@ AI Learning Universe is a full-stack educational environment designed to help le
 |---|---|---|
 | `/` | **Master Dashboard** | Domain overview cards for Data Science, ML, and Deep Learning with independent progress tracking. |
 | `/concept-universe` | **AI Concept Universe** | Cosmic 2D constellation of **316 nodes** and **682 edges** across 8 clusters with real-time D3 physics, domain/level filters, and a custom **Spaceship Exploration Probe Cursor** with plasma exhaust trail. |
-| `/laboratory` | **AI Laboratory** | Proving ground running live scikit-learn algorithms (Linear Regression OLS, K-Means, K-Nearest Neighbors, Decision Trees, and PCA) with custom dataset generators. |
+| `/laboratory` | **AI Laboratory** | Proving ground running 13 live local models (Linear Regression OLS, Logistic Regression, K-Means, K-Nearest Neighbors, Decision Trees, Random Forest, SVM, Gaussian Naive Bayes, PCA, Gradient Descent, Perceptron, 2D CNN, and Autoencoder) with real-time decision surfaces. |
 | `/inside-model` | **Inside the Model** | Step-by-step visual inspectors including a **10-Stage Backpropagation Stepper** with interactive synaptic weights/biases editing, Single Neuron inspector, and Activation Function explorer. |
 | `/library-graph` | **Library Graph Lab** | Interactive mathematical laboratory allowing users to plot custom mathematical functions simultaneously, inspect coordinate crosshairs, adjust parameter sliders, and view bilingual graph notes. |
 | `/roadmaps/:domain` | **Interactive Roadmaps** | Tiered learning roadmaps (Basic, Intermediate, Advanced) for Data Science, Machine Learning, and Deep Learning with mathematical prerequisite mapping. |
@@ -209,6 +209,46 @@ curl -X POST "http://127.0.0.1:8000/api/labs/kmeans" \
      -H "Content-Type: application/json" \
      -d '{"data": [[1, 2], [1, 4], [1, 0], [10, 2], [10, 4], [10, 0]], "k": 2, "init_method": "k-means++", "seed": 42, "max_iter": 10}'
 ```
+
+---
+
+## 🚀 Single-Service Deployment on Render
+
+AI Learning Universe is architected for **Single-Service Render Deployment**. Both the FastAPI backend and the React SPA production build are served from **ONE Render Web Service**, eliminating cross-origin CORS latency, disparate hostnames, and multiple service bills.
+
+### Automated Blueprint Deployment (`render.yaml`)
+
+1. Connect your GitHub/GitLab repository to **Render**.
+2. Select **Blueprints** -> **New Blueprint Instance**.
+3. Point to your repository. Render automatically detects [`render.yaml`](file:///p:/ai%20lab/render.yaml) and provisions:
+   - **Environment**: Python 3.11 + Node.js 20
+   - **Build Command**: `./build.sh` (installs Python + npm dependencies and runs `vite build`)
+   - **Start Command**: `python start.py`
+   - **Persistent Disk**: `/var/data` (1 GB) for learner progress database persistence across deploys.
+
+### Manual Render Web Service Setup
+
+If setting up manually in the Render Dashboard without Blueprints:
+
+1. **Service Type**: Web Service
+2. **Environment**: Python
+3. **Build Command**:
+   ```bash
+   pip install -r requirements.txt && cd frontend && npm install && npm run build && cd ..
+   ```
+4. **Start Command**:
+   ```bash
+   python start.py
+   ```
+5. **Environment Variables**:
+   - `PYTHON_VERSION`: `3.11.9`
+   - `NODE_VERSION`: `20.18.0`
+   - `PORT`: `10000` (Render sets `$PORT` automatically; FastAPI reads it dynamically)
+   - `DATA_DIR`: `/var/data` (or omit for default local `./backend/data`)
+6. **Disks** (Optional for persistent progress across redeploys):
+   - Name: `data`
+   - Mount Path: `/var/data`
+   - Size: `1 GB`
 
 ---
 

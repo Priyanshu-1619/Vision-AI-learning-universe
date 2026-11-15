@@ -101,6 +101,19 @@ export async function fetchCategories() {
   return request('/concepts/categories');
 }
 
+// ── Progress & Persistence API ──
+
+export async function fetchLearnerProgress(userId = 'learner_default') {
+  return request(`/progress/${encodeURIComponent(userId)}`);
+}
+
+export async function syncLearnerProgress(userId, records, mathRecords) {
+  return request('/progress/sync', {
+    method: 'POST',
+    body: JSON.stringify({ userId, records, mathRecords }),
+  });
+}
+
 // ── Phase 3: AI Laboratory API (Real FastAPI + scikit-learn) ──
 
 export async function fetchLabDataset(
@@ -171,6 +184,91 @@ export async function runPCA(data, nComponents = 2, standardize = true) {
   return requestStrict('/labs/pca', {
     method: 'POST',
     body: JSON.stringify({ data, nComponents, standardize }),
+  });
+}
+
+export async function runLogisticRegressionLab(
+  data,
+  { cParam = 1.0, maxIter = 100, penalty = 'l2' } = {}
+) {
+  return requestStrict('/labs/logistic-regression', {
+    method: 'POST',
+    body: JSON.stringify({ data, cParam, maxIter, penalty }),
+  });
+}
+
+export async function runRandomForestLab(
+  data,
+  { nEstimators = 20, maxDepth = 4, criterion = 'gini' } = {}
+) {
+  return requestStrict('/labs/random-forest', {
+    method: 'POST',
+    body: JSON.stringify({ data, nEstimators, maxDepth, criterion }),
+  });
+}
+
+export async function runSVMLab(
+  data,
+  { cParam = 1.0, kernel = 'rbf', gamma = 'scale' } = {}
+) {
+  return requestStrict('/labs/svm', {
+    method: 'POST',
+    body: JSON.stringify({ data, cParam, kernel, gamma }),
+  });
+}
+
+export async function runNaiveBayesLab(data, { varSmoothing = 1e-9 } = {}) {
+  return requestStrict('/labs/naive-bayes', {
+    method: 'POST',
+    body: JSON.stringify({ data, varSmoothing }),
+  });
+}
+
+export async function runGradientDescentLab({
+  functionType = 'quadratic',
+  learningRate = 0.1,
+  epochs = 25,
+  momentum = 0.0,
+  startPoint = [4.0, 3.0],
+} = {}) {
+  return requestStrict('/labs/gradient-descent', {
+    method: 'POST',
+    body: JSON.stringify({
+      functionType,
+      learningRate,
+      epochs,
+      momentum,
+      startPoint,
+    }),
+  });
+}
+
+export async function runPerceptronLab(
+  data,
+  { learningRate = 0.1, maxEpochs = 25 } = {}
+) {
+  return requestStrict('/labs/perceptron', {
+    method: 'POST',
+    body: JSON.stringify({ data, learningRate, maxEpochs }),
+  });
+}
+
+export async function runCNNLab({
+  imageMatrix = null,
+  kernelType = 'sobel_x',
+  stride = 1,
+  padding = 0,
+} = {}) {
+  return requestStrict('/labs/cnn', {
+    method: 'POST',
+    body: JSON.stringify({ imageMatrix, kernelType, stride, padding }),
+  });
+}
+
+export async function runAutoencoderLab(data, { latentDim = 1 } = {}) {
+  return requestStrict('/labs/autoencoder', {
+    method: 'POST',
+    body: JSON.stringify({ data, latentDim }),
   });
 }
 

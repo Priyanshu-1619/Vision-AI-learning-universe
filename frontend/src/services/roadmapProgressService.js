@@ -29,6 +29,53 @@ export function readStorage() {
   }
 }
 
+let syncTimer = null;
+
+export function syncProgressToServer() {
+  if (typeof window === 'undefined' || !window.fetch) return;
+  if (syncTimer) clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => {
+    try {
+      fetch('/api/progress/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: DEFAULT_USER_ID,
+          records: readStorage(),
+          mathRecords: readMathStorage(),
+        }),
+      }).catch(() => {});
+    } catch {}
+  }, 1000);
+}
+
+export async function pullProgressFromServer() {
+  if (typeof window === 'undefined' || !window.fetch) return;
+  try {
+    const res = await fetch(`/api/progress/${encodeURIComponent(DEFAULT_USER_ID)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    let updated = false;
+
+    if (data && data.records && Object.keys(data.records).length > 0) {
+      const local = readStorage();
+      const merged = { ...data.records, ...local };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+      updated = true;
+    }
+    if (data && data.math_records && Object.keys(data.math_records).length > 0) {
+      const localMath = readMathStorage();
+      const mergedMath = { ...data.math_records, ...localMath };
+      localStorage.setItem(MATH_STORAGE_KEY, JSON.stringify(mergedMath));
+      updated = true;
+    }
+    if (updated) {
+      window.dispatchEvent(new CustomEvent(PROGRESS_UPDATED_EVENT, { detail: { records: readStorage() } }));
+      window.dispatchEvent(new CustomEvent(MATH_PROGRESS_UPDATED_EVENT, { detail: { records: readMathStorage() } }));
+    }
+  } catch {}
+}
+
 /**
  * Write all records to localStorage and notify listeners
  */
@@ -40,6 +87,7 @@ export function writeStorage(records) {
   }
   // Dispatch custom window event for real-time reactivity across components
   window.dispatchEvent(new CustomEvent(PROGRESS_UPDATED_EVENT, { detail: { records } }));
+  syncProgressToServer();
 }
 
 /**
@@ -86,9 +134,10 @@ export function migrateLegacyProgress() {
   return records;
 }
 
-// Perform initial migration on load
+// Perform initial migration on load and pull server progress
 if (typeof window !== 'undefined') {
   migrateLegacyProgress();
+  pullProgressFromServer();
 }
 
 /**
