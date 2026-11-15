@@ -363,7 +363,7 @@ export default function KMeansLab({ config }) {
                 yaxis: { title: 'Feature x₂', zeroline: true },
                 margin: { t: 24, r: 20, b: 40, l: 50 },
               }}
-              height={340}
+              height={480}
             />
 
             {inertiaChartData.length > 0 && (
@@ -376,7 +376,7 @@ export default function KMeansLab({ config }) {
                     yaxis: { title: 'WCSS Inertia' },
                     margin: { t: 10, r: 16, b: 34, l: 50 },
                   }}
-                  height={175}
+                  height={240}
                 />
               </div>
             )}

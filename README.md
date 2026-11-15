@@ -253,6 +253,65 @@ If setting up manually in the Render Dashboard without Blueprints:
 
 ---
 
+## 🔐 Authentication, Account Security & Email OTP Recovery
+
+AI Learning Universe includes an enterprise-grade, privacy-first authentication and account recovery system built with **real backend security**, zero paid external services (no Auth0, Firebase, or Clerk required), and zero AI API dependencies.
+
+### Key Security Features
+
+- **Bcrypt Password Hashing**: Passwords are salted and hashed using `bcrypt` (12 rounds) with constant-time verification. Passwords are never stored or logged in plain text.
+- **Strict Password Policy**: Minimum 8 characters, requiring at least one uppercase letter, one lowercase letter, one number, and one special character.
+- **Substring Protection**: Rejects passwords containing the user's username or email prefix.
+- **Case-Insensitive Uniqueness**: Usernames (3–30 characters, letters/numbers/underscores/hyphens) and emails are normalized and strictly enforced unique in SQLite.
+- **Brute-Force Rate Limiting & Account Lockout**: 5 consecutive failed login attempts trigger an automatic 15-minute account lockout to defeat brute-force and credential-stuffing attacks.
+- **Email OTP Password Recovery**:
+  - Dispatches a cryptographically secure 6-digit numeric OTP to the registered email.
+  - OTP expires after 5 minutes and is valid for single use only.
+  - Raw OTPs are **never stored** in the database; only salted SHA-256 hashes are persisted.
+  - Rate-limited with a 60-second resend cooldown and a maximum of 5 verification attempts per code.
+  - Generic status responses prevent account enumeration.
+  - Verification issues a short-lived, single-use `resetToken` preventing token reuse and requiring a different password than the current one.
+  - Resetting a password revokes all active sessions immediately.
+- **Authenticated Sessions**: Managed via secure `HttpOnly` cookies and standard `Authorization: Bearer` tokens.
+- **Guest-to-Cloud Migration**: Learners can start in Guest Mode and seamlessly migrate all completed roadmap topics, math progress, and mission checkpoints to a new account upon registration.
+
+---
+
+### ✉️ Email Configuration (SMTP)
+
+The application supports any standard SMTP provider (e.g. Gmail with App Password, Brevo, SendGrid, Amazon SES, or custom SMTP).
+
+#### Render & Production Environment Variables
+
+| Variable | Description | Default / Example |
+|---|---|---|
+| `SMTP_HOST` | SMTP server hostname | `smtp.gmail.com` |
+| `SMTP_PORT` | SMTP port (`587` for STARTTLS, `465` for SSL) | `587` |
+| `SMTP_USERNAME` | SMTP username / sender account email | `your-email@gmail.com` |
+| `SMTP_PASSWORD` | SMTP password (e.g. Gmail 16-char App Password) | `abcd efgh ijkl mnop` |
+| `SMTP_FROM_EMAIL` | Sender address shown to recipient | `your-email@gmail.com` |
+| `SMTP_FROM_NAME` | Sender display name | `AI Learning Universe` |
+| `AUTH_SECRET_KEY` | Master secret key for HMAC token signing | *(Set strong random secret)* |
+| `DATA_DIR` | Path to persistent storage directory | `/var/data` (Render) or `./backend/data` |
+
+> **Development Mode Fallback**: If SMTP credentials are not configured in your local `.env`, the system automatically logs OTP notifications safely to the server terminal and queues them in an internal test outbox, allowing complete local development and testing without needing external email credentials.
+
+---
+
+### 🧪 Running the Authentication Verification Suite
+
+Verify all 63 security, registration, login, rate limiting, and OTP recovery checks:
+
+```powershell
+# Windows
+& .\backend\venv\Scripts\python.exe backend\scripts\verify_auth_system.py
+
+# macOS / Linux
+backend/venv/bin/python backend/scripts/verify_auth_system.py
+```
+
+---
+
 ## 🧪 Testing & Code Quality
 
 ### Frontend Linting

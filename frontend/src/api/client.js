@@ -308,32 +308,82 @@ export async function predictChurnCustomer(customerFeatures, pipelineConfig) {
 
 // ── Authentication & Guest Upgrade API ──
 
-export async function registerUser({ email, password, displayName, guestProgress = {}, guestMathProgress = {} }) {
+export async function checkUsername(username) {
+  if (!username) return { available: false, reason: 'Please enter a username.' };
+  return request(`/auth/check-username?username=${encodeURIComponent(username)}`);
+}
+
+export async function registerUser({
+  fullName = '',
+  username,
+  email,
+  password,
+  confirmPassword = '',
+  displayName = '',
+  guestProgress = {},
+  guestMathProgress = {},
+}) {
   return requestStrict('/auth/register', {
     method: 'POST',
     body: JSON.stringify({
+      fullName: fullName || displayName || username,
+      username,
       email,
       password,
-      displayName,
+      confirmPassword: confirmPassword || password,
+      displayName: displayName || fullName || username,
       guestProgress,
       guestMathProgress,
     }),
   });
 }
 
-export async function loginUser({ email, password }) {
+export async function loginUser({ identifier, email, password }) {
   return requestStrict('/auth/login', {
     method: 'POST',
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({
+      identifier: identifier || email,
+      password,
+    }),
+  });
+}
+
+export async function forgotPassword({ email }) {
+  return requestStrict('/auth/forgot-password', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  });
+}
+
+export async function verifyOTP({ email, otp }) {
+  return requestStrict('/auth/verify-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email, otp }),
+  });
+}
+
+export async function resetPassword({ resetToken, newPassword, confirmPassword }) {
+  return requestStrict('/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify({
+      resetToken,
+      newPassword,
+      confirmPassword,
+    }),
+  });
+}
+
+export async function logoutUser(token = '') {
+  return request('/auth/logout', {
+    method: 'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
 }
 
 export async function fetchCurrentUser(token) {
-  if (!token) return null;
-  return request('/auth/me', {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const headers = { 'Content-Type': 'application/json' };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return request('/auth/me', { headers });
 }

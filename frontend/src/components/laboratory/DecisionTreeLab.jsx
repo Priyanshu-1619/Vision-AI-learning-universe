@@ -467,7 +467,7 @@ export default function DecisionTreeLab({ config }) {
               yaxis: { title: fNames[1] || 'x₂', zeroline: true },
               margin: { t: 24, r: 20, b: 40, l: 50 },
             }}
-            height={380}
+            height={480}
           />
         ) : vizTab === 'tree' ? (
           <TreeDiagram treeStructure={treeResult?.tree_structure} />
@@ -481,7 +481,7 @@ export default function DecisionTreeLab({ config }) {
                   yaxis: { title: 'Importance', range: [0, 1] },
                   margin: { t: 15, r: 15, b: 35, l: 45 },
                 }}
-                height={300}
+                height={320}
               />
             </div>
             <div className="lab-dt-chart-box">
@@ -493,7 +493,7 @@ export default function DecisionTreeLab({ config }) {
                   yaxis: { title: 'Accuracy', range: [0.4, 1.05] },
                   margin: { t: 15, r: 15, b: 35, l: 45 },
                 }}
-                height={300}
+                height={320}
               />
             </div>
           </div>

@@ -314,7 +314,7 @@ export default function LinearRegressionLab({ config }) {
                 yaxis: { title: 'Target (y)', zeroline: true },
                 margin: { t: 24, r: 20, b: 40, l: 50 },
               }}
-              height={340}
+              height={480}
             />
 
             {(showResiduals || showGD) && (
@@ -329,7 +329,7 @@ export default function LinearRegressionLab({ config }) {
                         yaxis: { title: 'Error (y - ŷ)', zeroline: true },
                         margin: { t: 12, r: 16, b: 36, l: 46 },
                       }}
-                      height={200}
+                      height={240}
                     />
                   </div>
                 )}
@@ -344,7 +344,7 @@ export default function LinearRegressionLab({ config }) {
                         yaxis: { title: 'MSE Loss' },
                         margin: { t: 12, r: 16, b: 36, l: 46 },
                       }}
-                      height={200}
+                      height={240}
                     />
                   </div>
                 )}

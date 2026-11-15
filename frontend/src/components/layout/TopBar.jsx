@@ -1,7 +1,8 @@
 import { useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Search, X } from 'lucide-react';
+import { Search, X, LogOut, User } from 'lucide-react';
 import { useConcepts } from '../../hooks/useConcepts';
+import { useAuth } from '../../context/useAuth';
 import './TopBar.css';
 
 const routeLabels = {
@@ -24,6 +25,7 @@ export default function TopBar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { concepts } = useConcepts();
+  const { user, isGuest, logout, openAuthModal } = useAuth();
 
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -113,79 +115,120 @@ export default function TopBar() {
         <span className="topbar__breadcrumb-current">{currentLabel}</span>
       </div>
 
-      <div className="topbar__search-wrap" onBlur={handleBlur}>
-        <div className="topbar__search">
-          <Search size={16} className="topbar__search-icon" />
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-              setIsOpen(true);
-              setActiveIndex(0);
-            }}
-            onFocus={() => setIsOpen(true)}
-            onKeyDown={handleKeyDown}
-            placeholder="Search concepts by name or category..."
-            className="topbar__search-input"
-            aria-label="Search concepts"
-            aria-expanded={showDropdown}
-            autoComplete="off"
-          />
-          {query && (
-            <button
-              type="button"
-              className="topbar__search-clear"
-              aria-label="Clear search"
-              onMouseDown={(e) => {
-                e.preventDefault();
-                setQuery('');
+      <div className="topbar__actions-group">
+        <div className="topbar__search-wrap" onBlur={handleBlur}>
+          <div className="topbar__search">
+            <Search size={16} className="topbar__search-icon" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setIsOpen(true);
                 setActiveIndex(0);
-                inputRef.current?.focus();
               }}
-            >
-              <X size={14} />
-            </button>
+              onFocus={() => setIsOpen(true)}
+              onKeyDown={handleKeyDown}
+              placeholder="Search concepts by name or category..."
+              className="topbar__search-input"
+              aria-label="Search concepts"
+              aria-expanded={showDropdown}
+              autoComplete="off"
+            />
+            {query && (
+              <button
+                type="button"
+                className="topbar__search-clear"
+                aria-label="Clear search"
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  setQuery('');
+                  setActiveIndex(0);
+                  inputRef.current?.focus();
+                }}
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
+
+          {showDropdown && (
+            <div className="topbar__dropdown" role="listbox">
+              {matches.length > 0 ? (
+                matches.map((concept, idx) => (
+                  <button
+                    key={concept.id}
+                    type="button"
+                    role="option"
+                    aria-selected={idx === activeIndex}
+                    className={`topbar__dropdown-item ${
+                      idx === activeIndex ? 'topbar__dropdown-item--active' : ''
+                    }`}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      selectConcept(concept);
+                    }}
+                    onMouseEnter={() => setActiveIndex(idx)}
+                  >
+                    <span className="topbar__dropdown-icon">{concept.icon}</span>
+                    <div className="topbar__dropdown-info">
+                      <span className="topbar__dropdown-title">{concept.title}</span>
+                      <span className="topbar__dropdown-meta">
+                        <span
+                          className="topbar__dropdown-dot"
+                          style={{ background: concept.color || '#06b6d4' }}
+                        />
+                        {concept.category} · {concept.difficulty}
+                      </span>
+                    </div>
+                  </button>
+                ))
+              ) : (
+                <div className="topbar__dropdown-empty">
+                  No concepts matching &ldquo;{query.trim()}&rdquo;
+                </div>
+              )}
+            </div>
           )}
         </div>
 
-        {showDropdown && (
-          <div className="topbar__dropdown" role="listbox">
-            {matches.length > 0 ? (
-              matches.map((concept, idx) => (
-                <button
-                  key={concept.id}
-                  type="button"
-                  role="option"
-                  aria-selected={idx === activeIndex}
-                  className={`topbar__dropdown-item ${
-                    idx === activeIndex ? 'topbar__dropdown-item--active' : ''
-                  }`}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    selectConcept(concept);
-                  }}
-                  onMouseEnter={() => setActiveIndex(idx)}
-                >
-                  <span className="topbar__dropdown-icon">{concept.icon}</span>
-                  <div className="topbar__dropdown-info">
-                    <span className="topbar__dropdown-title">{concept.title}</span>
-                    <span className="topbar__dropdown-meta">
-                      <span
-                        className="topbar__dropdown-dot"
-                        style={{ background: concept.color || '#06b6d4' }}
-                      />
-                      {concept.category} · {concept.difficulty}
-                    </span>
-                  </div>
-                </button>
-              ))
-            ) : (
-              <div className="topbar__dropdown-empty">
-                No concepts matching &ldquo;{query.trim()}&rdquo;
-              </div>
-            )}
+        {/* Authentication controls */}
+        {isGuest ? (
+          <div className="topbar__auth-buttons">
+            <button
+              type="button"
+              className="topbar__auth-btn topbar__auth-btn--login"
+              onClick={() => openAuthModal('login')}
+            >
+              Sign In
+            </button>
+            <button
+              type="button"
+              className="topbar__auth-btn topbar__auth-btn--signup"
+              onClick={() => openAuthModal('register')}
+            >
+              Sign Up
+            </button>
+          </div>
+        ) : (
+          <div className="topbar__user-section">
+            <div className="topbar__user-pill" title={user.email}>
+              <span className="topbar__user-status-dot" />
+              <User size={14} className="topbar__user-icon" />
+              <span className="topbar__user-name">
+                {user.username || user.displayName || user.fullName}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="topbar__logout-btn"
+              onClick={logout}
+              title="Sign Out of Account"
+              aria-label="Sign Out"
+            >
+              <LogOut size={15} />
+            </button>
           </div>
         )}
       </div>

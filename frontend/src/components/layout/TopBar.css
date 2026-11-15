@@ -183,6 +183,111 @@
   color: var(--text-secondary);
 }
 
+.topbar__actions-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar__auth-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar__auth-btn {
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.topbar__auth-btn--login {
+  background: transparent;
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.topbar__auth-btn--login:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: #06b6d4;
+}
+
+.topbar__auth-btn--signup {
+  background: #164bff;
+  color: #ffffff;
+  border: 1px solid #164bff;
+  box-shadow: 0 0 10px rgba(22, 75, 255, 0.3);
+}
+
+.topbar__auth-btn--signup:hover {
+  background: #2563eb;
+  border-color: #3b82f6;
+  box-shadow: 0 0 14px rgba(22, 75, 255, 0.5);
+}
+
+.topbar__user-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar__user-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(6, 182, 212, 0.08);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: #e2e8f0;
+}
+
+.topbar__user-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.topbar__user-icon {
+  color: #06b6d4;
+}
+
+.topbar__user-name {
+  font-weight: 600;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar__logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.topbar__logout-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
 @media (max-width: 768px) {
   .topbar {
     padding: 10px 16px;

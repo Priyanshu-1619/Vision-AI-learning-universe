@@ -388,7 +388,7 @@ export default function KNNLab({ config }) {
               margin: { t: 24, r: 20, b: 40, l: 50 },
               hovermode: 'closest',
             }}
-            height={380}
+            height={480}
             onPlotClick={handlePlotClick}
           />
         )

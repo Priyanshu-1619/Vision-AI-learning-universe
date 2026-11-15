@@ -266,7 +266,7 @@ export default function PCALab({ config }) {
                     yaxis: { title: datasetInfo.n_features === 2 ? datasetInfo.feature_names?.[1] : 'petal_width', zeroline: true },
                     margin: { t: 18, r: 16, b: 36, l: 48 },
                   }}
-                  height={280}
+                  height={340}
                 />
               </div>
 
@@ -282,7 +282,7 @@ export default function PCALab({ config }) {
                     },
                     margin: { t: 18, r: 16, b: 36, l: 48 },
                   }}
-                  height={280}
+                  height={340}
                 />
               </div>
             </div>
@@ -295,7 +295,7 @@ export default function PCALab({ config }) {
                   yaxis: { title: 'Variance Explained (%)', range: [0, 108] },
                   margin: { t: 14, r: 16, b: 34, l: 48 },
                 }}
-                height={190}
+                height={240}
               />
             </div>
           </div>

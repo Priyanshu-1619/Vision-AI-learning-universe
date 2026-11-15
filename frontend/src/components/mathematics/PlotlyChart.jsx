@@ -35,7 +35,7 @@ export default function PlotlyChart({
   data,
   layout = EMPTY_OBJ,
   config = EMPTY_OBJ,
-  height = 320,
+  height = 480,
   onPlotClick,
 }) {
   const containerRef = useRef(null);
@@ -45,17 +45,20 @@ export default function PlotlyChart({
     clickHandlerRef.current = onPlotClick;
   }, [onPlotClick]);
 
+  const chartHeight = layout?.height || height || 480;
+
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return undefined;
 
     const mergedLayout = {
+      autosize: true,
       ...DEFAULT_LAYOUT,
       ...layout,
       xaxis: { ...DEFAULT_LAYOUT.xaxis, ...(layout.xaxis || {}) },
       yaxis: { ...DEFAULT_LAYOUT.yaxis, ...(layout.yaxis || {}) },
       margin: { ...DEFAULT_LAYOUT.margin, ...(layout.margin || {}) },
-      height,
+      height: chartHeight,
     };
 
     const mergedConfig = {
@@ -79,7 +82,7 @@ export default function PlotlyChart({
     const observer =
       typeof ResizeObserver !== 'undefined'
         ? new ResizeObserver(() => {
-            if (el && el.isConnected && el.offsetWidth > 0 && el.offsetHeight > 0) {
+            if (el && el.isConnected && el.offsetWidth > 0) {
               Promise.resolve(Plotly.Plots.resize(el)).catch(() => {});
             }
           })
@@ -93,7 +96,7 @@ export default function PlotlyChart({
         el.removeListener('plotly_click', handlePlotlyClick);
       }
     };
-  }, [data, layout, config, height]);
+  }, [data, layout, config, chartHeight]);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -102,5 +105,5 @@ export default function PlotlyChart({
     };
   }, []);
 
-  return <div ref={containerRef} className="plotly-chart" style={{ height }} />;
+  return <div ref={containerRef} className="plotly-chart" style={{ height: chartHeight, width: '100%' }} />;
 }

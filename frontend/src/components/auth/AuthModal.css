@@ -25,7 +25,7 @@
 
 .auth-modal {
   width: 100%;
-  max-width: 480px;
+  max-width: 500px;
   background: #0b1633;
   border: 1px solid rgba(22, 75, 255, 0.35);
   border-radius: 14px;
@@ -37,6 +37,8 @@
   gap: 1.25rem;
   position: relative;
   overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .auth-modal::before {
@@ -152,10 +154,18 @@
 
 /* Alerts */
 .auth-modal__alert {
-  padding: 0.6rem 0.85rem;
+  padding: 0.65rem 0.85rem;
   border-radius: 8px;
   font-size: 0.825rem;
   line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.auth-modal__alert-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .auth-modal__alert--error {
@@ -183,10 +193,31 @@
   gap: 0.35rem;
 }
 
+.auth-modal__label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .auth-modal__field label {
   font-size: 0.8rem;
   font-weight: 500;
   color: #cbd5e1;
+}
+
+.auth-modal__inline-link {
+  background: transparent;
+  border: none;
+  color: #06b6d4;
+  font-size: 0.775rem;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+
+.auth-modal__inline-link:hover {
+  color: #38bdf8;
 }
 
 .auth-modal__input-wrapper {
@@ -204,7 +235,7 @@
 
 .auth-modal__input-wrapper input {
   width: 100%;
-  padding: 10px 12px 10px 36px;
+  padding: 10px 38px 10px 36px;
   background: rgba(5, 8, 20, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 8px;
@@ -217,6 +248,225 @@
 .auth-modal__input-wrapper input:focus {
   border-color: #06b6d4;
   box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+}
+
+.auth-modal__visibility-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.auth-modal__visibility-btn:hover {
+  color: #cbd5e1;
+}
+
+.auth-modal__field-hint {
+  font-size: 0.725rem;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+.auth-modal__field-error {
+  font-size: 0.75rem;
+  color: #ef4444;
+}
+
+/* Availability Badge */
+.auth-modal__availability-badge {
+  font-size: 0.725rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.badge--success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.badge--error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* Password Strength Meter */
+.auth-modal__strength-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.auth-modal__strength-meter {
+  height: 4px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.auth-modal__strength-bar {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.auth-modal__pwd-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 8px;
+  margin-top: 6px;
+  font-size: 0.725rem;
+  color: #64748b;
+}
+
+.chk-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chk-ok {
+  color: #10b981;
+  font-weight: 500;
+}
+
+.chk-warn {
+  grid-column: span 2;
+  color: #f59e0b;
+}
+
+/* OTP Specific UI */
+.auth-modal__otp-info-card {
+  background: rgba(5, 8, 20, 0.7);
+  border: 1px solid rgba(22, 75, 255, 0.25);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.auth-modal__otp-email-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auth-modal__otp-target {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #38bdf8;
+}
+
+.auth-modal__otp-timer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 0.5rem;
+}
+
+.auth-modal__otp-timer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.775rem;
+  color: #facc15;
+}
+
+.auth-modal__resend-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s ease;
+}
+
+.auth-modal__resend-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border-color: #06b6d4;
+}
+
+.auth-modal__resend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.auth-modal__otp-label {
+  text-align: center;
+  display: block;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.auth-modal__otp-input-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-modal__otp-digits-input {
+  width: 200px;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 12px;
+  padding: 10px 14px;
+  background: rgba(5, 8, 20, 0.85);
+  border: 2px solid #164bff;
+  border-radius: 10px;
+  color: #06b6d4;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.auth-modal__otp-digits-input:focus {
+  border-color: #06b6d4;
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.35);
+}
+
+/* Switch links */
+.auth-modal__switch-link-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+.auth-modal__switch-btn {
+  background: transparent;
+  border: none;
+  color: #06b6d4;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+
+.auth-modal__switch-btn:hover {
+  color: #38bdf8;
 }
 
 .auth-modal__checkbox-label {
@@ -293,6 +543,19 @@
   font-size: 0.8rem;
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
 @media (max-width: 520px) {
   .auth-modal {
     padding: 1.25rem;
@@ -304,5 +567,8 @@
   }
   .auth-modal__guest-info {
     align-items: center;
+  }
+  .auth-modal__pwd-checklist {
+    grid-template-columns: 1fr;
   }
 }

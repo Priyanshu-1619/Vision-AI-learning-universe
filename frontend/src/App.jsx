@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { useAuth } from './context/useAuth';
+import AuthModal from './components/auth/AuthModal';
 import Layout from './components/layout/Layout';
 import ConceptDetail from './components/knowledge/ConceptDetail';
 import LandingPage from './pages/LandingPage';
@@ -22,11 +25,30 @@ import DictionaryPage from './pages/DictionaryPage';
 import RoadmapPage from './pages/RoadmapPage';
 import LibraryGraphPage from './pages/LibraryGraphPage';
 
+function AuthDirectRoute({ tab }) {
+  const { openAuthModal } = useAuth();
+  useEffect(() => {
+    openAuthModal(tab);
+  }, [openAuthModal, tab]);
+
+  return <Navigate to="/" replace />;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        {/* Universal Application Auth Modal */}
+        <AuthModal />
+
         <Routes>
+          {/* Direct Auth URL Entry Points */}
+          <Route path="/login" element={<AuthDirectRoute tab="login" />} />
+          <Route path="/signup" element={<AuthDirectRoute tab="register" />} />
+          <Route path="/register" element={<AuthDirectRoute tab="register" />} />
+          <Route path="/forgot-password" element={<AuthDirectRoute tab="forgot" />} />
+          <Route path="/reset-password" element={<AuthDirectRoute tab="reset" />} />
+
           {/* Standalone Full-Bleed Cinematic Landing Page */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/landing" element={<LandingPage />} />

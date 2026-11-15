@@ -1,8 +1,21 @@
 .plotly-chart {
-  width: 100%;
+  width: 100% !important;
   min-width: 0;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--border);
   background: #070b15;
+  box-sizing: border-box;
+}
+
+.plotly-chart .js-plotly-plot,
+.plotly-chart .plot-container,
+.plotly-chart .svg-container {
+  width: 100% !important;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.plotly-chart .main-svg {
+  border-radius: 12px;
 }

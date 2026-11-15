@@ -11,7 +11,6 @@ import LandingMissions from '../components/landing/LandingMissions';
 import LandingProgress from '../components/landing/LandingProgress';
 import LandingCTA from '../components/landing/LandingCTA';
 import LandingFooter from '../components/landing/LandingFooter';
-import AuthModal from '../components/auth/AuthModal';
 import './LandingPage.css';
 
 export default function LandingPage() {
@@ -59,9 +58,6 @@ export default function LandingPage() {
 
       {/* Footer Sitemap */}
       <LandingFooter />
-
-      {/* Global Auth / Guest Upgrade Modal */}
-      <AuthModal />
     </div>
   );
 }

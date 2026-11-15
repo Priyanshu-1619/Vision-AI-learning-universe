@@ -100,15 +100,24 @@
 /* Module Grid */
 .lab-module-grid {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 340px minmax(0, 1fr);
   gap: 1.5rem;
   align-items: start;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .lab-module__controls {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  min-width: 0;
+}
+
+.lab-module__stage {
+  width: 100%;
+  min-width: 0;
 }
 
 .lab-panel-card {
@@ -120,7 +129,12 @@
 
 .lab-panel-card--stage {
   padding: 1.5rem;
-  min-height: 580px;
+  min-height: 600px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .lab-panel-card__header {
@@ -237,14 +251,59 @@
 
 .lab-stage__chart {
   margin: 1rem 0;
-  border-radius: 8px;
-  background: rgba(7, 11, 21, 0.6);
+  border-radius: 12px;
+  background: rgba(7, 11, 21, 0.4);
   border: 1px solid var(--border, #1a2a4a);
-  padding: 0.5rem;
-  min-height: 380px;
+  padding: 0.75rem;
+  min-height: 500px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.lab-multi-chart {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-sizing: border-box;
+}
+
+.lab-companion-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-top: 0.5rem;
+}
+
+.lab-companion-chart-box {
+  background: rgba(7, 11, 21, 0.7);
+  border: 1px solid var(--border, #1a2a4a);
+  border-radius: 10px;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.lab-chart-loading {
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 480px;
+  width: 100%;
 }
 
 .lab-metrics-strip {
@@ -372,6 +431,15 @@
 }
 
 /* PCA grid */
+.lab-pca-charts-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
 .lab-pca-grid {
   display: flex;
   gap: 1rem;
@@ -390,11 +458,15 @@
   50% { opacity: 0.5; }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1080px) {
   .lab-module-grid {
     grid-template-columns: 1fr;
   }
-  .lab-dt-charts-grid {
+}
+
+@media (max-width: 768px) {
+  .lab-dt-charts-grid,
+  .lab-pca-charts-pair {
     grid-template-columns: 1fr;
   }
   .lab-pca-grid {
@@ -402,5 +474,22 @@
   }
   .lab-knn-summary {
     grid-template-columns: 1fr;
+  }
+  .lab-stage__chart {
+    min-height: 400px;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lab-studio {
+    padding: 1rem 0.75rem;
+  }
+  .lab-panel-card--stage {
+    padding: 1rem;
+  }
+  .lab-stage__chart {
+    min-height: 350px;
+    padding: 0.25rem;
   }
 }
